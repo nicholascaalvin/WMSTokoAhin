@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\authentication\LoginController;
+use App\Http\Controllers\authentication\RegisterController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +16,16 @@ use App\Http\Controllers\authentication\LoginController;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+// Route::get('/', function () {
+//     return view('home');
+// });
 
+Route::get('/', [HomeController::class, 'getIndex']);
+
+//login
 Route::get('/login', [LoginController::class, 'getIndex'])->name('login_page');
 Route::post('/login', [LoginController::class, 'getData'])->name('login_data');
+
+//register
+Route::get('/register', [RegisterController::class, 'getIndex'])->name('register_page');
+Route::post('/register', [RegisterController::class, 'storeData'])->name('register_data');
