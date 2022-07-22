@@ -33,17 +33,17 @@ Route::post('/login', [LoginController::class, 'getData'])->name('login_data');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware('guest')->group(function(){
-    Route::get('/dashboard', function(){
-        return redirect(route('login_page'));
-    });
+    // Route::get('/dashboard', function(){
+    //     return redirect(route('login_page'));
+    // });
 });
 
 Route::middleware('auth')->group(function(){
-    Route::get('/login', function(){
-        return redirect(route('dashboard'));
-    });
-    Route::get('/register', function(){
-        return redirect(route('dashboard'));
-    });
+    // Route::get('/login', function(){
+    //     return redirect(route('dashboard'));
+    // });
+    // Route::get('/register', function(){
+    //     return redirect(route('dashboard'));
+    // });
     Route::get('/dashboard', [HomeController::class, 'getIndex'])->name('dashboard');
 });
