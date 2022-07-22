@@ -5,7 +5,7 @@
     body{
         margin: 10px;
     }
-    .regis-card{
+    .login-card{
         position: absolute;
         top: 50%;
         left: 50%;
@@ -27,8 +27,13 @@
         {{session('success')}}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
+@elseif (session()->has('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{session('error')}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 @endif
-<div class="card regis-card" style="width: 26em;">
+<div class="card login-card" style="width: 26em;">
     <div class="card-body">
         <h5 class="card-title">Register</h5>
         <form method="POST" action="{{route('register_data')}}">
@@ -50,11 +55,10 @@
                         {{$message}}
                     </div>
                 @enderror
-                {{-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> --}}
             </div>
             <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password">
                 @error('password')
                     <div class="invalid-feedback">
                         {{$message}}
@@ -62,14 +66,18 @@
                 @enderror
             </div>
             <div class="mb-3">
-              <label for="password_confirmation" class="form-label">Confirm Password</label>
-              <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" name="password_confirmation">
-              @error('password_confirmation')
+                <label for="password_confirmation" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" name="password_confirmation">
+                @error('password_confirmation')
                     <div class="invalid-feedback">
                         {{$message}}
                     </div>
                 @enderror
             </div>
+            {{-- <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div> --}}
             <div class="d-flex justify-content-between">
                 <a href="{{route('login_page')}}">Already have an account?</a>
                 <button type="submit" class="btn btn-primary">Submit</button>

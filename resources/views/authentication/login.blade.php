@@ -28,33 +28,44 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 @endif
+@if (session()->has('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{session('error')}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
 <div class="card login-card" style="width: 26em;">
     <div class="card-body">
         <h5 class="card-title">Login</h5>
         <form method="POST" action="{{route('login_data')}}">
             @csrf
             <div class="mb-3">
-              <label for="email" class="form-label">Email address</label>
-              <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email">
-              <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email">
+                @error('email')
+                    <div class="invalid-feedback">
+                        {{$message}}
+                    </div>
+                @enderror
             </div>
             <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password">
+                @error('password')
+                    <div class="invalid-feedback">
+                        {{$message}}
+                    </div>
+                @enderror
             </div>
             {{-- <div class="mb-3 form-check">
               <input type="checkbox" class="form-check-input" id="exampleCheck1">
-              <label class="form-check-label" for="exampleCheck1">Remember Me</label>
-            </div> --}}
+              <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>
             <div class="d-flex justify-content-between">
                 <a href="{{route('register_page')}}">Register here now!</a>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </form>
-        {{-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="#" class="card-link">Card link</a>
-        <a href="#" class="card-link">Another link</a> --}}
     </div>
 </div>
 @endsection
