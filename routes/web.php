@@ -25,8 +25,8 @@ Route::get('/', function(){
 //     return redirect(route('login_page'));
 // });
 
-Route::get('/register', [RegisterController::class, 'getIndex'])->name('register_page');
-Route::post('/register', [RegisterController::class, 'storeData'])->name('register_data');
+// Route::get('/register', [RegisterController::class, 'getIndex'])->name('register_page');
+// Route::post('/register', [RegisterController::class, 'storeData'])->name('register_data');
 
 Route::get('/login', [LoginController::class, 'getIndex'])->name('login_page');
 Route::post('/login', [LoginController::class, 'getData'])->name('login_data');
