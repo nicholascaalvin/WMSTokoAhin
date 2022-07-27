@@ -62,7 +62,7 @@
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: black">
-                            <i class="bi bi-person-circle fa-lg" style="margin-right: 0.5em; color: black"></i>
+                            {{-- <i class="bi bi-person-circle fa-lg" style="margin-right: 0.5em; color: black"></i> --}}
                             {{auth()->user()->name}}
                         </a>
                         <ul class="dropdown-menu">
