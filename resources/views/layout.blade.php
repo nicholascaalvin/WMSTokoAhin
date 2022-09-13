@@ -12,8 +12,17 @@
         .bi-person-circle{
             font-size: 2em;
         }
+        button{
+            height: 2.5em;
+        }
+        /* .card{
+            border: none;
+        } */
+        .card-header{
+            background-color: white;
+        }
     </style>
-    @yield('style')
+    @yield('header')
 </head>
 <body>
     {{-- {{$login}} --}}
@@ -21,7 +30,7 @@
     @else
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{route('dashboard')}}">{{$title}}</a>
+            <a class="navbar-brand" href="{{route('dashboard')}}">WMS</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -34,7 +43,7 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">User</a></li>
                         <li><a class="dropdown-item" href="#">Unit of measurement</a></li>
-                        <li><a class="dropdown-item" href="#">Item</a></li>
+                        <li><a class="dropdown-item" href="{{route('items')}}">Item</a></li>
                         <li><a class="dropdown-item" href="#">Aisle</a></li>
                         <li><a class="dropdown-item" href="#">Customer</a></li>
                     </ul>
@@ -90,6 +99,6 @@
 
     {{-- bootstrap js --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
-    @yield('script')
+    @yield('footer')
 </body>
 </html>

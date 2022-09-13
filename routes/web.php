@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\authentication\LoginController;
 use App\Http\Controllers\authentication\RegisterController;
+use App\Http\Controllers\Master\ItemController;
 use App\Http\Controllers\HomeController;
 
 /*
@@ -46,4 +47,9 @@ Route::middleware('auth')->group(function(){
     //     return redirect(route('dashboard'));
     // });
     Route::get('/dashboard', [HomeController::class, 'getIndex'])->name('dashboard');
+
+    //Master Items
+    Route::get('/items', [ItemController::class, 'getIndex'])->name('items');
+    Route::get('/items/add', [ItemController::class, 'getAddItems'])->name('add-items');
+    Route::post('/items/add', [ItemController::class, 'saveItems'])->name('save-items');
 });
