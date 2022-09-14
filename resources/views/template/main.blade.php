@@ -64,6 +64,14 @@
                             <td>{{$i}}</td>
                             @foreach ($tableHeader as $td)
                             <td class="{{$td['col']}}" @isset($td['display']) style="display: none;" @endisset>{{(@$item->{$td['col']})}}</td>
+                            <?php
+                                if($td['from']){
+                                    dd($td['from']);
+                                }
+                                else{
+                                    dd('no other table');
+                                }
+                            ?>
                             @endforeach
                             <td style="text-align: center">
                                 <div class="dropdown">

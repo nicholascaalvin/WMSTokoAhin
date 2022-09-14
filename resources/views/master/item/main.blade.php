@@ -22,6 +22,7 @@
         ['label' => 'id', 'col' => 'id', 'display' => 'none'],
         ['label' => 'Item Code', 'width' => '10%', 'col' => 'code'],
         ['label' => 'Item Name', 'width' => '10%', 'col' => 'name'],
+        ['label' => 'Origin', 'width' => '10%', 'col' => 'country_id', 'from' => 'countries'],
         ['label' => 'Incoming', 'width' => '1%', 'col' => 'incoming'],
         ['label' => 'Outgoing', 'width' => '1%', 'col' => 'outgoing'],
         ['label' => 'Stock', 'width' => '1%', 'col' => 'stock'],
