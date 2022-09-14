@@ -15,7 +15,9 @@
     $row = [
         ['label' => 'Item Code', 'name' => 'code'],
         ['label' => 'Item Name', 'name' => 'name'],
-        ['label' => 'Unit of Measurements', 'name' => 'uom'],
+        ['label' => 'Unit of Measurements', 'name' => 'uom_id', 'select2' => 'uom'],
+        ['label' => 'Country', 'name' => 'country_id', 'select2' => 'countries'],
+        ['label' => 'Description', 'name' => 'description', 'textarea' => true],
     ]
 ?>
 

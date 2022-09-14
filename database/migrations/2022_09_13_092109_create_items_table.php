@@ -18,8 +18,9 @@ class CreateItemsTable extends Migration
             $table->timestamps();
             $table->string('code');
             $table->string('name');
-            $table->string('uom');
-            $table->string('weight in grams');
+            $table->foreignId('uom')->constrained('uom');
+            $table->string('weight_in_grams');
+            $table->foreignId('country_id')->constrained('countries');
             $table->string('description');
 
             $table->integer('incoming')->defalt(0);

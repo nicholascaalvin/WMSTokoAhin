@@ -59,9 +59,24 @@
     @else
         <div class="card-body">
             @foreach ($row as $item)
-                <div class="">
+                <div class="d-flex align-items-center">
                     <label for="{{$item['name']}}">{{$item['label']}}</label>
-                    <input class="form-input" @if (isset($item['type'])) type="{{$item['type']}}"@else type="text"@endif name="{{$item['name']}}" id="{{$item['name']}}" @if (isset($item['required']))required @endif @if (isset($item['readonly']))readonly @endif>
+                    @if (isset($item['select2']))
+                    <?php
+                    $option = DB::table($item['select2'])->get();
+                    ?>
+                        <select name="{{$item['name']}}" id="{{$item['name']}}" class="form-input select2">
+                            @foreach ($option as $list)
+                                <option value="{{$list->id}}">{{$list->name}}</option>
+                            @endforeach
+                        </select>
+                    @else
+                        @if (isset($item['textarea']))
+                            <textarea name="{{$item['name']}}" id="{{$item['name']}}" class="form-input"></textarea>
+                        @else
+                            <input class="form-input" @if (isset($item['type'])) type="{{$item['type']}}"@else type="text"@endif name="{{$item['name']}}" id="{{$item['name']}}" @if (isset($item['required']))required @endif @if (isset($item['readonly']))readonly @endif>
+                        @endif
+                    @endif
                 </div>
                 <br>
             @endforeach
@@ -69,3 +84,9 @@
         </div>
     @endif
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+</script>
