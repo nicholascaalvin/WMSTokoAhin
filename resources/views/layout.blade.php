@@ -40,10 +40,10 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">User</a></li>
+                        <li><a class="dropdown-item" href="{{route('countries')}}">Country</a></li>
                         <li><a class="dropdown-item" href="{{route('uoms')}}">Unit of measurement</a></li>
                         <li><a class="dropdown-item" href="{{route('items')}}">Item</a></li>
                         <li><a class="dropdown-item" href="{{route('aisles')}}">Aisle</a></li>
-                        <li><a class="dropdown-item" href="{{route('countries')}}">Country</a></li>
                         <li><a class="dropdown-item" href="#">Customer</a></li>
                     </ul>
                 </li>
