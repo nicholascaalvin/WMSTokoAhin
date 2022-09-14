@@ -8,6 +8,7 @@
     {{-- bootstrap css --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
         .bi-person-circle{
             font-size: 2em;
@@ -15,9 +16,6 @@
         button{
             height: 2.5em;
         }
-        /* .card{
-            border: none;
-        } */
         .card-header{
             background-color: white;
         }
@@ -42,9 +40,10 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">User</a></li>
-                        <li><a class="dropdown-item" href="#">Unit of measurement</a></li>
+                        <li><a class="dropdown-item" href="{{route('uoms')}}">Unit of measurement</a></li>
                         <li><a class="dropdown-item" href="{{route('items')}}">Item</a></li>
-                        <li><a class="dropdown-item" href="#">Aisle</a></li>
+                        <li><a class="dropdown-item" href="{{route('aisles')}}">Aisle</a></li>
+                        <li><a class="dropdown-item" href="{{route('countries')}}">Country</a></li>
                         <li><a class="dropdown-item" href="#">Customer</a></li>
                     </ul>
                 </li>
@@ -99,6 +98,10 @@
 
     {{-- bootstrap js --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    {{-- jquery cdn --}}
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    {{-- select2 js --}}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     @yield('footer')
 </body>
 </html>
