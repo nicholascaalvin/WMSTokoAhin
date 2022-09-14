@@ -23,7 +23,6 @@ class ItemController extends Controller
         $code = Request::get('code');
         $name = Request::get('name');
         $uom = Request::get('uom');
-        $qty = Request::get('qty');
         $now = date('Y-m-d H:i:s');
         $company_id = Auth::user()->company_id;
 
@@ -32,7 +31,6 @@ class ItemController extends Controller
             'code' => $code,
             'name' => $name,
             'uom' => $uom,
-            'qty' => $qty,
             'incoming' => 0,
             'outgoing' => 0,
             'stock' => 0,
