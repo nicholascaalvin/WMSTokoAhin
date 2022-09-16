@@ -24,12 +24,18 @@ class AislesController extends Controller
         $name = Request::get('name');
         $now = date('Y-m-d H:i:s');
         $company_id = Auth::user()->company_id;
-        DB::table('aisles')->insert([
-            'created_at' => $now,
-            'code' => $code,
-            'name' => $name,
-            'company_id' => $company_id,
-        ]);
-        return redirect(url('aisles'));
+        $exist = DB::table('aisle')->where('company_id', $company_id)->where('code', $code)->first();
+        if($exist){
+            return 'ereror';
+        }
+        else{
+            DB::table('aisle')->insert([
+                'created_at' => $now,
+                'code' => $code,
+                'name' => $name,
+                'company_id' => $company_id,
+            ]);
+            return 'success';
+        }
     }
 }

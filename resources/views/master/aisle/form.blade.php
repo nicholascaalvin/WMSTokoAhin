@@ -33,6 +33,27 @@
             alert('Must fill all fields');
         }
         else{
+            $.ajax({
+                url: '/aisles/add',
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    'code': code,
+                    'name': name,
+                },
+                success: function(data){
+                    if(data == 'success'){
+                        window.location.replace("/aisles");
+                    }
+                    else{
+                        alert('Aisle code already exists!');
+                        $('#code').val('');
+                        $('#name').val('');
+                    }
+                }
+            })
             console.log(code, name);
         }
     }
