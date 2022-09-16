@@ -1,7 +1,7 @@
 {{-- COPY PASTE THIS FOR FORM TEMPLATE
     MUST HAVE :
-    1. moduleName
-    2. saveFunction
+    1. moduleName   Add New {{moduleName}}
+    2. saveFunction save{{moduleName}}()
     3. row
 --}}
 

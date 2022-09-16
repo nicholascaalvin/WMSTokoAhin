@@ -63,15 +63,15 @@
                         <tr>
                             <td>{{$i}}</td>
                             @foreach ($tableHeader as $td)
-                            <td class="{{$td['col']}}" @isset($td['display']) style="display: none;" @endisset>{{(@$item->{$td['col']})}}</td>
-                            <?php
-                                if($td['from']){
-                                    dd($td['from']);
-                                }
-                                else{
-                                    dd('no other table');
-                                }
-                            ?>
+                            @if (isset($td['from']))
+                                <?php
+                                    $country = DB::table($td['from'])->select('name')->where('id', $item->country_id)->pluck('name')->first();
+                                ?>
+                                <td class="{{$td['col']}}" @isset($td['display']) style="display: none;" @endisset>{{$country}}</td>
+                            @else
+
+                                <td class="{{$td['col']}}" @isset($td['display']) style="display: none;" @endisset>{{(@$item->{$td['col']})}}</td>
+                            @endif
                             @endforeach
                             <td style="text-align: center">
                                 <div class="dropdown">
