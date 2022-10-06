@@ -10,6 +10,7 @@ use App\Http\Controllers\Master\ShelfLifeController;
 use App\Http\Controllers\Master\ItemController;
 use App\Http\Controllers\Master\AislesController;
 use App\Http\Controllers\Master\VendorController;
+use App\Http\Controllers\Master\MerkController;
 use App\Http\Controllers\HomeController;
 
 /*
@@ -70,6 +71,9 @@ Route::middleware('auth')->group(function(){
     Route::post('/countries/edit', [CountryController::class, 'editCountry']);
     Route::delete('/countries/delete', [CountryController::class, 'deleteCountries']);
     Route::get('/countries/search', [CountryController::class, 'searchCountries'])->name('search-countries');
+
+    //Master Merk
+    Route::get('/merk', [MerkController::class, 'getIndex'])->name('merk');
 
     //Master Shelf Life
     Route::get('/shelflife', [ShelfLifeController::class, 'getIndex'])->name('shelflife');
