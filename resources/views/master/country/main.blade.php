@@ -4,8 +4,7 @@
     2. addNewRoute  route...getIndex
     3. deleteFunction  function delete
     4. detailFunction function edit
-    5. data         query get dari table
-    6. tableHeader  table head
+    5. tableHeader  table head
 --}}
 
 @extends('template.main')
@@ -15,9 +14,9 @@
 <?php
     $moduleName = 'Country List';
     $addNewRoute = route('add-countries');
+    $searchRoute = route('search-countries');
     $deleteFunction = 'deleteCountries(this)';
     $detailFunction = 'detailCountries(this)';
-    $data = DB::table('countries')->get();
     $tableHeader = [
         ['label' => 'id', 'col' => 'id', 'display' => 'none'],
         ['label' => 'Country', 'col' => 'name'],

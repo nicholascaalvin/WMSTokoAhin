@@ -15,9 +15,9 @@
 <?php
     $moduleName = 'Unit of Measurements List';
     $addNewRoute = route('add-uoms');
+    $searchRoute = route('search-uoms');
     $deleteFunction = 'deleteUOMs(this)';
     $detailFunction = 'detailUOMs(this)';
-    $data = DB::table('uom')->get();
     $tableHeader = [
         ['label' => 'id', 'col' => 'id', 'display' => 'none'],
         ['label' => 'Name', 'col' => 'name'],

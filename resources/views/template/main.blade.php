@@ -2,9 +2,9 @@
     MUST HAVE :
     1. moduleName   .... list
     2. addNewRoute  route...getIndex
-    3. deleteFunction  function delete
-    4. detailFunction function edit
-    5. data         query get dari table
+    3. searchRoute  route...search
+    4. deleteFunction  function delete
+    5. detailFunction function edit
     6. tableHeader  table head
 
 
@@ -23,6 +23,12 @@
 
 @section('footer')
 <script type="text/javascript">
+    function delete..(row){
+
+    }
+    function detail..(row){
+
+    }
 </script>
 @endsection
 --}}
@@ -34,13 +40,35 @@
     table thead th{
         text-align: center;
     }
+    .form-input{
+        width: 20em;
+        border-radius: 5px;
+        border: 1px solid lightgray;
+        height: 2.2em;
+    }
 </style>
 
 <div class="card">
     <div class="card-header" style="border-bottom: none">
         <div class="header-content d-flex justify-content-between align-items-center">
-            <h1>{{$moduleName}}</h1>
-            <a class="btn btn-info" href="{{$addNewRoute}}"><i class="bi bi-plus-square-fill"></i> Add New</a>
+            <div class="left">
+                <h1>{{$moduleName}}</h1>
+            </div>
+            <div class="right">
+                <div class="d-flex justify-content-end" style="margin-bottom: 0.5em;">
+                    <a class="btn btn-info" href="{{$addNewRoute}}"><i class="bi bi-plus-square-fill"></i> Add New</a>
+                </div>
+                <div class="search d-flex align-items-center">
+                    <form action="{{$searchRoute}}" method="get">
+                        @if (isset($searched))
+                            <input type="text" placeholder="Search" class="form-input" name="q" value={{$searched}}>
+                        @else
+                            <input type="text" placeholder="Search" class="form-input" name="q">
+                        @endif
+                        <button type="submit" class="btn btn-primary" style="margin-left: 10px;">Search</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
     <div class="card-body">

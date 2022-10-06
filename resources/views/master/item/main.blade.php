@@ -15,9 +15,9 @@
 <?php
     $moduleName = 'Item List';
     $addNewRoute = route('add-items');
-    $deleteFunction = 'deleteItems';
-    $detailFunction = 'showDetailPage';
-    $data = DB::table('items')->get();
+    $searchRoute = route('search-items');
+    $deleteFunction = 'deleteItems(this)';
+    $detailFunction = 'showDetailPage(this)';
     $tableHeader = [
         ['label' => 'id', 'col' => 'id', 'display' => 'none'],
         ['label' => 'Item Code', 'width' => '10%', 'col' => 'code'],
@@ -39,7 +39,7 @@
 <script type="text/javascript">
     function deleteItems(row){
         var thisRow = row.parentNode.parentNode.parentNode.parentNode.parentNode;
-        var country = $(thisRow).find('td.name').text();
+        var item = $(thisRow).find('td.name').text();
         $.ajax({
             url: '/countries/delete',
             type: 'DELETE',
@@ -47,10 +47,10 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             data: {
-                'name': country,
+                'name': item,
             },
             success: function(data){
-                window.location.replace("/countries");
+                window.location.replace("/items");
             },
         });
     }

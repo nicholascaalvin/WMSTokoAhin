@@ -2,7 +2,8 @@
     MUST HAVE :
     1. moduleName   Add New {{moduleName}}
     2. saveFunction save{{moduleName}}()
-    3. row
+    3. searchFunction search{{moduleName}}()
+    4. row
 --}}
 
 @extends('template.form')

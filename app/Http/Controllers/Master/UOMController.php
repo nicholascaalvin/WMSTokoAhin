@@ -12,7 +12,11 @@ date_default_timezone_set("Asia/Jakarta");
 class UOMController extends Controller
 {
     public function getIndex(){
-        return view('master.uom.main', ['title' => 'Unit of Measurements']);
+        $data = DB::table('uom')->get();
+        return view('master.uom.main', [
+            'title' => 'Unit of Measurements',
+            'data' => $data,
+        ]);
     }
 
     public function getAddUOMs(){
@@ -63,5 +67,16 @@ class UOMController extends Controller
         $id = Request::get('id');
         $company_id = Auth::user()->company_id;
         DB::table('uom')->where('company_id', $company_id)->where('id', $id)->delete();
+    }
+
+    public function searchUOM(){
+        $search = Request::get('q');
+        $company_id = Auth::user()->company_id;
+        $data = DB::table('uom')->where('company_id', $company_id)->whereRaw("name like '%$search%'")->get();
+        return view('master.uom.main', [
+            'title' => 'Unit of Measurements',
+            'data' => $data,
+            'searched' => $search,
+        ]);
     }
 }

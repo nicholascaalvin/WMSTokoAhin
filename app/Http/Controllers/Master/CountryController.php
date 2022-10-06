@@ -12,7 +12,11 @@ date_default_timezone_set("Asia/Jakarta");
 class CountryController extends Controller
 {
     public function getIndex(){
-        return view('master.country.main', ['title' => 'Countries']);
+        $data = DB::table('countries')->get();
+        return view('master.country.main', [
+            'title' => 'Countries',
+            'data' => $data,
+        ]);
     }
 
     public function getAddCountries(){
@@ -63,5 +67,16 @@ class CountryController extends Controller
         $id = Request::get('id');
         $company_id = Auth::user()->company_id;
         DB::table('countries')->where('company_id', $company_id)->where('id', $id)->delete();
+    }
+
+    public function searchCountries(Request $request){
+        $search = Request::get('q');
+        $company_id = Auth::user()->company_id;
+        $data = DB::table('countries')->where('company_id', $company_id)->whereRaw("name like '%$search%'")->get();
+        return view('master.country.main', [
+            'title' => 'Countries',
+            'data' => $data,
+            'searched' => $search,
+        ]);
     }
 }

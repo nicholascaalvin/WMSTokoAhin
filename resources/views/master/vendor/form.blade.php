@@ -11,11 +11,12 @@
 @extends('layout')
 
 <?php
-    $moduleName = 'Add New Country';
-    $saveFunction = 'saveCountries()';
+    $moduleName = 'Add New Vendors';
+    $saveFunction = 'saveVendors()';
     $row = [
-        ['label' => 'Country Name', 'name' => 'name'],
-    ]
+        ['label' => 'Code', 'name' => 'code'],
+        ['label' => 'Name', 'name' => 'name'],
+    ];
 ?>
 
 @section('header')
@@ -26,53 +27,36 @@
 
 @section('footer')
 <script type="text/javascript">
-    function saveCountries(){
-        var country = $('#name').val();
-        if(country == null || country == ''){
+    function saveVendors(){
+        var code = $('#code').val();
+        var name = $('#name').val();
+        if(code == null || code == '' || name == null || name == ''){
             alert('Must fill all fields');
         }
         else{
             $.ajax({
-                url: '/countries/add',
+                url: '/vendors/add',
                 type: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 data: {
-                    'name': country,
+                    'code': code,
+                    'name': name,
                 },
                 success: function(data){
                     if(data == 'success'){
-                        window.location.replace("/countries");
+                        window.location.replace("/vendors");
                     }
                     else{
-                        alert('Country already exists!');
+                        alert('Vendor already exists!');
+                        $('#code').val('');
                         $('#name').val('');
                     }
                 },
             });
         }
     }
-    function searchCountries(){
-        var search = $('#search').val();
-        if(search == null || search == ''){
-
-        }
-        else{
-            $.ajax({
-                url: '/countries/search',
-                type: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data: {
-                    'search': search,
-                },
-                success: function(){
-
-                },
-            });
-        }
-    }
 </script>
 @endsection
+
