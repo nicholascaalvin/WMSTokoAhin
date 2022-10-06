@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('style')
+@section('header')
 <style>
     body{
         margin: 10px;

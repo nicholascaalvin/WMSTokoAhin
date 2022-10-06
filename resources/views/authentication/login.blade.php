@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('style')
+@section('header')
 <style>
     body{
         margin: 10px;
@@ -61,10 +61,9 @@
               <input type="checkbox" class="form-check-input" id="exampleCheck1">
               <label class="form-check-label" for="exampleCheck1">Check me out</label>
             </div> --}}
-            <div class="d-flex justify-content-between">
-                <a href="{{route('register_page')}}">Register here now!</a>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
+            <button type="submit" class="btn btn-primary">
+                Login
+            </button>
         </form>
     </div>
 </div>
