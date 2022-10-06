@@ -14,8 +14,8 @@
 
 <?php
     $moduleName = 'Shelf Life List';
-    $addNewRoute = route('add-shelflife');
-    $searchRoute = route('search-shelflife');
+    $addNewRoute = route('add-shelflifes');
+    $searchRoute = route('search-shelflifes');
     $deleteFunction = 'deleteShelflife(this)';
     $detailFunction = 'showDetailPage(this)';
     $tableHeader = [

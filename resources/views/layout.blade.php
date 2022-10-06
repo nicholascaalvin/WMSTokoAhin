@@ -42,8 +42,8 @@
                         {{-- <li><a class="dropdown-item" href="#">User</a></li> --}}
                         <li><a class="dropdown-item" href="{{route('countries')}}">Country</a></li>
                         <li><a class="dropdown-item" href="{{route('uoms')}}">Unit of measurement</a></li>
-                        <li><a class="dropdown-item" href="{{route('merk')}}">Merk</a></li>
-                        <li><a class="dropdown-item" href="{{route('shelflife')}}">Shelf Life</a></li>
+                        <li><a class="dropdown-item" href="{{route('brands')}}">Brand</a></li>
+                        <li><a class="dropdown-item" href="{{route('shelflifes')}}">Shelf Life</a></li>
                         <li><a class="dropdown-item" href="{{route('items')}}">Item</a></li>
                         <li><a class="dropdown-item" href="{{route('aisles')}}">Aisle</a></li>
                         <li><a class="dropdown-item" href="#">Customer</a></li>

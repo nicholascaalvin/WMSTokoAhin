@@ -18,6 +18,7 @@ class CreateItemsTable extends Migration
             $table->timestamps();
             $table->string('code');
             $table->string('name');
+            $table->foreignId('brand_id')->constrained('brands');
             $table->foreignId('uom_id')->constrained('uom');
             $table->string('weight');
             $table->foreignId('country_id')->constrained('countries');

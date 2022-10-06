@@ -31,6 +31,7 @@ class ItemController extends Controller
         $code = Request::get('code');
         $name = Request::get('name');
         $uom = Request::get('uom');
+        $brand = Request::get('brand');
         $weight = Request::get('weight');
         $country = Request::get('country');
         $desc = Request::get('desc');
@@ -42,6 +43,7 @@ class ItemController extends Controller
             'created_at' => $now,
             'code' => $code,
             'name' => $name,
+            'brand_id' => $brand,
             'uom_id' => $uom,
             'weight' => $weight,
             'country_id' => $country,

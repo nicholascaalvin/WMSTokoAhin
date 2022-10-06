@@ -10,7 +10,7 @@ use App\Http\Controllers\Master\ShelfLifeController;
 use App\Http\Controllers\Master\ItemController;
 use App\Http\Controllers\Master\AislesController;
 use App\Http\Controllers\Master\VendorController;
-use App\Http\Controllers\Master\MerkController;
+use App\Http\Controllers\Master\BrandController;
 use App\Http\Controllers\HomeController;
 
 /*
@@ -72,13 +72,19 @@ Route::middleware('auth')->group(function(){
     Route::delete('/countries/delete', [CountryController::class, 'deleteCountries']);
     Route::get('/countries/search', [CountryController::class, 'searchCountries'])->name('search-countries');
 
-    //Master Merk
-    Route::get('/merk', [MerkController::class, 'getIndex'])->name('merk');
+    //Master Brand
+    Route::get('/brands', [BrandController::class, 'getIndex'])->name('brands');
+    Route::get('/brands/add', [BrandController::class, 'getAddBrands'])->name('add-brands');
+    Route::post('brands/add', [BrandController::class, 'saveBrands']);
+    Route::get('brands/edit/{id}', [BrandController::class, 'getDetailBrands'])->name('edit-brands');
+    Route::post('brands/edit', [BrandController::class, 'editBrands']);
+    Route::delete('brands/delete', [BrandController::class, 'deleteBrands']);
+    route::get('/brands/search', [BrandController::class, 'searchBrands'])->name('search-brands');
 
     //Master Shelf Life
-    Route::get('/shelflife', [ShelfLifeController::class, 'getIndex'])->name('shelflife');
-    Route::get('/shelflife/add', [ShelfLifeController::class, 'getAddShelflife'])->name('add-shelflife');
-    route::get('/shelflife/search', [ShelflifeController::class, 'searchShelflife'])->name('search-shelflife');
+    Route::get('/shelflifes', [ShelfLifeController::class, 'getIndex'])->name('shelflifes');
+    Route::get('/shelflifes/add', [ShelfLifeController::class, 'getAddShelflifes'])->name('add-shelflifes');
+    route::get('/shelflifes/search', [ShelflifeController::class, 'searchShelflifes'])->name('search-shelflifes');
 
     //Master Items
     Route::get('/items', [ItemController::class, 'getIndex'])->name('items');

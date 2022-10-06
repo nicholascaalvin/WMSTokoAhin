@@ -16,8 +16,9 @@
     $row = [
         ['label' => 'Item Code', 'name' => 'code'],
         ['label' => 'Item Name', 'name' => 'name'],
+        ['label' => 'Item Brand', 'name' => 'brand_id', 'select2' => 'brands'],
         ['label' => 'Unit of Measurements', 'name' => 'uom_id', 'select2' => 'uom'],
-        ['label' => 'Weight in grams', 'name' => 'weight', 'type' => 'number'],
+        ['label' => 'Weight (gr)', 'name' => 'weight', 'type' => 'number'],
         ['label' => 'Country', 'name' => 'country_id', 'select2' => 'countries'],
         ['label' => 'Description', 'name' => 'description', 'textarea' => true],
     ]
@@ -34,6 +35,7 @@
     function saveItems(){
         var code = $('#code').val();
         var name = $('#name').val();
+        var brand = $('#brand_id').val();
         var uom = $('#uom_id').val();
         var weight = $('#weight').val();
         var country = $('#country_id').val();
@@ -52,6 +54,7 @@
                 data: {
                     'code': code,
                     'name': name,
+                    'brand': brand,
                     'uom': uom,
                     'weight': weight,
                     'country': country,

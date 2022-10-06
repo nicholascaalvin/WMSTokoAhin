@@ -52,11 +52,12 @@
     @if (isset($data))
         <div class="card-body">
             @foreach ($row as $item)
-                <div class="d-flex align-items-center" @isset($item['display']) style="display: none;"  @endisset>
-                    <label for="{{$item['name']}}" @isset($item['display']) style="display: none;" @endisset>{{$item['label']}}</label>
+                <div class="d-flex align-items-center" @isset($item['display']) style="display: none !important;"  @endisset>
+                    <label for="{{$item['name']}}" @isset($item['display']) style="display: none !important;" @endisset>{{$item['label']}}</label>
                     @if (isset($item['select2']))
                         <?php
                         $option = DB::table($item['select2'])->get()->toArray();
+                        $brand = DB::table($item['select2'])->where('id', $data->brand_id)->first();
                         $uom = DB::table($item['select2'])->where('id', $data->uom_id)->first();
                         $country = DB::table($item['select2'])->where('id', $data->country_id)->first();
                         ?>
@@ -66,6 +67,8 @@
                                     <option disabled selected>{{$uom->name}}</option>
                                 @elseif ($item['select2'] == 'countries')
                                     <option disabled selected>{{$country->name}}</option>
+                                @elseif ($item['select2'] == 'brands')
+                                    <option disabled selected>{{$brand->name}}</option>
                                 @endif
                                 @foreach ($option as $list)
                                     <option value="{{$list->id}}">{{$list->name}}</option>

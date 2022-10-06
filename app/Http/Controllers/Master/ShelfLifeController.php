@@ -20,13 +20,13 @@ class ShelfLifeController extends Controller
         ]);
     }
 
-    public function getAddShelflife(){
+    public function getAddShelflifes(){
         return view('master.shelflife.form', [
             'title' => 'Shelf Life',
         ]);
     }
 
-    public function searchShelflife(){
+    public function searchShelflifes(){
         dd('search');
     }
 }
