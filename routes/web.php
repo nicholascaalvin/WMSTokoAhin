@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\authentication\LoginController;
 use App\Http\Controllers\authentication\RegisterController;
 use App\Http\Controllers\Master\UOMController;
+use App\Http\Controllers\Master\MerkController;
 use App\Http\Controllers\Master\ItemController;
 use App\Http\Controllers\Master\AislesController;
 use App\Http\Controllers\Master\CountryController;
@@ -58,6 +59,9 @@ Route::middleware('auth')->group(function(){
     route::get('/uoms/edit/{id}', [UOMController::class, 'getDetailUOMs'])->name('edit-uoms');
     route::post('/uoms/edit', [UOMController::class, 'editUOM']);
     route::delete('/uoms/delete', [UOMController::class, 'deleteUOM']);
+
+    //Master Merk
+    Route::get('/merk', [MerkController::class, 'getIndex'])->name('merk');
 
     //Master Items
     Route::get('/items', [ItemController::class, 'getIndex'])->name('items');
