@@ -16,6 +16,8 @@ class BrandController extends MNPController
 
         $this->main[] = ['label' => 'id', 'col' => 'id', 'display' => 'none'];
         $this->main[] = ['label' => 'Brand Name', 'col' => 'name'];
+
+        $this->forms[] = ['label' => 'Brand Name', 'col' => 'name'];
     }
 
 //     public function getIndex(){

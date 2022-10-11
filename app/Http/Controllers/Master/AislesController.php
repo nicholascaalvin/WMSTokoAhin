@@ -15,6 +15,8 @@ class AislesController extends MNPController
 
         $this->main[] = ['label' => 'id', 'col' => 'id', 'display' => 'none'];
         $this->main[] = ['label' => 'Aisle Name', 'col' => 'name'];
+
+        $this->forms[] = ['label' => 'Aisle Name', 'col' => 'name'];
     }
 
     // public function getIndex(){

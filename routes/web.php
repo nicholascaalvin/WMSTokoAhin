@@ -55,27 +55,27 @@ Route::middleware('auth')->group(function(){
     // });
     Route::get('/dashboard', [HomeController::class, 'getIndex'])->name('dashboard');
 
+    //Master Country
+    Route::get('/countries', [CountryController::class, 'getIndex'])->name('countries');
+    Route::get('/countries/add', [CountryController::class, 'getAdd']);
+    Route::post('/countries/add/save', [CountryController::class, 'save']);
+    Route::get('/countries/edit/{id}', [CountryController::class, 'getDetailCountries'])->name('edit-countries');
+    Route::post('/countries/edit', [CountryController::class, 'editCountry']);
+    Route::delete('/countries/delete', [CountryController::class, 'deleteCountries']);
+    Route::get('/countries/search', [CountryController::class, 'searchCountries'])->name('search-countries');
+
     //Master UOM
     Route::get('/uoms', [UOMController::class, 'getIndex'])->name('uoms');
-    Route::get('/uoms/add', [UOMController::class, 'getAddUOMs'])->name('add-uoms');
+    Route::get('/uoms/add', [UOMController::class, 'getAdd']);
     Route::post('/uoms/add', [UOMController::class, 'saveUOMs']);
     Route::get('/uoms/edit/{id}', [UOMController::class, 'getDetailUOMs'])->name('edit-uoms');
     Route::post('/uoms/edit', [UOMController::class, 'editUOM']);
     Route::delete('/uoms/delete', [UOMController::class, 'deleteUOM']);
     Route::get('/uoms/search', [UOMController::class, 'searchUOM'])->name('search-uoms');
 
-    //Master Country
-    Route::get('/countries', [CountryController::class, 'getIndex'])->name('countries');
-    Route::get('/countries/add', [CountryController::class, 'getAddCountries'])->name('add-countries');
-    Route::post('/countries/add', [CountryController::class, 'saveCountries']);
-    Route::get('/countries/edit/{id}', [CountryController::class, 'getDetailCountries'])->name('edit-countries');
-    Route::post('/countries/edit', [CountryController::class, 'editCountry']);
-    Route::delete('/countries/delete', [CountryController::class, 'deleteCountries']);
-    Route::get('/countries/search', [CountryController::class, 'searchCountries'])->name('search-countries');
-
     //Master Brand
     Route::get('/brands', [BrandController::class, 'getIndex'])->name('brands');
-    Route::get('/brands/add', [BrandController::class, 'getAddBrands'])->name('add-brands');
+    Route::get('/brands/add', [BrandController::class, 'getAdd']);
     Route::post('brands/add', [BrandController::class, 'saveBrands']);
     Route::get('brands/edit/{id}', [BrandController::class, 'getDetailBrands'])->name('edit-brands');
     Route::post('brands/edit', [BrandController::class, 'editBrands']);
@@ -84,19 +84,19 @@ Route::middleware('auth')->group(function(){
 
     //Master Shelf Life
     Route::get('/shelflifes', [ShelfLifeController::class, 'getIndex'])->name('shelflifes');
-    Route::get('/shelflifes/add', [ShelfLifeController::class, 'getAddShelflifes'])->name('add-shelflifes');
+    Route::get('/shelflifes/add', [ShelfLifeController::class, 'getAdd']);
     route::get('/shelflifes/search', [ShelflifeController::class, 'searchShelflifes'])->name('search-shelflifes');
 
     //Master Items
     Route::get('/items', [ItemController::class, 'getIndex'])->name('items');
-    Route::get('/items/add', [ItemController::class, 'getAddItems'])->name('add-items');
+    Route::get('/items/add', [ItemController::class, 'getAdd']);
     Route::post('/items/add', [ItemController::class, 'saveItems']);
     Route::get('/items/edit/{id}', [ItemController::class, 'getDetailItems'])->name('edit-items');
     Route::get('/items/search', [ItemController::class, 'searchItems'])->name('search-items');
 
     //Master Aisle
     Route::get('/aisles', [AislesController::class, 'getIndex'])->name('aisles');
-    Route::get('/aisles/add', [AislesController::class, 'getAddAisles'])->name('add-aisles');
+    Route::get('/aisles/add', [AislesController::class, 'getAdd']);
     Route::post('/aisles/add', [AislesController::class, 'saveAisles']);
     Route::get('/aisles/edit/{id}', [AislesController::class, 'getDetailAisles'])->name('edit-aisles');
     Route::post('/aisles/edit', [AislesController::class, 'editAisles']);
@@ -105,6 +105,7 @@ Route::middleware('auth')->group(function(){
 
     //Master Customer
     Route::get('/customers', [CustomerController::class, 'getIndex'])->name('customers');
+    Route::get('/customers/add', [CustomerController::class, 'getAdd']);
 
     //MasterVendor
     Route::get('/vendors', [VendorController::class, 'getIndex'])->name('vendors');

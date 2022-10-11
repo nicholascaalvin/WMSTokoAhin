@@ -7,8 +7,6 @@ use Request;
 use DB;
 use Auth;
 
-date_default_timezone_set("Asia/Jakarta");
-
 class UOMController extends MNPController
 {
     public function init(){
@@ -17,6 +15,8 @@ class UOMController extends MNPController
 
         $this->main[] = ['label' => 'id', 'col' => 'id', 'display' => 'none'];
         $this->main[] = ['label' => 'UOM Name', 'col' => 'name'];
+
+        $this->forms[] = ['label' => 'UOM Name', 'col' => 'name'];
     }
 
     public function getAddUOMs(){
