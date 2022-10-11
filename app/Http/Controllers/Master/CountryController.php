@@ -2,21 +2,19 @@
 
 namespace App\Http\Controllers\Master;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MNPController;
 use Request;
 use DB;
 use Auth;
 
-date_default_timezone_set("Asia/Jakarta");
-
-class CountryController extends Controller
+class CountryController extends MNPController
 {
-    public function getIndex(){
-        $data = DB::table('countries')->get();
-        return view('master.country.main', [
-            'title' => 'Countries',
-            'data' => $data,
-        ]);
+    public function init(){
+        $this->title = 'Countries';
+        $this->table = 'countries';
+
+        $this->main[] = ['label' => 'id', 'col' => 'id', 'display' => 'none'];
+        $this->main[] = ['label' => 'Country Name', 'col' => 'name'];
     }
 
     public function getAddCountries(){

@@ -7,8 +7,12 @@ use DB;
 
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class HomeController extends MNPController
 {
+    public function init(){
+        $this->title = 'Dashboard';
+    }
+
     public function getIndex(){
         return view('home', ['title' => 'Dashboard']);
     }

@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers\Master;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MNPController;
 use Request;
 use DB;
 use Auth;
 
 date_default_timezone_set("Asia/Jakarta");
 
-class UOMController extends Controller
+class UOMController extends MNPController
 {
-    public function getIndex(){
-        $data = DB::table('uom')->get();
-        return view('master.uom.main', [
-            'title' => 'Unit of Measurements',
-            'data' => $data,
-        ]);
+    public function init(){
+        $this->title = 'Unit Of Measurements';
+        $this->table = 'uom';
+
+        $this->main[] = ['label' => 'id', 'col' => 'id', 'display' => 'none'];
+        $this->main[] = ['label' => 'UOM Name', 'col' => 'name'];
     }
 
     public function getAddUOMs(){
