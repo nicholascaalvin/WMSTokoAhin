@@ -2,16 +2,24 @@
 
 namespace App\Http\Controllers\Master;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MNPController;
 use Request;
 use DB;
 use Auth;
 use PDO;
 
-date_default_timezone_set("Asia/Jakarta");
-
-class ShelfLifeController extends Controller
+class ShelfLifeController extends MNPController
 {
+    public function init()
+    {
+        $this->title = 'Shelf Life';
+        $this->table = 'shelflife';
+
+        $this->main[] = ['label' => 'id', 'col' => 'id', 'display' => 'none'];
+        $this->main[] = ['label' => 'Shelf Life', 'col' => 'name'];
+    }
+
+    /*
     public function getIndex(){
         $data = DB::table('shelflife')->get();
         return view('master.shelflife.main', [
@@ -29,4 +37,5 @@ class ShelfLifeController extends Controller
     public function searchShelflifes(){
         dd('search');
     }
+    */
 }

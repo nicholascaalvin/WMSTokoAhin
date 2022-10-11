@@ -2,15 +2,28 @@
 
 namespace App\Http\Controllers\Master;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\MNPController;
 use Request;
 use DB;
 use Auth;
 
 date_default_timezone_set("Asia/Jakarta");
 
-class ItemController extends Controller
+class ItemController extends MNPController
 {
+    public function init()
+    {
+        $this->title = 'Item List';
+        $this->table = 'items';
+
+        $this->main[] = ['label' => 'id', 'col' => 'id', 'display' => 'none'];
+        $this->main[] = ['label' => 'Item Name', 'col' => 'name'];
+        $this->main[] = ['label' => 'Incoming', 'col' => 'incoming'];
+        $this->main[] = ['label' => 'Outgoing', 'col' => 'outgoing'];
+        $this->main[] = ['label' => 'Stock', 'col' => 'stock'];
+    }
+
+    /*
     public function getIndex(){
         $data = DB::table('items')->get();
         return view('master.item.main', [
@@ -89,4 +102,5 @@ class ItemController extends Controller
             'searched' => $search,
         ]);
     }
+    */
 }
