@@ -46,7 +46,7 @@
                         <li><a class="dropdown-item" href="{{route('shelflifes')}}">Shelf Life</a></li>
                         <li><a class="dropdown-item" href="{{route('items')}}">Item</a></li>
                         <li><a class="dropdown-item" href="{{route('aisles')}}">Aisle</a></li>
-                        <li><a class="dropdown-item" href="#">Customer</a></li>
+                        <li><a class="dropdown-item" href="{{route('customers')}}">Customer</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">

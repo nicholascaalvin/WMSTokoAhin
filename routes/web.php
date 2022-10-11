@@ -9,6 +9,7 @@ use App\Http\Controllers\Master\CountryController;
 use App\Http\Controllers\Master\ShelfLifeController;
 use App\Http\Controllers\Master\ItemController;
 use App\Http\Controllers\Master\AislesController;
+use App\Http\Controllers\Master\CustomerController;
 use App\Http\Controllers\Master\VendorController;
 use App\Http\Controllers\Master\BrandController;
 use App\Http\Controllers\HomeController;
@@ -101,6 +102,9 @@ Route::middleware('auth')->group(function(){
     Route::post('/aisles/edit', [AislesController::class, 'editAisles']);
     Route::delete('/aisles/delete', [AislesController::class, 'deleteAisles']);
     Route::get('/aisles/search', [AislesController::class, 'searchAisles'])->name('search-aisles');
+
+    //Master Customer
+    Route::get('/customers', [CustomerController::class, 'getIndex'])->name('customers');
 
     //MasterVendor
     Route::get('/vendors', [VendorController::class, 'getIndex'])->name('vendors');

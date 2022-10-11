@@ -7,14 +7,14 @@ use Request;
 use DB;
 use Auth;
 
-class AislesController extends MNPController
+class CustomerController extends MNPController
 {
     public function init(){
-        $this->title = 'Aisles';
-        $this->table = 'aisle';
+        $this->title = 'Customer';
+        $this->table = 'customer';
 
         $this->main[] = ['label' => 'id', 'col' => 'id', 'display' => 'none'];
-        $this->main[] = ['label' => 'Aisle Name', 'col' => 'name'];
+        $this->main[] = ['label' => 'Customer Name', 'col' => 'name'];
     }
 
     // public function getIndex(){
