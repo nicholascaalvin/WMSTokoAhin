@@ -24,7 +24,7 @@ class ItemController extends MNPController
 
         $this->forms[] = ['label' => 'Item Name', 'col' => 'name'];
         $this->forms[] = ['label' => 'Item Brand', 'col' => 'brand_id', 'select2' => 'brands'];
-        $this->forms[] = ['label' => 'Item UOM', 'col' => 'uom_id', 'select2' => 'uom'];
+        $this->forms[] = ['label' => 'Item UOM', 'col' => 'uom_id', 'select2' => 'uoms'];
         $this->forms[] = ['label' => 'Item Weight (gr)', 'col' => 'weight'];
         $this->forms[] = ['label' => 'Item Origin', 'col' => 'country_id', 'select2' => 'countries'];
         $this->forms[] = ['label' => 'Description', 'col' => 'description'];

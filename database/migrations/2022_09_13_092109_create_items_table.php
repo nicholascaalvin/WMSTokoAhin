@@ -23,9 +23,9 @@ class CreateItemsTable extends Migration
             $table->foreignId('country_id')->constrained('countries');
             $table->string('description')->nullable();
 
-            $table->integer('incoming')->defalt(0);
-            $table->integer('outgoing')->defalt(0);
-            $table->integer('stock')->defalt(0);
+            $table->integer('incoming')->default(0);
+            $table->integer('outgoing')->default(0);
+            $table->integer('stock')->default(0);
 
             $table->foreignId('company_id')->constrained('companies');
         });

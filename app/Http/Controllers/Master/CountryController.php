@@ -3,9 +3,14 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\MNPController;
-use Request;
-use DB;
-use Auth;
+use Illuminate\Support\Facades\DB;
+use App\Helpers\Helper;
+use Illuminate\Http\Request;
+use App\Models\Country;
+
+// use Request;
+// use DB;
+// use Auth;
 
 class CountryController extends MNPController
 {
@@ -17,6 +22,7 @@ class CountryController extends MNPController
         $this->main[] = ['label' => 'Country Name', 'col' => 'name'];
 
         $this->forms[] = ['label' => 'Country Name', 'col' => 'name'];
+        // $this->forms[] = ['label' => 'Company ID', 'col' => 'company_id'];
 
         $this->js = "
             $('.save').on('click', function(){
@@ -24,6 +30,32 @@ class CountryController extends MNPController
             });
         ";
     }
+
+    // public function save(Request $request){
+    //     $this->load();
+    //     $this->inputs = [];
+    //     $request = $request->all();
+    //     $now = date('Y-m-d H:i:s');
+    //     $this->inputs['created_at'] = $now;
+    //     foreach ($this->forms as $key => $value) {
+    //         foreach ($request as $index => $dt) {
+    //             if($index == $value['col']){
+    //                 $country = new Country;
+    //                 $country->company_id = 1;
+    //                 $country->save();
+    //                 $this->inputs[$value['col']] = $dt;
+    //             }
+    //         }
+    //     }
+    //     // $country = new Country;
+    //     // $country->name = $request->name;
+    //     // $country->company_id = $request->company_id;
+    //     // dd($country->attributes);
+    //     // dd($country);
+    //     // $country->save();
+    //     // Country::insert($this->input);
+    //     // DB::table($this->table)->insert($this->inputs);
+    // }
 
     // public function getAddCountries(){
     //     return view('master.country.form', ['title' => 'Countries']);
