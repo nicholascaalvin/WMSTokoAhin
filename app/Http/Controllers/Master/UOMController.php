@@ -11,7 +11,7 @@ class UOMController extends MNPController
 {
     public function init(){
         $this->title = 'Unit Of Measurements';
-        $this->table = 'uom';
+        $this->table = 'uoms';
 
         $this->main[] = ['label' => 'id', 'col' => 'id', 'display' => 'none'];
         $this->main[] = ['label' => 'UOM Name', 'col' => 'name'];

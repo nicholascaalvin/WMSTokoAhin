@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateShelflifeTable extends Migration
+class CreateUomsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateShelflifeTable extends Migration
      */
     public function up()
     {
-        Schema::create('shelflife', function (Blueprint $table) {
+        Schema::create('uoms', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-
             $table->string('name');
+
             $table->foreignId('company_id')->constrained('companies');
         });
     }
@@ -29,6 +29,6 @@ class CreateShelflifeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shelflife');
+        Schema::dropIfExists('uoms');
     }
 }

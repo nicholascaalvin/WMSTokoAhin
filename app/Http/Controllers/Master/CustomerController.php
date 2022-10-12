@@ -11,7 +11,7 @@ class CustomerController extends MNPController
 {
     public function init(){
         $this->title = 'Customer';
-        $this->table = 'customer';
+        $this->table = 'customers';
 
         $this->main[] = ['label' => 'id', 'col' => 'id', 'display' => 'none'];
         $this->main[] = ['label' => 'Customer Name', 'col' => 'name'];

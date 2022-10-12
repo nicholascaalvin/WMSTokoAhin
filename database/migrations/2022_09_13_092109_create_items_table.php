@@ -16,10 +16,9 @@ class CreateItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('code');
             $table->string('name');
             $table->foreignId('brand_id')->constrained('brands');
-            $table->foreignId('uom_id')->constrained('uom');
+            $table->foreignId('uom_id')->constrained('uoms');
             $table->string('weight');
             $table->foreignId('country_id')->constrained('countries');
             $table->string('description')->nullable();

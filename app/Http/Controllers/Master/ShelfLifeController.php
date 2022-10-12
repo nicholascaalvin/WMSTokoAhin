@@ -13,7 +13,7 @@ class ShelfLifeController extends MNPController
     public function init()
     {
         $this->title = 'Shelf Life';
-        $this->table = 'shelflife';
+        $this->table = 'shelflifes';
 
         $this->main[] = ['label' => 'id', 'col' => 'id', 'display' => 'none'];
         $this->main[] = ['label' => 'Shelf Life', 'col' => 'name'];
