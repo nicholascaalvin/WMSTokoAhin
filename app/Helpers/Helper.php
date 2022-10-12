@@ -6,12 +6,12 @@ use Illuminate\Support\Facades\Auth;
 
 class Helper{
 
-    public function getCompanyId(){
+    public static function getCompanyId(){
         $myCompany = Auth::user()->company_id;
         return $myCompany;
     }
 
-    public function getName(){
+    public static function getName(){
         $myName = Auth::user()->name;
         return $myName;
     }
