@@ -18,7 +18,7 @@ class ShelfLifeController extends MNPController
         $this->main[] = ['label' => 'id', 'col' => 'id', 'display' => 'none'];
         $this->main[] = ['label' => 'Shelf Life', 'col' => 'periods'];
 
-        $this->forms[] = ['label' => 'Periods', 'col' => 'periods'];
+        $this->forms[] = ['label' => 'Periods', 'col' => 'periods', 'required' => true];
     }
 
     /*

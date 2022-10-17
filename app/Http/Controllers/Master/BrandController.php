@@ -17,13 +17,13 @@ class BrandController extends MNPController
         $this->main[] = ['label' => 'id', 'col' => 'id', 'display' => 'none'];
         $this->main[] = ['label' => 'Brand Name', 'col' => 'name'];
 
-        $this->forms[] = ['label' => 'Brand Name', 'col' => 'name'];
+        $this->forms[] = ['label' => 'Brand Name', 'col' => 'name', 'required' => true];
     }
 
 //     public function getIndex(){
 //         $data = DB::table('brands')->get();
 //         return view('master.brand.main', [
-//             'title' => 'Brands', 
+//             'title' => 'Brands',
 //             'data' => $data,
 //         ]);
 //     }

@@ -46,6 +46,12 @@
         border: 1px solid lightgray;
         height: 2.2em;
     }
+    .dropdown a{
+        color: black;
+    }
+    .dropdown a:active{
+        color: black;
+    }
 </style>
 
 @extends('layout')
@@ -59,7 +65,7 @@
                 </div>
                 <div class="right">
                     <div class="d-flex justify-content-end" style="margin-bottom: 0.5em;">
-                        
+
                         <a class="btn btn-info" href="{{$add}}"><i class="bi bi-plus-square-fill"></i> Add New</a>
                     </div>
                     <div class="search d-flex align-items-center">
@@ -80,7 +86,7 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th style="width: 1%">NO.</th>
+                            <th style="width: 1%;">NO.</th>
                             @foreach ($main as $th)
                                 <th @isset($th['width'])style="width: {{$th['width']}}" @endisset  @isset($th['display']) style="display: none;" @endisset>{{$th['label']}}</th>
                             @endforeach
@@ -90,18 +96,22 @@
                     <tbody>
                         @foreach ($contents as $index => $item)
                             <tr>
-                                <td>{{$index + 1}}</td>
+                                <td class="text-center">{{$index + 1}}</td>
                                 @foreach ($main as $td)
                                     <td class="{{$td['col']}}" @isset($td['display']) style="display: none;" @endisset>{{(@$item->{$td['col']})}}</td>
                                 @endforeach
                                 <td style="text-align: center">
                                     <div class="dropdown">
-                                        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 0;">
                                             <i class="bi bi-three-dots-vertical"></i>
                                         </a>
                                         <ul class="dropdown-menu">
-                                        {{-- <li><a class="dropdown-item" onclick="{{$detailFunction}}">Edit</a></li>
-                                        <li><a class="dropdown-item" onclick="{{$deleteFunction}}">Delete</a></li> --}}
+                                            <li><a class="dropdown-item" id="edit-btn">Edit</a></li>
+                                            {{-- <form action="/{{$table}}/delete">
+                                                @csrf
+                                                <button type="submit">Delete</button> --}}
+                                                <li><a class="dropdown-item delete-btn">Delete</a></li>
+                                            {{-- </form> --}}
                                         </ul>
                                     </div>
                                 </td>
@@ -112,4 +122,25 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('footer')
+<script type="text/javascript">
+    $('.delete-btn').on('click', function(event){
+        var row = event.currentTarget.parentNode.parentNode.parentNode.parentNode.parentNode;
+        $.ajax({
+            url: '{{(new \App\Helpers\Helper)->getCurrentUrl()}}/delete',
+            type: 'GET',
+            data: {
+                'id': $(row).find('td.id').text(),
+            },
+            success: function(data){
+                console.log(data);
+                if(data == 'currently used'){
+                    Swal.fire('This data is currently in used!');
+                }
+            },
+        })
+    });
+</script>
 @endsection

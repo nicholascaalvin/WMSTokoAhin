@@ -21,14 +21,8 @@ class CountryController extends MNPController
         $this->main[] = ['label' => 'id', 'col' => 'id', 'display' => 'none'];
         $this->main[] = ['label' => 'Country Name', 'col' => 'name'];
 
-        $this->forms[] = ['label' => 'Country Name', 'col' => 'name'];
+        $this->forms[] = ['label' => 'Country Name', 'col' => 'name', 'required' => true];
         // $this->forms[] = ['label' => 'Company ID', 'col' => 'company_id'];
-
-        $this->js = "
-            $('.save').on('click', function(){
-                alert();
-            });
-        ";
     }
 
     // public function save(Request $request){

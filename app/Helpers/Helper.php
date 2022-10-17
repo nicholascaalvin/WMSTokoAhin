@@ -15,6 +15,11 @@ class Helper{
         $myName = Auth::user()->name;
         return $myName;
     }
+
+    public static function getCurrentUrl(){
+        $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        return $url;
+    }
 }
 
 ?>

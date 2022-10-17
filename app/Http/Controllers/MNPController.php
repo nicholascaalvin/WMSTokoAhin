@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\Helper;
-use Illuminate\Http\Request;
-use App\Models\Country;
-// use Request;
 
 date_default_timezone_set("Asia/Jakarta");
 
@@ -16,12 +14,13 @@ class MNPController extends Controller
     public $table = '';
     public $title = '';
     public $main = [];
+    public $forms = [];
 
     public function init(){
     }
 
     public function query(){
-        return DB::table($this->table);
+        return DB::table($this->table)->where('company_id', Helper::getCompanyId());
     }
 
     public function load(){
@@ -61,34 +60,32 @@ class MNPController extends Controller
             foreach ($request as $index => $dt) {
                 if($index == $value['col']){
                     $this->inputs[$value['col']] = $dt;
+                    $like = $index;
+                    $col = $dt;
                 }
             }
         }
         $this->inputs['created_at'] = $now;
         $this->inputs['company_id'] = Helper::getCompanyId();
-        DB::table($this->table)->insert($this->inputs);
-        return redirect('/'.$this->table)->with('success', 'Successfully added new data');
+        $exist = DB::table($this->table)->where('company_id', $this->inputs['company_id'])->whereRaw($like." like '%$col%'")->get();
+        if(count($exist) > 0){
+            return redirect()->back()->with('error', 'Data existed!')->withInput();
+        }
+        else{
+            DB::table($this->table)->insert($this->inputs);
+            return redirect('/'.$this->table)->with('success', 'Successfully added new data');
+        }
+    }
 
-        // $url = $request->url();
-        // $header = $request->header();
-        // dd($url, $header, $data);
-        // $name = $request->input('name');
-        // dd($name);
-        // // $name = Request::get('name');
-        // $now = date('Y-m-d H:i:s');
-        // // $company_id = Auth::user()->company_id;
-        // dd($name, $now, $company_id);
-        // $exist = DB::table($this->data['table'])->where('company_id', $company_id)->whereRaw("name like '%$name%'")->first();
-        // if ($exist) {
-        //     return 'error';
-        // }
-        // else{
-        //     DB::table($this->data['table'])->insert([
-        //         'created_at' => $now,
-        //         'name' => $name,
-        //         'company_id' => $company_id,
-        //     ]);
-        //     return 'success';
-        // }
+    public function delete(Request $request){
+        $this->load();
+        $id = $request->all()['id'];
+        $return = 'success';
+        try {
+            // DB::table($this->table)->where('id', $id)->delete();
+        } catch (\Throwable $th) {
+            $return = 'currently used';
+        }
+        return $return;
     }
 }

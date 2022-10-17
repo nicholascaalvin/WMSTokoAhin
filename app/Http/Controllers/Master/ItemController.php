@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\MNPController;
-use Request;
-use DB;
-use Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Helpers\Helper;
 
 date_default_timezone_set("Asia/Jakarta");
 
@@ -22,12 +22,38 @@ class ItemController extends MNPController
         $this->main[] = ['label' => 'Outgoing', 'col' => 'outgoing'];
         $this->main[] = ['label' => 'Stock', 'col' => 'stock'];
 
-        $this->forms[] = ['label' => 'Item Name', 'col' => 'name'];
+        $this->forms[] = ['label' => 'Item Name', 'col' => 'name', 'required' => true];
         $this->forms[] = ['label' => 'Item Brand', 'col' => 'brand_id', 'select2' => 'brands'];
-        $this->forms[] = ['label' => 'Item UOM', 'col' => 'uom_id', 'select2' => 'uoms'];
-        $this->forms[] = ['label' => 'Item Weight (gr)', 'col' => 'weight'];
-        $this->forms[] = ['label' => 'Item Origin', 'col' => 'country_id', 'select2' => 'countries'];
+        $this->forms[] = ['label' => 'Item UOM', 'col' => 'uom_id', 'select2' => 'uoms', 'required' => true];
+        $this->forms[] = ['label' => 'Item Weight (gr)', 'col' => 'weight', 'required' => true];
+        $this->forms[] = ['label' => 'Item Origin', 'col' => 'country_id', 'select2' => 'countries', 'required' => true];
         $this->forms[] = ['label' => 'Description', 'col' => 'description'];
+    }
+
+    public function save(Request $request){
+        $this->load();
+        $this->inputs = [];
+        $request = $request->all();
+        $now = date('Y-m-d H:i:s');
+        foreach ($this->forms as $key => $value) {
+            foreach ($request as $index => $dt) {
+                if($index == $value['col']){
+                    $this->inputs[$value['col']] = $dt;
+                }
+            }
+        }
+        $this->inputs['created_at'] = $now;
+        $this->inputs['company_id'] = Helper::getCompanyId();
+        $name = $this->inputs['name'];
+        $exist = DB::table($this->table)->where('company_id', $this->inputs['company_id'])->where('name', $name)->get();
+        // dd(count($exist) >= 1);
+        if(count($exist) > 0){
+            return redirect()->back()->with('error', 'Data existed!')->withInput();
+        }
+        else{
+            DB::table($this->table)->insert($this->inputs);
+            return redirect('/'.$this->table)->with('success', 'Successfully added new data');
+        }
     }
 
     /*

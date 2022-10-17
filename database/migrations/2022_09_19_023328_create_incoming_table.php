@@ -18,7 +18,6 @@ class CreateIncomingTable extends Migration
             $table->timestamps();
             $table->string('voucher_no');
             $table->string('vendor')->nullable();
-            $table->string('status');
 
             $table->foreignId('company_id')->constrained('companies');
         });

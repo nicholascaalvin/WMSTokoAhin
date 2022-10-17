@@ -4,15 +4,18 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\authentication\LoginController;
 use App\Http\Controllers\authentication\RegisterController;
-use App\Http\Controllers\Master\UOMController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Master\CountryController;
+use App\Http\Controllers\Master\UOMController;
+use App\Http\Controllers\Master\BrandController;
 use App\Http\Controllers\Master\ShelfLifeController;
 use App\Http\Controllers\Master\ItemController;
 use App\Http\Controllers\Master\AislesController;
 use App\Http\Controllers\Master\CustomerController;
+use App\Http\Controllers\Transaction\IncomingController;
+
+
 use App\Http\Controllers\Master\VendorController;
-use App\Http\Controllers\Master\BrandController;
-use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,7 +64,8 @@ Route::middleware('auth')->group(function(){
     Route::post('/countries/add/save', [CountryController::class, 'save']);
     Route::get('/countries/edit/{id}', [CountryController::class, 'getDetailCountries'])->name('edit-countries');
     Route::post('/countries/edit', [CountryController::class, 'editCountry']);
-    Route::delete('/countries/delete', [CountryController::class, 'deleteCountries']);
+    // Route::delete('/countries/delete', [CountryController::class, 'delete']);
+    Route::get('/countries/delete', [CountryController::class, 'delete']);
     Route::get('/countries/search', [CountryController::class, 'searchCountries'])->name('search-countries');
 
     //Master UOM
@@ -116,5 +120,5 @@ Route::middleware('auth')->group(function(){
 
     //Transaction Incoming
     Route::get('/incoming', [IncomingController::class, 'getIndex'])->name('incoming');
-    Route::get('/incoming/add', [IncomingController::class, 'getAddIncoming'])->name('add-incoming');
+    Route::get('/incoming/add', [IncomingController::class, 'getAdd']);
 });

@@ -16,7 +16,7 @@ class CustomerController extends MNPController
         $this->main[] = ['label' => 'id', 'col' => 'id', 'display' => 'none'];
         $this->main[] = ['label' => 'Customer Name', 'col' => 'name'];
 
-        $this->forms[] = ['label' => 'Customer Name', 'col' => 'name'];
+        $this->forms[] = ['label' => 'Customer Name', 'col' => 'name', 'required' => true];
     }
 
     // public function getIndex(){

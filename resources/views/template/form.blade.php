@@ -52,31 +52,35 @@
                 <h1>{{$title}}</h1>
             </div>
         </div>
-        {{-- {{dd($forms)}} --}}
+        {{-- {{ dd(get_defined_vars()) }} --}}
         {{-- @if (isset($data)) --}}
             <div class="card-body">
                 <form action="{{$url}}/save" method="post">
                     @csrf
                     @foreach ($forms as $item)
                         <div class="d-flex align-items-center" @isset($item['display']) style="display: none !important;"  @endisset>
-                            <label for="{{$item['col']}}" @isset($item['display']) style="display: none !important;" @endisset>{{$item['label']}}</label>
+                            <label for="{{$item['col']}}" @isset($item['display']) style="display: none !important;" @endisset>
+                                {{$item['label']}}
+                                @if(@isset($item['required']))
+                                    <span class='text-danger'>*</span>
+                                @endif
+                            </label>
                             @if (isset($item['select2']))
                                 <?php
-                                    $option = DB::table($item['select2'])->get()->toArray();
-                                    
+                                    $option = DB::table($item['select2'])->where('company_id', Helper::getCompanyId())->get()->toArray();
                                 ?>
                                     <select name="{{$item['col']}}" id="{{$item['col']}}" class="form-input select2">
                                         <option value="0" disabled selected>** Please Select **</option>
-                                        
+
                                         @foreach ($option as $list)
-                                            <option value="{{$list->id}}">{{$list->name}}</option>
+                                            <option value="{{$list->id}}" {{old($item['col']) == $list->id ? 'selected' : ''}}>{{$list->name}}</option>
                                         @endforeach
                                     </select>
                             @else
                                 @if (isset($item['textarea']))
-                                    <textarea name="{{$item['col']}}" id="{{$item['col']}}" class="form-input" @isset($data) placeholder="{{(@$data->{$item['col']})}}" @endisset @isset($item['value']) value="{{$item['value']}}" @endisset></textarea>
+                                    <textarea name="{{$item['col']}}" id="{{$item['col']}}" class="form-input" @isset($data) placeholder="{{(@$data->{$item['col']})}}" @endisset @isset($item['value']) value="{{old($item['col'])}}" @endisset></textarea>
                                 @else
-                                    <input class="form-input" @if (isset($item['type'])) type="{{$item['type']}}"@else type="text"@endif name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['required']))required @endif @if (isset($item['readonly']))readonly @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset @isset($item['value']) value="{{$item['value']}}" @endisset>
+                                    <input class="form-input" @if (isset($item['type'])) type="{{$item['type']}}"@else type="text"@endif name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{old($item['col'])}}">
                                 @endif
                             @endif
                         </div>
@@ -129,15 +133,27 @@
 @section('footer')
 <script type="text/javascript">
     $(document).ready(function() {
-        $('.select2').select2();
+        $('.select2').select2({
+            theme: 'bootstrap-5',
+        });
+        // $('.select2').css('width', '20em');
+        // $('.select2').css('height', '35px');
+        // $('.select2-selection__rendered').css('height', '35px');
+        // $('.select2').css('border', '1px solid lightgray');
+        // $('.select2').css('border-radius', '5px');
     });
-    $('.save').on('click', function(){
-        var country = $('#name').val();
-        if(country == null || country == ''){
-            Swal.fire('Cannot be empty!');
-        }
-        else{
-        }
+
+    $('.save').on('click', function(event){
+        $.each(<?php echo json_encode($forms); ?>, function(index, value){
+            if(value.hasOwnProperty('required') == true){
+                var col = $('#'+value.col).val();
+                if(col == null || col == ''){
+                    Swal.fire(value.label+' cannot be empty!');
+                    event.preventDefault();
+                }
+            }
+        });
     });
+
 </script>
 @endsection
