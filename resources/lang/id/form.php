@@ -37,7 +37,9 @@
             'History Transaction' => 'Riwayat Transaksi',
             'Item Transaction' => 'Transaksi Barang',
 
+        // Account
         'Profile' => 'Profil',
+
     ]
 
 ?>

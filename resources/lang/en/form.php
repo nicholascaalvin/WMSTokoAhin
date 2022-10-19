@@ -37,7 +37,9 @@
             'History Transaction' => 'History Transaction',
             'Item Transaction' => 'Item Transaction',
 
+        // Account
         'Profile' => 'Profile',
+        
     ]
 
 ?>

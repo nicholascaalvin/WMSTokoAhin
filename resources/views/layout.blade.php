@@ -92,7 +92,7 @@
                             {{auth()->user()->name}}
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">{{__('form.Profile')}}</a></li>
+                            <li><a class="dropdown-item" href="{{route('profile')}}">{{__('form.Profile')}}</a></li>
                             <form action="{{route('logout')}}" method="POST">
                                 @csrf
                                 <li><button class="dropdown-item" href="" type="submit">{{__('form.Logout')}}</button></li>
