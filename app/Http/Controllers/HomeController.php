@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Session;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends MNPController
 {

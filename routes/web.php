@@ -139,6 +139,7 @@ Route::middleware('auth')->group(function(){
     Route::post('/incomings/edit/{id}/save', [IncomingController::class, 'save']);
 
     // Profile
-    Route::get('/profile', [ProfileController::class, 'getIndex'])->name('profile');
+    Route::get('/profile/edit/{id}', [ProfileController::class, 'getDetail']);
+    Route::post('/profile/edit/{id}/save', [ProfileController::class, 'save']);
 
 });
