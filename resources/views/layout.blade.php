@@ -79,8 +79,8 @@
                       {{strtoupper(session('locale') ?? config('app.locale'))}}
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                      <li><a class="dropdown-item" href="{{url('/register/switch/en')}}">EN</a></li>
-                      <li><a class="dropdown-item" href="{{url('/register/switch/id')}}">ID</a></li>
+                      <li><a class="dropdown-item" href="{{url('/dashboard/switch/en')}}">EN</a></li>
+                      <li><a class="dropdown-item" href="{{url('/dashboard/switch/id')}}">ID</a></li>
                     </ul>
                 </div>
             </ul>
