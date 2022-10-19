@@ -5,6 +5,7 @@
         'Email Address' => 'Alamat Email',
         'Login' => 'Masuk',
         'Logout' => 'Keluar',
+        'Password' => 'Kata Sandi',
 
         //Register Page
         'Full Name' => 'Nama Lengkap',
@@ -16,6 +17,16 @@
         'Login Failed' => 'Gagal Masuk',
 
         //Layout Page
+            // Master Dropwdown
+            'Country' => 'Negara',
+            'Unit of Measurement' => 'Satuan Pengukuran',
+            'Brand' => 'Merek',
+            'Shelf Life' => 'Umur Simpan',
+            'Item' => 'Barang',
+            'Aisle' => 'Rak', // lorong / rak?
+            'Customer' => 'Pelanggan',
+            'Vendor' => 'Penjual',
+
         'Transaction' => 'Transaksi',
             //Transaction Dropdown
             'Incoming' => 'Pemasukan',

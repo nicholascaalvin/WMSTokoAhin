@@ -5,6 +5,7 @@
         'Email Address' => 'Email Address',
         'Login' => 'Login',
         'Logout' => 'Logout',
+        'Password' => 'Password',
 
         //Register Page
         'Full Name' => 'Full Name',
@@ -16,6 +17,16 @@
         'Login Failed' => 'Login Failed!',
 
         //Layout Page
+            // Master Dropwdown
+            'Country' => 'Country',
+            'Unit of Measurement' => 'Unit of Measurement',
+            'Brand' => 'Brand',
+            'Shelf Life' => 'Shelf Life',
+            'Item' => 'Item',
+            'Aisle' => 'Aisle',
+            'Customer' => 'Customer',
+            'Vendor' => 'Vendor',
+
         'Transaction' => 'Transaction',
             //Transaction Dropdown
             'Incoming' => 'Incoming',

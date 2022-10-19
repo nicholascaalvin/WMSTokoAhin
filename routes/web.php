@@ -13,6 +13,7 @@ use App\Http\Controllers\Master\ItemController;
 use App\Http\Controllers\Master\AislesController;
 use App\Http\Controllers\Master\CustomerController;
 use App\Http\Controllers\Master\VendorController;
+use App\Http\Controllers\MNPController;
 use App\Http\Controllers\Transaction\IncomingController;
 
 
@@ -59,6 +60,7 @@ Route::middleware('auth')->group(function(){
     //     return redirect(route('dashboard'));
     // });
     Route::get('/dashboard', [HomeController::class, 'getIndex'])->name('dashboard');
+    Route::get('/dashboard/switch/{locale}', [HomeController::class, 'switch']);
 
     //Master Country
     Route::get('/countries', [CountryController::class, 'getIndex'])->name('countries');
@@ -121,7 +123,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/customers/add', [CustomerController::class, 'getAdd']);
     Route::post('/customers/add/save', [CustomerController::class, 'save']);
 
-    //MasterVendor
+    //Master Vendor
     Route::get('/vendors', [VendorController::class, 'getIndex'])->name('vendors');
     Route::get('/vendors/add', [VendorController::class, 'getadd']);
     Route::post('/vendors/add/save', [VendorController::class, 'save']);
@@ -134,4 +136,8 @@ Route::middleware('auth')->group(function(){
     Route::get('/incomings/details/{id}', [IncomingController::class, 'getDetail']);
     Route::get('/incomings/edit/{id}', [IncomingController::class, 'getDetail']);
     Route::post('/incomings/edit/{id}/save', [IncomingController::class, 'save']);
+
+    // Profile
+    
+
 });
