@@ -13,7 +13,15 @@ use DB;
 class LoginController extends Controller
 {
     public function getIndex(Request $request){
+        if($locale = session('locale')){
+            app()->setLocale($locale);
+        }
         return view('authentication.login', ['title' => 'Login']);
+    }
+
+    public function switch($locale){
+        Session::put('locale', $locale);
+        return redirect()->back();
     }
 
     public function getData(Request $request){
@@ -27,7 +35,7 @@ class LoginController extends Controller
             return redirect()->intended(route('dashboard'));
         }
 
-        return back()->with('error', 'Login failed!');
+        return back()->with('error', 'Failed!');
     }
 
     public function logout(Request $request){

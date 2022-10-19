@@ -56,22 +56,33 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Transaction
+                        {{__('form.Transaction')}}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{{route('incomings')}}">Incoming</a></li>
-                        <li><a class="dropdown-item" href="#">Outgoing</a></li>
+                        <li><a class="dropdown-item" href="{{route('incomings')}}">{{__('form.Incoming')}}</a></li>
+                        <li><a class="dropdown-item" href="#">{{__('form.Outgoing')}}</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Report
+                        {{__('form.Report')}}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">History Transaction</a></li>
-                        <li><a class="dropdown-item" href="#">Item Transaction</a></li>
+                        <li><a class="dropdown-item" href="#">{{__('form.History Transaction')}}</a></li>
+                        <li><a class="dropdown-item" href="#">{{__('form.Item Transaction')}}</a></li>
                     </ul>
                 </li>
+            </ul>
+            <ul class="navbar-nav">
+                <div class="dropdown text-end">
+                    <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                      {{strtoupper(session('locale') ?? config('app.locale'))}}
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                      <li><a class="dropdown-item" href="{{url('/register/switch/en')}}">EN</a></li>
+                      <li><a class="dropdown-item" href="{{url('/register/switch/id')}}">ID</a></li>
+                    </ul>
+                </div>
             </ul>
             @if(auth()->user())
                 <ul class="navbar-nav">
@@ -81,17 +92,17 @@
                             {{auth()->user()->name}}
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">{{__('form.Profile')}}</a></li>
                             <form action="{{route('logout')}}" method="POST">
                                 @csrf
-                                <li><button class="dropdown-item" href="" type="submit">Logout</button></li>
+                                <li><button class="dropdown-item" href="" type="submit">{{__('form.Logout')}}</button></li>
                             </form>
                         </ul>
                     </li>
                 </ul>
                 @else
                 <form action="{{route('login_page')}}" method="GET">
-                    <button class="btn btn-primary">Login</button>
+                    <button class="btn btn-primary">{{__('form.Login')}}</button>
                 </form>
             @endif
           </div>

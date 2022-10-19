@@ -49,11 +49,19 @@ class MNPController extends Controller
 
     public function getIndex(){
         $this->load();
+
+        if($locale = session('locale')){
+            app()->setLocale($locale);
+        }
         return view('template.main', $this->data);
     }
 
     public function getAdd(){
         $this->load();
+
+        if($locale = session('locale')){
+            app()->setLocale($locale);
+        }
         return view('template.form', $this->data);
     }
 
@@ -63,11 +71,16 @@ class MNPController extends Controller
         $url = explode('/', $this->data['url']);
         $this->data['page'] = $url[2];
         // dd($this->data['row']);
+
+        if($locale = session('locale')){
+            app()->setLocale($locale);
+        }
         return view('template.detail', $this->data);
     }
 
-    public function checkDetailTable(){
-
+    public function switch($locale){
+        Session::put('locale', $locale);
+        return redirect()->back();
     }
 
     public function save(Request $request){

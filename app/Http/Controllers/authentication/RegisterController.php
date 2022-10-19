@@ -8,11 +8,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Session;
 
 class RegisterController extends Controller
 {
     public function getIndex(){
+        if($locale = session('locale')){
+            app()->setLocale($locale);
+        }
         return view('authentication.register', ['title' => 'Register']);
+    }
+
+    public function switch($locale){
+        Session::put('locale', $locale);
+        return redirect()->back();
     }
 
     public function storeData(Request $request){

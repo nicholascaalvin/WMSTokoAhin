@@ -22,14 +22,22 @@
 @endsection
 
 @section('content')
+<div class="dropdown text-end">
+    <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+      {{strtoupper(session('locale') ?? config('app.locale'))}}
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+      <li><a class="dropdown-item" href="{{url('/register/switch/en')}}">EN</a></li>
+      <li><a class="dropdown-item" href="{{url('/register/switch/id')}}">ID</a></li>
+    </ul>
+</div>
 <div class="card login-card" style="width: 26em;">
     <div class="card-body">
         <h5 class="card-title">Register</h5>
         <form method="POST" action="{{route('register_data')}}">
             @csrf
             <div class="mb-3">
-                {{-- <label for="name" class="form-label">{{__('full_name')}}</label> --}}
-                <label for="name" class="form-label">@lang('form.0')</label>
+                <label for="name" class="form-label">{{__('form.Full Name')}}</label>
                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name">
                 @error('name')
                     <div class="invalid-feedback">
@@ -38,7 +46,7 @@
                 @enderror
             </div>
             <div class="mb-3">
-                <label for="email" class="form-label">Email address</label>
+                <label for="email" class="form-label">{{__('form.Email Address')}}</label>
                 <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email">
                 @error('email')
                     <div class="invalid-feedback">
@@ -56,7 +64,7 @@
                 @enderror
             </div>
             <div class="mb-3">
-                <label for="password_confirmation" class="form-label">Confirm Password</label>
+                <label for="password_confirmation" class="form-label">{{__('form.ConfirmPW')}}</label>
                 <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" name="password_confirmation">
                 @error('password_confirmation')
                     <div class="invalid-feedback">
@@ -69,8 +77,8 @@
               <label class="form-check-label" for="exampleCheck1">Check me out</label>
             </div> --}}
             <div class="d-flex justify-content-between">
-                <a href="{{route('login_page')}}">Already have an account?</a>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <a href="{{route('login_page')}}">{{__('form.Account Exist')}}</a>
+                <button type="submit" class="btn btn-primary">{{__('form.Register')}}</button>
             </div>
         </form>
     </div>

@@ -22,13 +22,22 @@
 @endsection
 
 @section('content')
+<div class="dropdown text-end">
+    <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+      {{strtoupper(session('locale') ?? config('app.locale'))}}
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+      <li><a class="dropdown-item" href="{{url('/register/switch/en')}}">EN</a></li>
+      <li><a class="dropdown-item" href="{{url('/register/switch/id')}}">ID</a></li>
+    </ul>
+</div>
 <div class="card login-card" style="width: 26em;">
     <div class="card-body">
         <h5 class="card-title">Login</h5>
         <form method="POST" action="{{route('login_data')}}">
             @csrf
             <div class="mb-3">
-                <label for="email" class="form-label">Email address</label>
+                <label for="email" class="form-label">{{__('form.Email Address')}}</label>
                 <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email">
                 @error('email')
                     <div class="invalid-feedback">
@@ -49,8 +58,8 @@
               <input type="checkbox" class="form-check-input" id="exampleCheck1">
               <label class="form-check-label" for="exampleCheck1">Check me out</label>
             </div> --}}
-            <button type="submit" class="btn btn-primary">
-                Login
+            <button type="submit" class="btn btn-primary" style="width: 5em">
+                {{__('form.Login')}}
             </button>
         </form>
     </div>
