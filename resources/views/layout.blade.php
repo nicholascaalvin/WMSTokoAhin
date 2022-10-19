@@ -11,6 +11,9 @@
     {{-- select2 css --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+    {{-- flatpickr date  css--}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
     <style>
         .bi-person-circle{
             font-size: 2em;
@@ -48,6 +51,7 @@
                         <li><a class="dropdown-item" href="{{route('items')}}">Item</a></li>
                         <li><a class="dropdown-item" href="{{route('aisles')}}">Aisle</a></li>
                         <li><a class="dropdown-item" href="{{route('customers')}}">Customer</a></li>
+                        <li><a class="dropdown-item" href="{{route('vendors')}}">Vendor</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -55,7 +59,7 @@
                         Transaction
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{{route('incoming')}}">Incoming</a></li>
+                        <li><a class="dropdown-item" href="{{route('incomings')}}">Incoming</a></li>
                         <li><a class="dropdown-item" href="#">Outgoing</a></li>
                     </ul>
                 </li>
@@ -120,6 +124,9 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
     {{-- sweetalert2 js --}}
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{-- flatpickr date js --}}
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
     <script type="text/javascript">
         @isset($js)
             {!! $js !!}

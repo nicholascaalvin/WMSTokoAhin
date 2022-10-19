@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTransDateToIncomingTable extends Migration
+class CreateVendorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class AddTransDateToIncomingTable extends Migration
      */
     public function up()
     {
-        Schema::table('incoming', function (Blueprint $table) {
-            $table->date('trans_date');
+        Schema::create('vendors', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+            $table->string('name');
+
+            $table->foreignId('company_id')->constrained('companies');
         });
     }
 
@@ -25,8 +29,6 @@ class AddTransDateToIncomingTable extends Migration
      */
     public function down()
     {
-        Schema::table('incoming', function (Blueprint $table) {
-            $table->dropColumn('trans_date');
-        });
+        Schema::dropIfExists('vendors');
     }
 }

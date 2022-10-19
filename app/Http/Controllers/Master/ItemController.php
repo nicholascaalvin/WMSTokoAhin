@@ -16,7 +16,7 @@ class ItemController extends MNPController
         $this->title = 'Item List';
         $this->table = 'items';
 
-        $this->main[] = ['label' => 'id', 'col' => 'id', 'display' => 'none'];
+        $this->main[] = ['label' => 'id', 'col' => 'id', 'input' => true];
         $this->main[] = ['label' => 'Item Name', 'col' => 'name'];
         $this->main[] = ['label' => 'Incoming', 'col' => 'incoming'];
         $this->main[] = ['label' => 'Outgoing', 'col' => 'outgoing'];
@@ -27,12 +27,13 @@ class ItemController extends MNPController
         $this->forms[] = ['label' => 'Item UOM', 'col' => 'uom_id', 'select2' => 'uoms', 'required' => true];
         $this->forms[] = ['label' => 'Item Weight (gr)', 'col' => 'weight', 'required' => true];
         $this->forms[] = ['label' => 'Item Origin', 'col' => 'country_id', 'select2' => 'countries', 'required' => true];
-        $this->forms[] = ['label' => 'Description', 'col' => 'description'];
+        $this->forms[] = ['label' => 'Description', 'col' => 'description', 'textarea' => true];
     }
 
     public function save(Request $request){
         $this->load();
         $this->inputs = [];
+        $page = explode('/', $this->data['url']);
         $request = $request->all();
         $now = date('Y-m-d H:i:s');
         foreach ($this->forms as $key => $value) {
@@ -42,17 +43,25 @@ class ItemController extends MNPController
                 }
             }
         }
-        $this->inputs['created_at'] = $now;
-        $this->inputs['company_id'] = Helper::getCompanyId();
-        $name = $this->inputs['name'];
-        $exist = DB::table($this->table)->where('company_id', $this->inputs['company_id'])->where('name', $name)->get();
-        // dd(count($exist) >= 1);
-        if(count($exist) > 0){
-            return redirect()->back()->with('error', 'Data existed!')->withInput();
+        if($page[2] == 'edit'){
+            $this->inputs['updated_at'] = $now;
+            $id = $page[3];
+            DB::table($this->table)->where('id', $id)->where('company_id', Helper::getCompanyId())->update($this->inputs);
+            return redirect('/'.$this->table)->with('success', 'Successfully edited the data');
         }
         else{
-            DB::table($this->table)->insert($this->inputs);
-            return redirect('/'.$this->table)->with('success', 'Successfully added new data');
+            $this->inputs['created_at'] = $now;
+            $this->inputs['company_id'] = Helper::getCompanyId();
+            $name = $this->inputs['name'];
+            $exist = DB::table($this->table)->where('company_id', $this->inputs['company_id'])->where('name', $name)->get();
+            // dd(count($exist) >= 1);
+            if(count($exist) > 0){
+                return redirect()->back()->with('error', 'Data existed!')->withInput();
+            }
+            else{
+                DB::table($this->table)->insert($this->inputs);
+                return redirect('/'.$this->table)->with('success', 'Successfully added new data');
+            }
         }
     }
 

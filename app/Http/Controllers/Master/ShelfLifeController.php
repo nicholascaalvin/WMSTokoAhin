@@ -3,10 +3,6 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\MNPController;
-use Request;
-use DB;
-use Auth;
-use PDO;
 
 class ShelfLifeController extends MNPController
 {
@@ -15,7 +11,7 @@ class ShelfLifeController extends MNPController
         $this->title = 'Shelf Life';
         $this->table = 'shelflifes';
 
-        $this->main[] = ['label' => 'id', 'col' => 'id', 'display' => 'none'];
+        $this->main[] = ['label' => 'id', 'col' => 'id', 'input' => true];
         $this->main[] = ['label' => 'Shelf Life', 'col' => 'periods'];
 
         $this->forms[] = ['label' => 'Periods', 'col' => 'periods', 'required' => true];

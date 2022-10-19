@@ -3,17 +3,13 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\MNPController;
-use Request;
-use DB;
-use Auth;
-
 class CustomerController extends MNPController
 {
     public function init(){
         $this->title = 'Customer';
         $this->table = 'customers';
 
-        $this->main[] = ['label' => 'id', 'col' => 'id', 'display' => 'none'];
+        $this->main[] = ['label' => 'id', 'col' => 'id', 'input' => true];
         $this->main[] = ['label' => 'Customer Name', 'col' => 'name'];
 
         $this->forms[] = ['label' => 'Customer Name', 'col' => 'name', 'required' => true];

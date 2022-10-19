@@ -3,9 +3,6 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\MNPController;
-use Request;
-use DB;
-use Auth;
 
 class UOMController extends MNPController
 {
@@ -13,7 +10,7 @@ class UOMController extends MNPController
         $this->title = 'Unit Of Measurements';
         $this->table = 'uoms';
 
-        $this->main[] = ['label' => 'id', 'col' => 'id', 'display' => 'none'];
+        $this->main[] = ['label' => 'id', 'col' => 'id', 'input' => true];
         $this->main[] = ['label' => 'UOM Name', 'col' => 'name'];
 
         $this->forms[] = ['label' => 'UOM Name', 'col' => 'name', 'required' => true];

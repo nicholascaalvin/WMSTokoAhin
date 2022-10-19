@@ -16,7 +16,7 @@ class Helper{
         return $myName;
     }
 
-    public static function getCurrentUrl(){
+    public static function getFullUrl(){
         $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         return $url;
     }

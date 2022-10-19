@@ -3,14 +3,6 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\MNPController;
-use Illuminate\Support\Facades\DB;
-use App\Helpers\Helper;
-use Illuminate\Http\Request;
-use App\Models\Country;
-
-// use Request;
-// use DB;
-// use Auth;
 
 class CountryController extends MNPController
 {
@@ -18,7 +10,7 @@ class CountryController extends MNPController
         $this->title = 'Countries';
         $this->table = 'countries';
 
-        $this->main[] = ['label' => 'id', 'col' => 'id', 'display' => 'none'];
+        $this->main[] = ['label' => 'id', 'col' => 'id', 'input' => true];
         $this->main[] = ['label' => 'Country Name', 'col' => 'name'];
 
         $this->forms[] = ['label' => 'Country Name', 'col' => 'name', 'required' => true];

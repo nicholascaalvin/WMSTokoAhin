@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateIncomingTable extends Migration
+class CreateIncomingsDetailTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,15 @@ class CreateIncomingTable extends Migration
      */
     public function up()
     {
-        Schema::create('incoming', function (Blueprint $table) {
+        Schema::create('incomings_detail', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('voucher_no');
-            $table->string('vendor')->nullable();
+            $table->foreignId('incomings_id')->constrained('incomings');
+            $table->foreignId('item_id')->constrained('items');
+            $table->integer('qty');
 
             $table->foreignId('company_id')->constrained('companies');
+
         });
     }
 
@@ -30,6 +32,6 @@ class CreateIncomingTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('incoming');
+        Schema::dropIfExists('incomings_detail');
     }
 }

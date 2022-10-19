@@ -3,9 +3,6 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\MNPController;
-use Request;
-use DB;
-use Auth;
 
 class BrandController extends MNPController
 {
@@ -14,7 +11,7 @@ class BrandController extends MNPController
         $this->title = 'Brands';
         $this->table = 'brands';
 
-        $this->main[] = ['label' => 'id', 'col' => 'id', 'display' => 'none'];
+        $this->main[] = ['label' => 'id', 'col' => 'id', 'input' => true];
         $this->main[] = ['label' => 'Brand Name', 'col' => 'name'];
 
         $this->forms[] = ['label' => 'Brand Name', 'col' => 'name', 'required' => true];

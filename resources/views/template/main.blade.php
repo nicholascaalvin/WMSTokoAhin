@@ -33,6 +33,7 @@
 @endsection
 --}}
 
+@section('header')
 <style type="text/css">
     .card{
         margin: 10px;
@@ -53,6 +54,7 @@
         color: black;
     }
 </style>
+@endsection
 
 @extends('layout')
 
@@ -88,7 +90,9 @@
                         <tr>
                             <th style="width: 1%;">NO.</th>
                             @foreach ($main as $th)
-                                <th @isset($th['width'])style="width: {{$th['width']}}" @endisset  @isset($th['display']) style="display: none;" @endisset>{{$th['label']}}</th>
+                                @if (!isset($th['input']))
+                                    <th @isset($th['width'])style="width: {{$th['width']}}" @endisset  @isset($th['display']) style="display: none;" @endisset>{{$th['label']}}</th>
+                                @endif
                             @endforeach
                             <th style="width: 1%">Action</th>
                         </tr>
@@ -96,25 +100,32 @@
                     <tbody>
                         @foreach ($contents as $index => $item)
                             <tr>
-                                <td class="text-center">{{$index + 1}}</td>
-                                @foreach ($main as $td)
-                                    <td class="{{$td['col']}}" @isset($td['display']) style="display: none;" @endisset>{{(@$item->{$td['col']})}}</td>
-                                @endforeach
-                                <td style="text-align: center">
-                                    <div class="dropdown">
-                                        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 0;">
-                                            <i class="bi bi-three-dots-vertical"></i>
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" id="edit-btn">Edit</a></li>
-                                            {{-- <form action="/{{$table}}/delete">
-                                                @csrf
-                                                <button type="submit">Delete</button> --}}
-                                                <li><a class="dropdown-item delete-btn">Delete</a></li>
-                                            {{-- </form> --}}
-                                        </ul>
-                                    </div>
-                                </td>
+                                <form action="/{{$table}}/delete">
+                                    @csrf
+                                    <td class="text-center">{{$index + 1}}</td>
+                                    @foreach ($main as $key => $td)
+                                        @if (isset($td['input']))
+                                            <input type="hidden" id="id" name="id" value="{{(@$item->{$td['col']})}}">
+                                        @else
+                                            @if ($key == 1)
+                                            <td class="{{$td['col']}}"><a href="#" onclick="openDetail(this);" style="text-decoration: none">{{(@$item->{$td['col']})}}</a></td>
+                                            @else
+                                            <td class="{{$td['col']}}">{{(@$item->{$td['col']})}}</td>
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                    <td style="text-align: center">
+                                        <div class="dropdown">
+                                            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 0;">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item edit-btn">Edit</a></li>
+                                                <li><button class="dropdown-item delete-btn" type="submit">Delete</button></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </form>
                             </tr>
                         @endforeach
                     </tbody>
@@ -126,21 +137,14 @@
 
 @section('footer')
 <script type="text/javascript">
-    $('.delete-btn').on('click', function(event){
-        var row = event.currentTarget.parentNode.parentNode.parentNode.parentNode.parentNode;
-        $.ajax({
-            url: '{{(new \App\Helpers\Helper)->getCurrentUrl()}}/delete',
-            type: 'GET',
-            data: {
-                'id': $(row).find('td.id').text(),
-            },
-            success: function(data){
-                console.log(data);
-                if(data == 'currently used'){
-                    Swal.fire('This data is currently in used!');
-                }
-            },
-        })
+    function openDetail(row){
+        var id = $(row.parentNode.parentNode).find('input#id').val();
+        window.location.replace('{{(new \App\Helpers\Helper)->getFullUrl()}}/details/'+id);
+    }
+    $('.edit-btn').on('click', function(){
+        var row = this.parentNode.parentNode.parentNode.parentNode.parentNode;
+        var id = $(row).find('input#id').val();
+        window.location.replace('{{(new \App\Helpers\Helper)->getFullUrl()}}/edit/'+id);
     });
 </script>
 @endsection
