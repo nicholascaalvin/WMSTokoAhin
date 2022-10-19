@@ -46,7 +46,7 @@
                 @enderror
             </div>
             <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
+                <label for="password" class="form-label">{{__('form.Password')}}</label>
                 <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password">
                 @error('password')
                     <div class="invalid-feedback">

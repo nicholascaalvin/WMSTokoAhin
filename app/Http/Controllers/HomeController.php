@@ -14,6 +14,17 @@ class HomeController extends MNPController
     }
 
     public function getIndex(){
+
+        if($locale = session('locale')){
+            app()->setLocale($locale);
+        }
+
         return view('home', ['title' => 'Dashboard']);
     }
+
+    public function switch($locale){
+        Session::put('locale', $locale);
+        return redirect()->back();
+    }
+
 }
