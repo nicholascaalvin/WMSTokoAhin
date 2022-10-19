@@ -14,6 +14,7 @@ use App\Http\Controllers\Master\AislesController;
 use App\Http\Controllers\Master\CustomerController;
 use App\Http\Controllers\Master\VendorController;
 use App\Http\Controllers\MNPController;
+use App\Http\Controllers\Account\ProfileController;
 use App\Http\Controllers\Transaction\IncomingController;
 
 
@@ -138,6 +139,6 @@ Route::middleware('auth')->group(function(){
     Route::post('/incomings/edit/{id}/save', [IncomingController::class, 'save']);
 
     // Profile
-    
+    Route::get('/profile', [ProfileController::class, 'getIndex'])->name('profile');
 
 });

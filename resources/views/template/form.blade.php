@@ -51,7 +51,7 @@
     <div class="card">
         <div class="card-header" style="border-bottom: none">
             <div class="header-content d-flex justify-content-between align-items-center">
-                <h1>Add New {{$title}}</h1>
+                <h1>@if($title != 'Profile')Add New @endif {{$title}}</h1>
             </div>
         </div>
         <div class="card-body">
