@@ -93,16 +93,6 @@ Route::middleware('auth')->group(function(){
     Route::delete('/brands/delete', [BrandController::class, 'delete']);
     // route::get('/brands/search', [BrandController::class, 'searchBrands'])->name('search-brands');
 
-    //Master Shelf Life
-    Route::get('/shelflifes', [ShelfLifeController::class, 'getIndex'])->name('shelflifes');
-    Route::get('/shelflifes/add', [ShelfLifeController::class, 'getAdd']);
-    Route::post('/shelflifes/add/save', [ShelfLifeController::class, 'save']);
-    Route::get('/shelflifes/details/{id}', [ShelfLifeController::class, 'getDetail']);
-    Route::get('/shelflifes/edit/{id}', [ShelfLifeController::class, 'getDetail']);
-    Route::post('/shelflifes/edit/{id}/save', [ShelfLifeController::class, 'save']);
-    Route::delete('/shelflifes/delete', [ShelfLifeController::class, 'delete']);
-    // route::get('/shelflifes/search', [ShelflifeController::class, 'searchShelflifes'])->name('search-shelflifes');
-
     //Master Items
     Route::get('/items', [ItemController::class, 'getIndex'])->name('items');
     Route::get('/items/add', [ItemController::class, 'getAdd']);

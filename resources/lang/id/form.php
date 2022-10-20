@@ -21,7 +21,6 @@
             'Country' => 'Negara',
             'Unit of Measurement' => 'Satuan Pengukuran',
             'Brand' => 'Merek',
-            'Shelf Life' => 'Umur Simpan',
             'Item' => 'Barang',
             'Aisle' => 'Rak', // lorong / rak?
             'Customer' => 'Pelanggan',
@@ -44,7 +43,6 @@
         'Countries' => 'Negara',
         'Unit Of Measurements' => 'Satuan Pengukuran',
         'Brands' => 'Merek',
-        'Shelf Life' => 'Umur Simpan',
         'Items' => 'Barang',
         'Aisles' => 'Rak', // lorong / rak?
         'Customers' => 'Pelanggan',
