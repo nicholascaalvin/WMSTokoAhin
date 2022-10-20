@@ -100,15 +100,15 @@ class MNPController extends Controller
                 }
             }
         }
+        $this->inputs['company_id'] = Helper::getCompanyId();
         if($page[2] == 'edit'){
             $this->inputs['updated_at'] = $now;
             $id = $page[3];
-            DB::table($this->table)->where('id', $id)->where('company_id', Helper::getCompanyId())->update($this->inputs);
+            DB::table($this->table)->where('id', $id)->where('company_id', $this->inputs['company_id'])->update($this->inputs);
             return redirect('/'.$this->table)->with('success', 'Successfully edited the data');
         }
         else{
             $this->inputs['created_at'] = $now;
-            $this->inputs['company_id'] = Helper::getCompanyId();
             $exist = DB::table($this->table)->where('company_id', $this->inputs['company_id'])->whereRaw($like." like '%$col%'")->get();
             if(count($exist) > 0){
                 return redirect()->back()->with('error', 'Data existed!')->withInput();
@@ -125,7 +125,7 @@ class MNPController extends Controller
         $id = $request->all()['id'];
         try {
             $this->deleteDetails($id);
-            DB::table($this->table)->where('id', $id)->delete();
+            DB::table($this->table)->where('id', $id)->where('company_id', Helper::getCompanyId())->delete();
             return redirect()->back()->with('success', 'Successfully deleted data!');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'This data is currently in used!');

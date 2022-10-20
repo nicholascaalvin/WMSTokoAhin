@@ -17,23 +17,4 @@ class ShelfLifeController extends MNPController
         $this->forms[] = ['label' => 'Periods', 'col' => 'periods', 'required' => true];
     }
 
-    /*
-    public function getIndex(){
-        $data = DB::table('shelflife')->get();
-        return view('master.shelflife.main', [
-            'title' => 'Shelf Life',
-            'data' => $data,
-        ]);
-    }
-
-    public function getAddShelflifes(){
-        return view('master.shelflife.form', [
-            'title' => 'Shelf Life',
-        ]);
-    }
-
-    public function searchShelflifes(){
-        dd('search');
-    }
-    */
 }

@@ -100,9 +100,9 @@ class IncomingController extends MNPController
     }
 
     public function updateStock(){
-        $item = DB::table('incomings_detail')->select('item_id', DB::raw('sum(qty) as qty'))->groupBy('item_id')->get()->toArray();
+        $item = DB::table('incomings_detail')->select('item_id', DB::raw('sum(qty) as qty'))->groupBy('item_id')->where('company_id', Helper::getCompanyId())->get()->toArray();
         foreach ($item as $key => $value) {
-            DB::table('items')->where('id', $value->item_id)->update([
+            DB::table('items')->where('id', $value->item_id)->where('company_id', Helper::getCompanyId())->update([
                 'incoming' => $value->qty,
             ]);
         }

@@ -47,7 +47,7 @@ class ProfileController extends MNPController
                     if(!str_contains($value, '.com')){
                         $status = 'email gaada .com';
                     }
-                    $users = DB::table('users')->get();
+                    $users = DB::table('users')->where('company_id', Helper::getCompanyId())->get();
                     foreach ($users as $index => $data) {
                         if($value == $data->email){
                             $status = 'email sama';
@@ -91,7 +91,7 @@ class ProfileController extends MNPController
 
     // public function getIndex(){
     //     $this->load();
-        
+
     //     if($locale = session('locale')){
     //         app()->setLocale($locale);
     //     }
