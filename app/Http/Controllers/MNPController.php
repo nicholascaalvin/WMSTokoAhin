@@ -134,4 +134,14 @@ class MNPController extends Controller
 
     public function deleteDetails($id){
     }
+
+    public function updateAllStock(){
+        $item = DB::table('incomings_detail')->select('item_id', DB::raw('sum(qty) as qty'))->groupBy('item_id')->where('company_id', Helper::getCompanyId())->get()->toArray();
+        foreach ($item as $key => $value) {
+            DB::table('items')->where('id', $value->item_id)->where('company_id', Helper::getCompanyId())->update([
+                'incoming' => $value->qty,
+            ]);
+        }
+        echo 'Updated!';
+    }
 }

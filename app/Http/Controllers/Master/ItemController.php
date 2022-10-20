@@ -23,11 +23,12 @@ class ItemController extends MNPController
         $this->main[] = ['label' => 'Stock', 'col' => 'stock'];
 
         $this->forms[] = ['label' => 'Item Name', 'col' => 'name', 'required' => true];
-        $this->forms[] = ['label' => 'Item Brand', 'col' => 'brand_id', 'select2' => 'brands'];
-        $this->forms[] = ['label' => 'Item UOM', 'col' => 'uom_id', 'select2' => 'uoms', 'required' => true];
-        $this->forms[] = ['label' => 'Item Weight (gr)', 'col' => 'weight', 'required' => true];
-        $this->forms[] = ['label' => 'Item Origin', 'col' => 'country_id', 'select2' => 'countries', 'required' => true];
-        $this->forms[] = ['label' => 'Description', 'col' => 'description', 'textarea' => true];
+        $this->forms[] = ['label' => 'Item Brand', 'col' => 'brand_id', 'type' => 'select2', 'select2_table' => 'brands'];
+        $this->forms[] = ['label' => 'Item UOM', 'col' => 'uom_id', 'type' => 'select2', 'select2_table' => 'uoms', 'required' => true];
+        $this->forms[] = ['label' => 'Item Life', 'col' => 'life', 'type' => 'life', 'required' => true];
+        $this->forms[] = ['label' => 'Item Weight (gr)', 'col' => 'weight', 'type' => 'number', 'required' => true];
+        $this->forms[] = ['label' => 'Item Origin', 'col' => 'country_id', 'type' => 'select2', 'select2_table' => 'countries', 'required' => true];
+        $this->forms[] = ['label' => 'Description', 'col' => 'description', 'type' => 'textarea'];
 
         $this->loadStock();
     }
@@ -45,6 +46,7 @@ class ItemController extends MNPController
                 }
             }
         }
+        $this->inputs['strlife'] = $request['strlife'];
         $this->inputs['company_id'] = Helper::getCompanyId();
         if($page[2] == 'edit'){
             $this->inputs['updated_at'] = $now;

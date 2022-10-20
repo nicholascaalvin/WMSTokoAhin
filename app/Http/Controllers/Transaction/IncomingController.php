@@ -18,8 +18,8 @@ class IncomingController extends MNPController
         $this->main[] = ['label' => 'Transaction Date', 'col' => 'transaction_date'];
 
         $this->forms[] = ['label' => 'Transaction No', 'col' => 'transaction_no', 'required' => true];
-        $this->forms[] = ['label' => 'Transaction Date', 'col' => 'transaction_date', 'datetime' => true, 'datetime_type' => 'datetime', 'required' => true];
-        $this->forms[] = ['label' => 'Vendor', 'col' => 'vendor_id', 'select2' => 'vendors', 'required' => true];
+        $this->forms[] = ['label' => 'Transaction Date', 'col' => 'transaction_date', 'type' => 'datetime', 'datetime_type' => 'datetime', 'required' => true];
+        $this->forms[] = ['label' => 'Vendor', 'col' => 'vendor_id', 'type' => 'select2', 'select2_table' => 'vendors', 'required' => true];
 
         $this->details[] = ['label' => 'Item Name', 'col' => 'detail_item_id', 'select2' => 'items', 'required' => true];
         $this->details[] = ['label' => 'Quantity', 'col' => 'detail_item_qty', 'type' => 'number',  'required' => true];
@@ -75,8 +75,8 @@ class IncomingController extends MNPController
                     'qty' => $detail_item_qty[$key],
                     'company_id' => Helper::getCompanyId(),
                 ]);
+                $this->updateStock($value, $detail_item_qty[$key]);
             }
-            $this->updateStock();
             return redirect('/'.$this->table)->with('success', 'Successfully edited the data');
         }
         else{
@@ -89,23 +89,26 @@ class IncomingController extends MNPController
                     'qty' => $detail_item_qty[$key],
                     'company_id' => Helper::getCompanyId(),
                 ]);
+                $this->updateStock($value, $detail_item_qty[$key]);
             }
-            $this->updateStock();
             return redirect('/'.$this->table)->with('success', 'Successfully added new data');
         }
     }
 
     public function deleteDetails($id){
+        DB::table('items')->where('company_id', Helper::getCompanyId())->update([
+            'incoming' => 0,
+        ]);
         DB::table('incomings_detail')->where('company_id', Helper::getCompanyId())->where('incomings_id', $id)->delete();
+        $this->updateAllStock();
     }
 
-    public function updateStock(){
-        $item = DB::table('incomings_detail')->select('item_id', DB::raw('sum(qty) as qty'))->groupBy('item_id')->where('company_id', Helper::getCompanyId())->get()->toArray();
-        foreach ($item as $key => $value) {
-            DB::table('items')->where('id', $value->item_id)->where('company_id', Helper::getCompanyId())->update([
-                'incoming' => $value->qty,
-            ]);
-        }
+    public function updateStock($item_id, $qty){
+        $current_qty = DB::table('items')->where('id', $item_id)->where('company_id', Helper::getCompanyId())->pluck('incoming')->first();
+        $current_qty += $qty;
+        DB::table('items')->where('id', $item_id)->where('company_id', Helper::getCompanyId())->update([
+            'incoming' => $current_qty,
+        ]);
     }
 
     // public function getIndex(){

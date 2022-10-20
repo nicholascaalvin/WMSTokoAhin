@@ -29,74 +29,90 @@
                 @csrf
                 @foreach ($forms as $item)
                     <div class="d-flex align-items-center" @isset($item['display']) style="display: none !important;"  @endisset>
-                        <label for="{{$item['col']}}" @isset($item['display']) style="display: none !important;" @endisset>
-                            {{$item['label']}}
-                            @if(@isset($item['required']))
-                                <span class='text-danger'>*</span>
+                        <div class="label">
+                            <label for="{{$item['col']}}" @isset($item['display']) style="display: none !important;" @endisset>
+                                {{$item['label']}}
+                                @if(@isset($item['required']))
+                                    <span class='text-danger'>*</span>
+                                @endif
+                            </label>
+                        </div>
+                        <div class="inputs" style="width: 20em">
+                            @if (isset($item['type']))
+                                @if ($item['type'] == 'select2')
+                                    <?php
+                                        $option = DB::table($item['select2_table'])->where('company_id', Helper::getCompanyId())->get();
+                                        if (isset($contents->brand_id)) {
+                                            $brand = DB::table($item['select2_table'])->where('id', $contents->brand_id)->where('company_id', Helper::getCompanyId())->first();
+                                        }
+                                        if (isset($contents->uom_id)) {
+                                            $uom = DB::table($item['select2_table'])->where('id', $contents->uom_id)->where('company_id', Helper::getCompanyId())->first();
+                                        }
+                                        if (isset($contents->country_id)) {
+                                            $country = DB::table($item['select2_table'])->where('id', $contents->country_id)->where('company_id', Helper::getCompanyId())->first();
+                                        }
+                                        if(isset($contents->vendor_id)){
+                                            $vendor = DB::table($item['select2_table'])->where('id', $contents->vendor_id)->where('company_id', Helper::getCompanyId())->first();
+                                        }
+                                    ?>
+                                    <select name="{{$item['col']}}" id="{{$item['col']}}" class="form-input select2" @if ($page == 'details') disabled @endif>
+                                        <option value="0" selected disabled>** Please Select **</option>
+                                        @foreach ($option as $list)
+                                            @if ($item['select2_table'] == 'uoms')
+                                                @if ($list->id == $uom->id)
+                                                    <option value="{{$list->id}}" selected>{{$list->name}}</option>
+                                                @else
+                                                    <option value="{{$list->id}}">{{$list->name}}</option>
+                                                @endif
+                                            @elseif ($item['select2_table'] == 'countries')
+                                                @if ($list->id == $country->id)
+                                                    <option value="{{$list->id}}" selected>{{$list->name}}</option>
+                                                @else
+                                                    <option value="{{$list->id}}">{{$list->name}}</option>
+                                                @endif
+                                            @elseif ($item['select2_table'] == 'brands')
+                                                @if ($list->id == $brand->id)
+                                                    <option value="{{$list->id}}" selected>{{$list->name}}</option>
+                                                @else
+                                                    <option value="{{$list->id}}">{{$list->name}}</option>
+                                                @endif
+                                            @elseif ($item['select2_table'] == 'vendors')
+                                                @if ($list->id == $vendor->id)
+                                                    <option value="{{$list->id}}" selected>{{$list->name}}</option>
+                                                @else
+                                                    <option value="{{$list->id}}">{{$list->name}}</option>
+                                                @endif
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                @elseif ($item['type'] == 'textarea')
+                                    <textarea name="{{$item['col']}}" id="{{$item['col']}}" class="form-input" @isset($data) placeholder="{{(@$data->{$item['col']})}}" @endisset @if ($page == 'details') disabled @endif>{{(@$contents->{$item['col']})}}</textarea>
+                                @elseif ($item['type'] == 'datetime')
+                                    <input class="form-input {{$item['datetime_type']}}" name="{{$item['col']}}" id="{{$item['col']}}" @endif value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
+                                @elseif ($item['type'] == 'life')
+                                    <input class="form-input" type="number" name="{{$item['col']}}" id="{{$item['col']}}" style="width: 70.5%" value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
+                                    <select class="form-input" name="str{{$item['col']}}" id="str{{$item['col']}}" style="width: 28%" @if ($page == 'details') disabled @endif>
+                                        @if ((@$contents->{'str'.$item['col']}) == 'Day')
+                                            <option value="Day" selected>Day</option>
+                                            <option value="Week">Week</option>
+                                            <option value="Year">Year</option>
+                                        @elseif ((@$contents->{'str'.$item['col']}) == 'Week')
+                                            <option value="Day">Day</option>
+                                            <option value="Week" selected>Week</option>
+                                            <option value="Year">Year</option>
+                                        @else
+                                            <option value="Day">Day</option>
+                                            <option value="Week">Week</option>
+                                            <option value="Year" selected>Year</option>
+                                        @endif
+                                    </select>
+                                @else
+                                    <input class="form-input" @if (isset($item['type'])) type="{{$item['type']}}"@else type="text"@endif name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
+                                @endif
+                            @else
+                                <input class="form-input" type="text" name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
                             @endif
-                        </label>
-                        @if (isset($item['select2']))
-                            <?php
-                                $option = DB::table($item['select2'])->where('company_id', Helper::getCompanyId())->get();
-                                if (isset($contents->brand_id)) {
-                                    $brand = DB::table($item['select2'])->where('id', $contents->brand_id)->where('company_id', Helper::getCompanyId())->first();
-                                }
-                                if (isset($contents->uom_id)) {
-                                    $uom = DB::table($item['select2'])->where('id', $contents->uom_id)->where('company_id', Helper::getCompanyId())->first();
-                                }
-                                if (isset($contents->country_id)) {
-                                    $country = DB::table($item['select2'])->where('id', $contents->country_id)->where('company_id', Helper::getCompanyId())->first();
-                                }
-                                if(isset($contents->vendor_id)){
-                                    $vendor = DB::table($item['select2'])->where('id', $contents->vendor_id)->where('company_id', Helper::getCompanyId())->first();
-                                }
-                            ?>
-                            <select name="{{$item['col']}}" id="{{$item['col']}}" class="form-input select2" @if ($page == 'details') disabled @endif>
-                                <option value="0" selected disabled>** Please Select **</option>
-                                {{-- @if ($item['select2'] == 'uoms')
-                                    <option value="{{$uom->id}}" selected>{{$uom->name}}</option>
-                                @elseif ($item['select2'] == 'countries')
-                                    <option value="{{$country->id}}" selected>{{$country->name}}</option>
-                                @elseif ($item['select2'] == 'brands')
-                                    <option value="{{$brand->id}}" selected>{{$brand->name}}</option>
-                                @elseif ($item['select2'] == 'vendors')
-                                    <option value="{{$vendor->id}}" selected>{{$vendor->name}}</option>
-                                @endif --}}
-                                @foreach ($option as $list)
-                                    @if ($item['select2'] == 'uoms')
-                                        @if ($list->id == $uom->id)
-                                            <option value="{{$list->id}}" selected>{{$list->name}}</option>
-                                        @else
-                                            <option value="{{$list->id}}">{{$list->name}}</option>
-                                        @endif
-                                    @elseif ($item['select2'] == 'countries')
-                                        @if ($list->id == $country->id)
-                                            <option value="{{$list->id}}" selected>{{$list->name}}</option>
-                                        @else
-                                            <option value="{{$list->id}}">{{$list->name}}</option>
-                                        @endif
-                                    @elseif ($item['select2'] == 'brands')
-                                        @if ($list->id == $brand->id)
-                                            <option value="{{$list->id}}" selected>{{$list->name}}</option>
-                                        @else
-                                            <option value="{{$list->id}}">{{$list->name}}</option>
-                                        @endif
-                                    @elseif ($item['select2'] == 'vendors')
-                                        @if ($list->id == $vendor->id)
-                                            <option value="{{$list->id}}" selected>{{$list->name}}</option>
-                                        @else
-                                            <option value="{{$list->id}}">{{$list->name}}</option>
-                                        @endif
-                                    @endif
-                                @endforeach
-                            </select>
-                        @elseif (isset($item['textarea']))
-                            <textarea name="{{$item['col']}}" id="{{$item['col']}}" class="form-input" @isset($data) placeholder="{{(@$data->{$item['col']})}}" @endisset @isset($item['value']) value="{{(@$contents->{$item['col']})}}" @endisset @if ($page == 'details') disabled @endif></textarea>
-                        @elseif(isset($item['datetime']))
-                            <input class="form-input {{$item['datetime_type']}}" name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['type'])) type="{{$item['type']}}"@else type="text"@endif value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
-                        @else
-                            <input class="form-input" @if (isset($item['type'])) type="{{$item['type']}}"@else type="text"@endif name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
-                        @endif
+                        </div>
                     </div>
                     <br>
                 @endforeach

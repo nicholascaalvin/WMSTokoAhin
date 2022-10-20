@@ -111,6 +111,8 @@ Route::middleware('auth')->group(function(){
     Route::get('/items/edit/{id}', [ItemController::class, 'getDetail']);
     Route::post('/items/edit/{id}/save', [ItemController::class, 'save']);
     Route::delete('/items/delete', [ItemController::class, 'delete']);
+
+    Route::get('/items/update-all-stock', [ItemController::class, 'updateAllStock']);
     // Route::get('/items/search', [ItemController::class, 'searchItems'])->name('search-items');
 
     //Master Aisle
@@ -148,7 +150,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/incomings/details/{id}', [IncomingController::class, 'getDetail']);
     Route::get('/incomings/edit/{id}', [IncomingController::class, 'getDetail']);
     Route::post('/incomings/edit/{id}/save', [IncomingController::class, 'save']);
-    Route::get('/incomings/delete', [IncomingController::class, 'delete']);
+    Route::delete('/incomings/delete', [IncomingController::class, 'delete']);
 
     // Profile
     Route::get('/profile/edit/{id}', [ProfileController::class, 'getDetail']);

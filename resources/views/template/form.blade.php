@@ -59,30 +59,44 @@
                 @csrf
                 @foreach ($forms as $item)
                     <div class="d-flex align-items-center" @isset($item['display']) style="display: none !important;"  @endisset>
-                        <label for="{{$item['col']}}" @isset($item['display']) style="display: none !important;" @endisset>
-                            {{$item['label']}}
-                            @if(@isset($item['required']))
-                                <span class='text-danger'>*</span>
+                        <div class="label">
+                            <label for="{{$item['col']}}" @isset($item['display']) style="display: none !important;" @endisset>
+                                {{$item['label']}}
+                                @if(isset($item['required']))
+                                    <span class='text-danger'>*</span>
+                                @endif
+                            </label>
+                        </div>
+                        <div class="inputs" style="width: 20em">
+                            @if (isset($item['type']))
+                                @if ($item['type'] == 'select2')
+                                    <?php
+                                        $option = DB::table($item['select2_table'])->where('company_id', Helper::getCompanyId())->get()->toArray();
+                                    ?>
+                                    <select name="{{$item['col']}}" id="{{$item['col']}}" class="form-input select2">
+                                        <option value="0" disabled selected>** Please Select **</option>
+                                        @foreach ($option as $list)
+                                            <option value="{{$list->id}}" {{old($item['col']) == $list->id ? 'selected' : ''}}>{{$list->name}}</option>
+                                        @endforeach
+                                    </select>
+                                @elseif ($item['type'] == 'textarea')
+                                    <textarea name="{{$item['col']}}" id="{{$item['col']}}" class="form-input" @isset($data) placeholder="{{(@$data->{$item['col']})}}" @endisset @isset($item['value']) value="{{old($item['col'])}}" @endisset></textarea>
+                                @elseif($item['type'] == 'datetime')
+                                    <input class="form-input {{$item['datetime_type']}}" name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['type'])) type="{{$item['type']}}"@else type="text"@endif value="{{old($item['col'])}}">
+                                @elseif ($item['type'] == 'life')
+                                    <input class="form-input" type="number" name="{{$item['col']}}" id="{{$item['col']}}" style="width: 70.5%">
+                                    <select class="form-input" name="str{{$item['col']}}" id="str{{$item['col']}}" style="width: 28%">
+                                        <option value="Day">Day</option>
+                                        <option value="Week">Week</option>
+                                        <option value="Year">Year</option>
+                                    </select>
+                                @else
+                                    <input class="form-input" type="{{$item['type']}}" name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{old($item['col'])}}">
+                                @endif
+                            @else
+                                <input class="form-input" type="text" name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{old($item['col'])}}">
                             @endif
-                        </label>
-                        @if (isset($item['select2']))
-                            <?php
-                                $option = DB::table($item['select2'])->where('company_id', Helper::getCompanyId())->get()->toArray();
-                            ?>
-                            <select name="{{$item['col']}}" id="{{$item['col']}}" class="form-input select2">
-                                <option value="0" disabled selected>** Please Select **</option>
-
-                                @foreach ($option as $list)
-                                    <option value="{{$list->id}}" {{old($item['col']) == $list->id ? 'selected' : ''}}>{{$list->name}}</option>
-                                @endforeach
-                            </select>
-                        @elseif (isset($item['textarea']))
-                            <textarea name="{{$item['col']}}" id="{{$item['col']}}" class="form-input" @isset($data) placeholder="{{(@$data->{$item['col']})}}" @endisset @isset($item['value']) value="{{old($item['col'])}}" @endisset></textarea>
-                        @elseif(isset($item['datetime']))
-                            <input class="form-input {{$item['datetime_type']}}" name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['type'])) type="{{$item['type']}}"@else type="text"@endif value="{{old($item['col'])}}">
-                        @else
-                            <input class="form-input" @if (isset($item['type'])) type="{{$item['type']}}"@else type="text"@endif name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{old($item['col'])}}">
-                        @endif
+                        </div>
                     </div>
                     <br>
                 @endforeach
