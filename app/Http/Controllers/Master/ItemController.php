@@ -13,7 +13,7 @@ class ItemController extends MNPController
 {
     public function init()
     {
-        $this->title = 'Item List';
+        $this->title = 'Items';
         $this->table = 'items';
 
         $this->main[] = ['label' => 'id', 'col' => 'id', 'input' => true];

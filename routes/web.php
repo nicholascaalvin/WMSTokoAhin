@@ -70,7 +70,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/countries/details/{id}', [CountryController::class, 'getDetail']);
     Route::get('/countries/edit/{id}', [CountryController::class, 'getDetail']);
     Route::post('/countries/edit/{id}/save', [CountryController::class, 'save']);
-    Route::get('/countries/delete', [CountryController::class, 'delete']);
+    Route::delete('/countries/delete', [CountryController::class, 'delete']);
     // Route::get('/countries/search', [CountryController::class, 'searchCountries'])->name('search-countries');
 
     //Master UOM
@@ -87,8 +87,9 @@ Route::middleware('auth')->group(function(){
     Route::get('/brands', [BrandController::class, 'getIndex'])->name('brands');
     Route::get('/brands/add', [BrandController::class, 'getAdd']);
     Route::post('brands/add/save', [BrandController::class, 'save']);
-    // Route::get('brands/edit/{id}', [BrandController::class, 'getDetailBrands'])->name('edit-brands');
-    // Route::post('brands/edit', [BrandController::class, 'editBrands']);
+    Route::get('brands/details/{id}', [BrandController::class, 'getDetail']);
+    Route::get('brands/edit/{id}', [BrandController::class, 'getDetail']);
+    Route::post('brands/edit/{id}/save', [BrandController::class, 'save']);
     Route::delete('/brands/delete', [BrandController::class, 'delete']);
     // route::get('/brands/search', [BrandController::class, 'searchBrands'])->name('search-brands');
 
@@ -96,6 +97,9 @@ Route::middleware('auth')->group(function(){
     Route::get('/shelflifes', [ShelfLifeController::class, 'getIndex'])->name('shelflifes');
     Route::get('/shelflifes/add', [ShelfLifeController::class, 'getAdd']);
     Route::post('/shelflifes/add/save', [ShelfLifeController::class, 'save']);
+    Route::get('/shelflifes/details/{id}', [ShelfLifeController::class, 'getDetail']);
+    Route::get('/shelflifes/edit/{id}', [ShelfLifeController::class, 'getDetail']);
+    Route::post('/shelflifes/edit/{id}/save', [ShelfLifeController::class, 'save']);
     Route::delete('/shelflifes/delete', [ShelfLifeController::class, 'delete']);
     // route::get('/shelflifes/search', [ShelflifeController::class, 'searchShelflifes'])->name('search-shelflifes');
 
@@ -106,7 +110,6 @@ Route::middleware('auth')->group(function(){
     Route::get('/items/details/{id}', [ItemController::class, 'getDetail']);
     Route::get('/items/edit/{id}', [ItemController::class, 'getDetail']);
     Route::post('/items/edit/{id}/save', [ItemController::class, 'save']);
-    // Route::get('/items/edit/{id}', [ItemController::class, 'getDetailItems'])->name('edit-items');
     Route::delete('/items/delete', [ItemController::class, 'delete']);
     // Route::get('/items/search', [ItemController::class, 'searchItems'])->name('search-items');
 
@@ -114,8 +117,9 @@ Route::middleware('auth')->group(function(){
     Route::get('/aisles', [AislesController::class, 'getIndex'])->name('aisles');
     Route::get('/aisles/add', [AislesController::class, 'getAdd']);
     Route::post('/aisles/add/save', [AislesController::class, 'save']);
-    // Route::get('/aisles/edit/{id}', [AislesController::class, 'getDetailAisles'])->name('edit-aisles');
-    // Route::post('/aisles/edit', [AislesController::class, 'editAisles']);
+    Route::get('/aisles/details/{id}', [AislesController::class, 'getDetail']);
+    Route::get('/aisles/edit/{id}', [AislesController::class, 'getDetail']);
+    Route::post('/aisles/edit/{id}/save', [AislesController::class, 'save']);
     Route::delete('/aisles/delete', [AislesController::class, 'delete']);
     // Route::get('/aisles/search', [AislesController::class, 'searchAisles'])->name('search-aisles');
 
@@ -123,11 +127,18 @@ Route::middleware('auth')->group(function(){
     Route::get('/customers', [CustomerController::class, 'getIndex'])->name('customers');
     Route::get('/customers/add', [CustomerController::class, 'getAdd']);
     Route::post('/customers/add/save', [CustomerController::class, 'save']);
+    Route::get('/customers/details/{id}', [CustomerController::class, 'getDetail']);
+    Route::get('/customers/edit/{id}', [CustomerController::class, 'getDetail']);
+    Route::post('/customers/edit/{id}/save', [CustomerController::class, 'save']);
+    Route::delete('/customers/delete', [CustomerController::class, 'delete']);
 
     //Master Vendor
     Route::get('/vendors', [VendorController::class, 'getIndex'])->name('vendors');
     Route::get('/vendors/add', [VendorController::class, 'getadd']);
     Route::post('/vendors/add/save', [VendorController::class, 'save']);
+    Route::get('/vendors/details/{id}', [VendorController::class, 'getDetail']);
+    Route::get('/vendors/edit/{id}', [VendorController::class, 'getDetail']);
+    Route::post('/vendors/edit/{id}/save', [VendorController::class, 'save']);
     Route::delete('/vendors/delete', [VendorController::class, 'delete']);
 
     //Transaction Incoming
@@ -137,6 +148,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/incomings/details/{id}', [IncomingController::class, 'getDetail']);
     Route::get('/incomings/edit/{id}', [IncomingController::class, 'getDetail']);
     Route::post('/incomings/edit/{id}/save', [IncomingController::class, 'save']);
+    Route::get('/incomings/delete', [IncomingController::class, 'delete']);
 
     // Profile
     Route::get('/profile/edit/{id}', [ProfileController::class, 'getDetail']);

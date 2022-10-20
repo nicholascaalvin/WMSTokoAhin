@@ -25,8 +25,7 @@ class IncomingController extends MNPController
         $this->details[] = ['label' => 'Quantity', 'col' => 'detail_item_qty', 'type' => 'number',  'required' => true];
         // $this->forms[] = ['label' => 'Items', 'col' => 'item', 'select2' => 'items', 'required' => true];
 
-        $page = explode('/', $_SERVER['REQUEST_URI']);
-        // dd($page);
+        $page = explode('/', Helper::getMainUrl());
         if(count($page) > 3){
             $this->row = DB::table('incomings as a')
                 ->join('incomings_detail as b', 'a.id', 'b.incomings_id')
@@ -44,6 +43,7 @@ class IncomingController extends MNPController
         $this->inputs = [];
         $request = $request->all();
         $request['transaction_date'] = date('Y-m-d H:i:00', strtotime($request['transaction_date']));
+        $page = explode('/', $this->data['url']);
         $now = date('Y-m-d H:i:s');
         foreach ($this->forms as $key => $value) {
             foreach ($request as $index => $dt) {
@@ -76,6 +76,7 @@ class IncomingController extends MNPController
                     'company_id' => Helper::getCompanyId(),
                 ]);
             }
+            $this->updateStock();
             return redirect('/'.$this->table)->with('success', 'Successfully edited the data');
         }
         else{
@@ -89,7 +90,21 @@ class IncomingController extends MNPController
                     'company_id' => Helper::getCompanyId(),
                 ]);
             }
+            $this->updateStock();
             return redirect('/'.$this->table)->with('success', 'Successfully added new data');
+        }
+    }
+
+    public function deleteDetails($id){
+        DB::table('incomings_detail')->where('company_id', Helper::getCompanyId())->where('incomings_id', $id)->delete();
+    }
+
+    public function updateStock(){
+        $item = DB::table('incomings_detail')->select('item_id', DB::raw('sum(qty) as qty'))->groupBy('item_id')->get()->toArray();
+        foreach ($item as $key => $value) {
+            DB::table('items')->where('id', $value->item_id)->update([
+                'incoming' => $value->qty,
+            ]);
         }
     }
 

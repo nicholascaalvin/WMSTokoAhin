@@ -20,6 +20,11 @@ class Helper{
         $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         return $url;
     }
+
+    public static function getMainUrl(){
+        $url = $_SERVER['REQUEST_URI'];
+        return $url;
+    }
 }
 
 ?>

@@ -39,7 +39,17 @@
 
         // Account
         'Profile' => 'Profile',
-        
+
+        //Master
+        'Countries' => 'Countries',
+        'Unit Of Measurements' => 'Unit Of Measurements',
+        'Brands' => 'Brands',
+        'Shelf Life' => 'Shelf Life',
+        'Items' => 'Items',
+        'Aisles' => 'Aisles',
+        'Customers' => 'Customers',
+        'Vendors' => 'Vendors',
+
     ]
 
 ?>

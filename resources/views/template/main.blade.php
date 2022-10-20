@@ -63,7 +63,7 @@
         <div class="card-header" style="border-bottom: none">
             <div class="header-content d-flex justify-content-between align-items-center">
                 <div class="left">
-                    <h1>{{$title}}</h1>
+                    <h1>{{__('form.'.$title)}}</h1>
                 </div>
                 <div class="right">
                     <div class="d-flex justify-content-end" style="margin-bottom: 0.5em;">
@@ -100,15 +100,16 @@
                     <tbody>
                         @foreach ($contents as $index => $item)
                             <tr>
-                                <form action="/{{$table}}/delete">
+                                <form method="POST" action="/{{$table}}/delete">
                                     @csrf
+                                    @method('delete')
                                     <td class="text-center">{{$index + 1}}</td>
                                     @foreach ($main as $key => $td)
                                         @if (isset($td['input']))
                                             <input type="hidden" id="id" name="id" value="{{(@$item->{$td['col']})}}">
                                         @else
                                             @if ($key == 1)
-                                            <td class="{{$td['col']}}"><a href="#" onclick="openDetail(this);" style="text-decoration: none">{{(@$item->{$td['col']})}}</a></td>
+                                            <td class="{{$td['col']}}"><a href="#" onclick="openEdit(this);" style="text-decoration: none">{{(@$item->{$td['col']})}}</a></td>
                                             @else
                                             <td class="{{$td['col']}}">{{(@$item->{$td['col']})}}</td>
                                             @endif
@@ -120,7 +121,7 @@
                                                 <i class="bi bi-three-dots-vertical"></i>
                                             </a>
                                             <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item edit-btn">Edit</a></li>
+                                                <li><a class="dropdown-item detail-btn">Details</a></li>
                                                 <li><button class="dropdown-item delete-btn" type="submit">Delete</button></li>
                                             </ul>
                                         </div>
@@ -137,14 +138,14 @@
 
 @section('footer')
 <script type="text/javascript">
-    function openDetail(row){
+    function openEdit(row){
         var id = $(row.parentNode.parentNode).find('input#id').val();
-        window.location.replace('{{(new \App\Helpers\Helper)->getFullUrl()}}/details/'+id);
+        window.location.replace('{{(new \App\Helpers\Helper)->getFullUrl()}}/edit/'+id);
     }
-    $('.edit-btn').on('click', function(){
+    $('.detail-btn').on('click', function(){
         var row = this.parentNode.parentNode.parentNode.parentNode.parentNode;
         var id = $(row).find('input#id').val();
-        window.location.replace('{{(new \App\Helpers\Helper)->getFullUrl()}}/edit/'+id);
+        window.location.replace('{{(new \App\Helpers\Helper)->getFullUrl()}}/details/'+id);
     });
 </script>
 @endsection

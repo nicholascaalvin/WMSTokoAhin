@@ -40,6 +40,17 @@
         // Account
         'Profile' => 'Profil',
 
+        //Master
+        'Countries' => 'Negara',
+        'Unit Of Measurements' => 'Satuan Pengukuran',
+        'Brands' => 'Merek',
+        'Shelf Life' => 'Umur Simpan',
+        'Items' => 'Barang',
+        'Aisles' => 'Rak', // lorong / rak?
+        'Customers' => 'Pelanggan',
+        'Vendors' => 'Penjual',
+
+
     ]
 
 ?>

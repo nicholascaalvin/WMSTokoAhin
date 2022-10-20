@@ -40,7 +40,7 @@ class MNPController extends Controller
         $query = $this->query();
         $this->data['contents'] = $query->get();
 
-        $url = $_SERVER['REQUEST_URI'];
+        $url = Helper::getMainUrl();
         $this->data['url'] = $url;
         if(count(explode('/', $this->data['url'])) == 2){
             $this->data['add'] = $url.'/add';
@@ -124,10 +124,14 @@ class MNPController extends Controller
         $this->load();
         $id = $request->all()['id'];
         try {
+            $this->deleteDetails($id);
             DB::table($this->table)->where('id', $id)->delete();
             return redirect()->back()->with('success', 'Successfully deleted data!');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'This data is currently in used!');
         }
+    }
+
+    public function deleteDetails($id){
     }
 }
