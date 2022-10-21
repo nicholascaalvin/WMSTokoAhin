@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
             CountrySeeder::class,
             UOMSeeder::class,
             BrandSeeder::class,
-            ShelflifeSeeder::class,
             AisleSeeder::class,
             UserSeeder::class,
         ]);
