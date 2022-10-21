@@ -1,38 +1,3 @@
-{{--
-    MUST HAVE :
-    1. moduleName   .... list
-    2. addNewRoute  route...getIndex
-    3. searchRoute  route...search
-    4. deleteFunction  function delete
-    5. detailFunction function edit
-    6. tableHeader  table head
-
-
-@extends('template.main')
-
-@extends('layout')
-
-<?php
-?>
-
-@section('header')
-<meta name="csrf-token" content="{{ csrf_token() }}" />
-<style type="text/css">
-</style>
-@endsection
-
-@section('footer')
-<script type="text/javascript">
-    function delete..(row){
-
-    }
-    function detail..(row){
-
-    }
-</script>
-@endsection
---}}
-
 @section('header')
 <style type="text/css">
     .card{
