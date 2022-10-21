@@ -88,7 +88,7 @@
                                 @elseif ($item['type'] == 'textarea')
                                     <textarea name="{{$item['col']}}" id="{{$item['col']}}" class="form-input" @isset($data) placeholder="{{(@$data->{$item['col']})}}" @endisset @if ($page == 'details') disabled @endif>{{(@$contents->{$item['col']})}}</textarea>
                                 @elseif ($item['type'] == 'datetime')
-                                    <input class="form-input {{$item['datetime_type']}}" name="{{$item['col']}}" id="{{$item['col']}}" @endif value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
+                                    <input class="form-input {{$item['datetime_type']}}" name="{{$item['col']}}" id="{{$item['col']}}" value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
                                 @elseif ($item['type'] == 'life')
                                     <input class="form-input" type="number" name="{{$item['col']}}" id="{{$item['col']}}" style="width: 70.5%" value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
                                     <select class="form-input" name="str{{$item['col']}}" id="str{{$item['col']}}" style="width: 28%" @if ($page == 'details') disabled @endif>
