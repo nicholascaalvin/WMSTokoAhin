@@ -47,7 +47,6 @@
                         <li><a class="dropdown-item" href="{{route('countries')}}">{{__('form.Country')}}</a></li>
                         <li><a class="dropdown-item" href="{{route('uoms')}}">{{__('form.Unit of Measurement')}}</a></li>
                         <li><a class="dropdown-item" href="{{route('brands')}}">{{__('form.Brand')}}</a></li>
-                        <li><a class="dropdown-item" href="{{route('shelflifes')}}">{{__('form.Shelf Life')}}</a></li>
                         <li><a class="dropdown-item" href="{{route('aisles')}}">{{__('form.Aisle')}}</a></li>
                         <li><a class="dropdown-item" href="{{route('customers')}}">{{__('form.Customer')}}</a></li>
                         <li><a class="dropdown-item" href="{{route('vendors')}}">{{__('form.Vendor')}}</a></li>
