@@ -1,38 +1,3 @@
-{{--
-    MUST HAVE :
-    1. moduleName   .... list
-    2. addNewRoute  route...getIndex
-    3. searchRoute  route...search
-    4. deleteFunction  function delete
-    5. detailFunction function edit
-    6. tableHeader  table head
-
-
-@extends('template.main')
-
-@extends('layout')
-
-<?php
-?>
-
-@section('header')
-<meta name="csrf-token" content="{{ csrf_token() }}" />
-<style type="text/css">
-</style>
-@endsection
-
-@section('footer')
-<script type="text/javascript">
-    function delete..(row){
-
-    }
-    function detail..(row){
-
-    }
-</script>
-@endsection
---}}
-
 @section('header')
 <style type="text/css">
     .card{
@@ -52,6 +17,9 @@
     }
     .dropdown a:active{
         color: black;
+    }
+    .edit-btn:hover{
+        cursor: pointer;
     }
 </style>
 @endsection
@@ -109,7 +77,7 @@
                                             <input type="hidden" id="id" name="id" value="{{(@$item->{$td['col']})}}">
                                         @else
                                             @if ($key == 1)
-                                            <td class="{{$td['col']}}"><a href="#" onclick="openEdit(this);" style="text-decoration: none">{{(@$item->{$td['col']})}}</a></td>
+                                            <td class="{{$td['col']}}"><a class="edit-btn" style="text-decoration: none; color: #00c3ff">{{(@$item->{$td['col']})}}</a></td>
                                             @else
                                             <td class="{{$td['col']}}">{{(@$item->{$td['col']})}}</td>
                                             @endif
@@ -138,14 +106,15 @@
 
 @section('footer')
 <script type="text/javascript">
-    function openEdit(row){
-        var id = $(row.parentNode.parentNode).find('input#id').val();
-        window.location.replace('{{(new \App\Helpers\Helper)->getFullUrl()}}/edit/'+id);
-    }
+    $('.edit-btn').on('click', function(){
+        var row = this.parentNode.parentNode;
+        var id = $(row).find('input#id').val();
+        window.location.assign('{{(new \App\Helpers\Helper)->getFullUrl()}}/edit/'+id);
+    });
     $('.detail-btn').on('click', function(){
         var row = this.parentNode.parentNode.parentNode.parentNode.parentNode;
         var id = $(row).find('input#id').val();
-        window.location.replace('{{(new \App\Helpers\Helper)->getFullUrl()}}/details/'+id);
+        window.location.assign('{{(new \App\Helpers\Helper)->getFullUrl()}}/details/'+id);
     });
 </script>
 @endsection

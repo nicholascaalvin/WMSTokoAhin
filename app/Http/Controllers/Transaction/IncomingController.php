@@ -110,8 +110,4 @@ class IncomingController extends MNPController
             'incoming' => $current_qty,
         ]);
     }
-
-    // public function getIndex(){
-    //     return view('transaction.incoming.main');
-    // }
 }

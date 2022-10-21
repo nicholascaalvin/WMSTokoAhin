@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\MNPController;
+
 class CustomerController extends MNPController
 {
     public function init(){
