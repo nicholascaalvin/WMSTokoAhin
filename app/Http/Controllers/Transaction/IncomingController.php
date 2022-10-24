@@ -58,8 +58,13 @@ class IncomingController extends MNPController
         foreach ($transaction_no as $key => $value) {
             $transaction_no[$key] = substr($value, 8);
         }
-        $transaction_no = intval(max($transaction_no->toArray())) + 1;
-        $transaction_no = 'IC/' . date('ym') . '/' . $transaction_no;
+        if(count($transaction_no) ==  0){
+            $transaction_no = 'IC/' . date('ym') . '/1';
+        }
+        else{
+            $transaction_no = intval(max($transaction_no->toArray())) + 1;
+            $transaction_no = 'IC/' . date('ym') . '/' . $transaction_no;
+        }
 
         $this->inputs['transaction_no'] = $transaction_no;
         $this->inputs['created_at'] = $now;
