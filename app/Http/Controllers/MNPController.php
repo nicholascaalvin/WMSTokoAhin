@@ -18,6 +18,7 @@ class MNPController extends Controller
     public $main = [];
     public $forms = [];
     public $details = [];
+    public $js = '';
 
     public function init(){
     }
@@ -32,6 +33,7 @@ class MNPController extends Controller
         $this->data['main'] = $this->main;
         $this->data['table'] = $this->table;
         $this->data['details'] = $this->details;
+        $this->data['js'] = $this->js;
 
         if (isset($this->row)) {
             $this->data['row'] = $this->row->get();
@@ -40,13 +42,13 @@ class MNPController extends Controller
         $query = $this->query();
         $this->data['contents'] = $query->get();
 
-        $url = Helper::getMainUrl();
+        $url = Helper::getCurrentUrl();
         $this->data['url'] = $url;
         if(count(explode('/', $this->data['url'])) == 2){
             $this->data['add'] = $url.'/add';
         }
-        // dd($this->data);
         $this->data['forms'] = $this->forms;
+        // dd($this->data);
     }
 
     public function getIndex(){
@@ -136,10 +138,16 @@ class MNPController extends Controller
     }
 
     public function updateAllStock(){
-        $item = DB::table('incomings_detail')->select('item_id', DB::raw('sum(qty) as qty'))->groupBy('item_id')->where('company_id', Helper::getCompanyId())->get()->toArray();
-        foreach ($item as $key => $value) {
+        $incoming = DB::table('incomings_detail')->select('item_id', DB::raw('sum(qty) as qty'))->groupBy('item_id')->where('company_id', Helper::getCompanyId())->get()->toArray();
+        $outgoing = DB::table('outgoings_detail')->select('item_id', DB::raw('sum(qty) as qty'))->groupBy('item_id')->where('company_id', Helper::getCompanyId())->get()->toArray();
+        foreach ($incoming as $key => $value) {
             DB::table('items')->where('id', $value->item_id)->where('company_id', Helper::getCompanyId())->update([
                 'incoming' => $value->qty,
+            ]);
+        }
+        foreach ($outgoing as $key => $value) {
+            DB::table('items')->where('id', $value->item_id)->where('company_id', Helper::getCompanyId())->update([
+                'outgoing' => $value->qty,
             ]);
         }
         echo 'Updated!';

@@ -60,7 +60,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="{{route('incomings')}}">{{__('form.Incoming')}}</a></li>
-                        <li><a class="dropdown-item" href="#">{{__('form.Outgoing')}}</a></li>
+                        <li><a class="dropdown-item" href="{{route('outgoings')}}">{{__('form.Outgoing')}}</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">

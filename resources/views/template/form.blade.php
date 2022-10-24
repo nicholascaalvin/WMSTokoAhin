@@ -61,10 +61,10 @@
                                         <option value="Year">Year</option>
                                     </select>
                                 @else
-                                    <input class="form-input" type="{{$item['type']}}" name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{old($item['col'])}}">
+                                    <input class="form-input" type="{{$item['type']}}" name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly disabled @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{old($item['col'])}}">
                                 @endif
                             @else
-                                <input class="form-input" type="text" name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{old($item['col'])}}">
+                                <input class="form-input" type="text" name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly disabled @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{old($item['col'])}}">
                             @endif
                         </div>
                     </div>
@@ -140,7 +140,7 @@
     }
 
     $('.save').on('click', function(event){
-        $.each(<?php echo json_encode($forms); ?>, function(index, value){
+        $.each(<?php echo json_encode($forms) ?>, function(index, value){
             if(value.hasOwnProperty('required') == true){
                 var col = $('#'+value.col).val();
                 if(col == null || col == ''){
@@ -149,6 +149,14 @@
                 }
             }
         });
+        var table = $('#<?php echo $table?>-detail');
+        if(table.length != 0){
+            var row = $(table).find('tr.details');
+            if(row.length < 1){
+                Swal.fire('Item cannot be empty!');
+                event.preventDefault();
+            }
+        }
     });
 
     $('#add').on('click', function(){
@@ -158,23 +166,67 @@
         var item_id = $(row).find('#detail_item_id').find(":selected").val();
         var item_qty = $(row).find('#detail_item_qty').val();
 
-        var newRow = '';
-        if(item_id == null) Swal.fire('You must select an item');
+        if(item_id == null || item_id == '0') Swal.fire('You must select an item');
         else if(item_qty < 1) Swal.fire('Item quantity must be bigger than 0');
         else{
-            newRow +=
-            '<tr>'+
-                '<td style="display: none"><input name="item_id[]" value="'+item_id+'"></td>'+
-                '<td>'+item_name+'</td>'+
-                '<td style="display: none"><input name="item_qty[]" value="'+item_qty+'"></td>'+
-                '<td>'+item_qty+'</td>'+
-                '<td><button class="btn btn-danger" id="delete" onclick="deleteRow(this)">-</button></td>'+
-            '</tr>';
+            if('<?php echo $table?>' != 'outgoings'){
+                addRow(item_id, item_name, item_qty);
+            }
+            else{
+                $.ajax({
+                    url: '{{(new \App\Helpers\Helper)->getMainUrl("/outgoings/check-stock-item")}}',
+                    type: 'GET',
+                    data: {
+                        'item_id': item_id,
+                    },
+                    success: function(data){
+                        if(data - item_qty < 0){
+                            Swal.fire('Item exceeds stock!');
+                        }
+                        else{
+                            addRow(item_id, item_name, item_qty);
+                        }
+                    },
+                });
+            }
             $(row).find('#detail_item_id').select2("val", "0");
             $(row).find('#detail_item_qty').val('');
         }
-        $(table).append(newRow);
     });
+
+    function addRow(item_id, item_name, item_qty){
+        var newRow = '';
+        var table = $('#<?php echo $table?>-detail');
+        var row = $(table).find('tr.details');
+        if(row.length != 0){
+            var exist = false;
+            var first = false;
+            $.each(row, function(index, value){
+                var items_id = $(value).find('input.item_id').val();
+                if(items_id == item_id){
+                    exist = true;
+                    if(first == false){
+                        items_qty = parseInt($(value).find('input.item_qty').val());
+                        totalqty = parseInt(items_qty) + parseInt(item_qty);
+                        $(value).find('input.item_qty').val(parseInt(totalqty));
+                        $(value).find('td.item_qty').text(parseInt(totalqty));
+                    }
+                    first = true;
+                }
+            });
+        }
+        if(!exist){
+            newRow +=
+            '<tr class="details">'+
+                '<td style="display: none"><input class="item_id" name="item_id[]" value="'+item_id+'"></td>'+
+                '<td class="item_name">'+item_name+'</td>'+
+                '<td style="display: none"><input class="item_qty" name="item_qty[]" value="'+item_qty+'"></td>'+
+                '<td class="item_qty">'+item_qty+'</td>'+
+                '<td><button class="btn btn-danger" id="delete" onclick="deleteRow(this)">-</button></td>'+
+            '</tr>';
+        }
+        $(table).append(newRow);
+    }
 
 </script>
 @endsection

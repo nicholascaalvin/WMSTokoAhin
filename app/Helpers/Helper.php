@@ -21,8 +21,13 @@ class Helper{
         return $url;
     }
 
-    public static function getMainUrl(){
+    public static function getCurrentUrl(){
         $url = $_SERVER['REQUEST_URI'];
+        return $url;
+    }
+
+    public static function getMainUrl($url = null){
+        $url = "http://$_SERVER[HTTP_HOST]".$url;
         return $url;
     }
 }
