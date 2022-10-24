@@ -54,6 +54,9 @@
                                         if(isset($contents->vendor_id)){
                                             $vendor = DB::table($item['select2_table'])->where('id', $contents->vendor_id)->where('company_id', Helper::getCompanyId())->first();
                                         }
+                                        if(isset($contents->customer_id)){
+                                            $customer = DB::table($item['select2_table'])->where('id', $contents->customer_id)->where('company_id', Helper::getCompanyId())->first();
+                                        }
                                     ?>
                                     <select name="{{$item['col']}}" id="{{$item['col']}}" class="form-input select2" @if ($page == 'details') disabled @endif>
                                         <option value="0" selected disabled>** Please Select **</option>
@@ -78,6 +81,12 @@
                                                 @endif
                                             @elseif ($item['select2_table'] == 'vendors')
                                                 @if ($list->id == $vendor->id)
+                                                    <option value="{{$list->id}}" selected>{{$list->name}}</option>
+                                                @else
+                                                    <option value="{{$list->id}}">{{$list->name}}</option>
+                                                @endif
+                                            @elseif ($item['select2_table'] == 'customers')
+                                                @if ($list->id == $customer->id)
                                                     <option value="{{$list->id}}" selected>{{$list->name}}</option>
                                                 @else
                                                     <option value="{{$list->id}}">{{$list->name}}</option>
@@ -107,10 +116,10 @@
                                         @endif
                                     </select>
                                 @else
-                                    <input class="form-input" @if (isset($item['type'])) type="{{$item['type']}}"@else type="text"@endif name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
+                                    <input class="form-input" @if (isset($item['type'])) type="{{$item['type']}}"@else type="text"@endif name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly disabled @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
                                 @endif
                             @else
-                                <input class="form-input" type="text" name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
+                                <input class="form-input" type="text" name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly disabled @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
                             @endif
                         </div>
                     </div>
@@ -212,7 +221,7 @@
 
     $('#add').on('click', function(){
         var table = this.parentNode.parentNode.parentNode;
-        var row = this.parentNode.parentNode
+        var row = this.parentNode.parentNode;
         var item_name = $(row).find('#detail_item_id').find(":selected").text();
         var item_id = $(row).find('#detail_item_id').find(":selected").val();
         var item_qty = $(row).find('#detail_item_qty').val();
@@ -223,9 +232,9 @@
         else{
             newRow +=
             '<tr>'+
-                '<td style="display: none"><input name="item_id[]" value="'+item_id+'"></td>'+
+                '<td style="display: none"><input class="item_name" name="item_id[]" value="'+item_id+'"></td>'+
                 '<td>'+item_name+'</td>'+
-                '<td style="display: none"><input name="item_qty[]" value="'+item_qty+'"></td>'+
+                '<td style="display: none"><input class="item_qty" name="item_qty[]" value="'+item_qty+'"></td>'+
                 '<td>'+item_qty+'</td>'+
                 '<td><a class="btn btn-danger" id="delete" onclick="deleteRow(this)">-</a></td>'+
             '</tr>';

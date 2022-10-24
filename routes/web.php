@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\MNPController;
 use App\Http\Controllers\authentication\LoginController;
 use App\Http\Controllers\authentication\RegisterController;
 use App\Http\Controllers\HomeController;
@@ -13,9 +14,9 @@ use App\Http\Controllers\Master\ItemController;
 use App\Http\Controllers\Master\AislesController;
 use App\Http\Controllers\Master\CustomerController;
 use App\Http\Controllers\Master\VendorController;
-use App\Http\Controllers\MNPController;
-use App\Http\Controllers\Account\ProfileController;
 use App\Http\Controllers\Transaction\IncomingController;
+use App\Http\Controllers\Transaction\OutgoingController;
+use App\Http\Controllers\Account\ProfileController;
 
 
 
@@ -141,6 +142,16 @@ Route::middleware('auth')->group(function(){
     Route::get('/incomings/edit/{id}', [IncomingController::class, 'getDetail']);
     Route::post('/incomings/edit/{id}/save', [IncomingController::class, 'save']);
     Route::delete('/incomings/delete', [IncomingController::class, 'delete']);
+
+    //Transaction Outgoing
+    Route::get('/outgoings', [OutgoingController::class, 'getIndex'])->name('outgoings');
+    Route::get('/outgoings/add', [OutgoingController::class, 'getAdd']);
+    Route::get('/outgoings/check-stock-item', [OutgoingController::class, 'checkStockItem']);
+    Route::post('/outgoings/add/save', [OutgoingController::class, 'save']);
+    Route::get('/outgoings/details/{id}', [OutgoingController::class, 'getDetail']);
+    Route::get('/outgoings/edit/{id}', [OutgoingController::class, 'getDetail']);
+    Route::post('/outgoings/edit/{id}/save', [OutgoingController::class, 'save']);
+    Route::delete('/outgoings/delete', [OutgoingController::class, 'delete']);
 
     // Profile
     Route::get('/profile/edit/{id}', [ProfileController::class, 'getDetail']);
