@@ -198,9 +198,9 @@
         var newRow = '';
         var table = $('#<?php echo $table?>-detail');
         var row = $(table).find('tr.details');
+        var exist = false;
+        var first = false;
         if(row.length != 0){
-            var exist = false;
-            var first = false;
             $.each(row, function(index, value){
                 var items_id = $(value).find('input.item_id').val();
                 if(items_id == item_id){
