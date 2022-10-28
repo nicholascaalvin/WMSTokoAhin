@@ -58,6 +58,7 @@
                                     <select class="form-input" name="str{{$item['col']}}" id="str{{$item['col']}}" style="width: 28%">
                                         <option value="Day">Day</option>
                                         <option value="Week">Week</option>
+                                        <option value="Month">Month</option>
                                         <option value="Year">Year</option>
                                     </select>
                                 @else
@@ -165,12 +166,15 @@
         var item_name = $(row).find('#detail_item_id').find(":selected").text();
         var item_id = $(row).find('#detail_item_id').find(":selected").val();
         var item_qty = $(row).find('#detail_item_qty').val();
+        var item_aisle = $(row).find('#detail_item_aisle').find(":selected").text();
+        var item_aisle_id = $(row).find('#detail_item_aisle').find(":selected").val();
 
         if(item_id == null || item_id == '0') Swal.fire('You must select an item');
+        else if(item_aisle == null) Swal.fire('You must select aisle');
         else if(item_qty < 1) Swal.fire('Item quantity must be bigger than 0');
         else{
             if('<?php echo $table?>' != 'outgoings'){
-                addRow(item_id, item_name, item_qty);
+                addRow(item_id, item_name, item_qty, item_aisle, item_aisle_id);
             }
             else{
                 $.ajax({
@@ -178,23 +182,25 @@
                     type: 'GET',
                     data: {
                         'item_id': item_id,
+                        'item_aisle_id': item_aisle_id,
                     },
                     success: function(data){
                         if(data - item_qty < 0){
                             Swal.fire('Item exceeds stock!');
                         }
                         else{
-                            addRow(item_id, item_name, item_qty);
+                            addRow(item_id, item_name, item_qty, item_aisle, item_aisle_id);
                         }
                     },
                 });
             }
             $(row).find('#detail_item_id').select2("val", "0");
+            $(row).find('#detail_item_aisle').select2("val", "0");
             $(row).find('#detail_item_qty').val('');
         }
     });
 
-    function addRow(item_id, item_name, item_qty){
+    function addRow(item_id, item_name, item_qty, item_aisle, item_aisle_id){
         var newRow = '';
         var table = $('#<?php echo $table?>-detail');
         var row = $(table).find('tr.details');
@@ -203,13 +209,29 @@
         if(row.length != 0){
             $.each(row, function(index, value){
                 var items_id = $(value).find('input.item_id').val();
-                if(items_id == item_id){
+                var items_aisle = $(value).find('input.item_aisle').val();
+                if(items_id == item_id && items_aisle == item_aisle_id){
                     exist = true;
                     if(first == false){
                         items_qty = parseInt($(value).find('input.item_qty').val());
                         totalqty = parseInt(items_qty) + parseInt(item_qty);
-                        $(value).find('input.item_qty').val(parseInt(totalqty));
-                        $(value).find('td.item_qty').text(parseInt(totalqty));
+                        $.ajax({
+                            url: '{{(new \App\Helpers\Helper)->getMainUrl("/outgoings/check-stock-item")}}',
+                            type: 'GET',
+                            data: {
+                                'item_id': item_id,
+                                'item_aisle_id': item_aisle_id,
+                            },
+                            success: function(data){
+                                if(data - totalqty < 0){
+                                    Swal.fire('Item exceeds stock!');
+                                }
+                                else{
+                                    $(value).find('input.item_qty').val(parseInt(totalqty));
+                                    $(value).find('td.item_qty').text(parseInt(totalqty));
+                                }
+                            },
+                        });
                     }
                     first = true;
                 }
@@ -220,6 +242,8 @@
             '<tr class="details">'+
                 '<td style="display: none"><input class="item_id" name="item_id[]" value="'+item_id+'"></td>'+
                 '<td class="item_name">'+item_name+'</td>'+
+                '<td style="display: none"><input class="item_aisle" name="item_aisle[]" value="'+item_aisle_id+'"></td>'+
+                '<td class="item_aisle">'+item_aisle+'</td>'+
                 '<td style="display: none"><input class="item_qty" name="item_qty[]" value="'+item_qty+'"></td>'+
                 '<td class="item_qty">'+item_qty+'</td>'+
                 '<td><button class="btn btn-danger" id="delete" onclick="deleteRow(this)">-</button></td>'+

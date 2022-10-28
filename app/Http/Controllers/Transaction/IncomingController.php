@@ -22,17 +22,19 @@ class IncomingController extends MNPController
         $this->forms[] = ['label' => 'Vendor', 'col' => 'vendor_id', 'type' => 'select2', 'select2_table' => 'vendors', 'required' => true];
 
         $this->details[] = ['label' => 'Item Name', 'col' => 'detail_item_id', 'select2' => 'items', 'required' => true];
-        $this->details[] = ['label' => 'Quantity', 'col' => 'detail_item_qty', 'type' => 'number',  'required' => true];
+        $this->details[] = ['label' => 'Aisle', 'col' => 'detail_item_aisle', 'select2' => 'aisles', 'required' => true];
+        $this->details[] = ['label' => 'Quantity', 'col' => 'detail_item_qty', 'type' => 'number', 'required' => true];
 
         $page = explode('/', Helper::getCurrentUrl());
         if(count($page) > 3){
             $this->row = DB::table('incomings as a')
                 ->join('incomings_detail as b', 'a.id', 'b.incomings_id')
                 ->join('items as c', 'b.item_id', 'c.id')
-                ->select('a.id', 'a.transaction_no', 'a.transaction_date', 'a.vendor_id', 'c.name', 'b.qty', 'c.id', 'b.incomings_id')
+                ->join('aisles as d', 'b.aisle_id', 'd.id')
+                ->select('a.id', 'a.transaction_no', 'a.transaction_date', 'a.vendor_id', 'c.name', 'b.qty', 'c.id', 'b.incomings_id', 'd.id as aisle_id', 'd.name as aisle')
                 ->where('a.company_id', Helper::getCompanyId())
                 ->where('b.incomings_id', $page[3])
-                ->groupBy('a.id', 'a.transaction_no', 'a.transaction_date', 'a.vendor_id', 'c.name', 'b.qty', 'c.id', 'b.incomings_id')
+                ->groupBy('a.id', 'a.transaction_no', 'a.transaction_date', 'a.vendor_id', 'c.name', 'b.qty', 'c.id', 'b.incomings_id', 'd.id', 'd.name')
                 ->orderBy('b.id');
         }
     }
@@ -54,24 +56,12 @@ class IncomingController extends MNPController
             }
         }
 
-        $transaction_no = DB::table($this->table)->pluck('transaction_no');
-        foreach ($transaction_no as $key => $value) {
-            $transaction_no[$key] = substr($value, 8);
-        }
-        if(count($transaction_no) ==  0){
-            $transaction_no = 'IC/' . date('ym') . '/1';
-        }
-        else{
-            $transaction_no = intval(max($transaction_no->toArray())) + 1;
-            $transaction_no = 'IC/' . date('ym') . '/' . $transaction_no;
-        }
-
-        $this->inputs['transaction_no'] = $transaction_no;
         $this->inputs['created_at'] = $now;
         $this->inputs['company_id'] = Helper::getCompanyId();
 
         $detail_item_id = $request['item_id'];
         $detail_item_qty = $request['item_qty'];
+        $detail_item_aisle = $request['item_aisle'];
 
         $header_exist = DB::table($this->table)->where('id', $page[3])->where('company_id', Helper::getCompanyId())->first();
         if ($header_exist) {
@@ -86,6 +76,7 @@ class IncomingController extends MNPController
                     'incomings_id' => $page[3],
                     'item_id' => $value,
                     'qty' => $detail_item_qty[$key],
+                    'aisle_id' => $detail_item_aisle[$key],
                     'company_id' => Helper::getCompanyId(),
                 ]);
                 $this->updateStock($value, $detail_item_qty[$key]);
@@ -93,6 +84,19 @@ class IncomingController extends MNPController
             return redirect('/'.$this->table)->with('success', 'Successfully edited the data');
         }
         else{
+            $transaction_no = DB::table($this->table)->pluck('transaction_no');
+            foreach ($transaction_no as $key => $value) {
+                $transaction_no[$key] = substr($value, 8);
+            }
+            if(count($transaction_no) ==  0){
+                $transaction_no = 'IC/' . date('ym') . '/1';
+            }
+            else{
+                $transaction_no = intval(max($transaction_no->toArray())) + 1;
+                $transaction_no = 'IC/' . date('ym') . '/' . $transaction_no;
+            }
+            $this->inputs['transaction_no'] = $transaction_no;
+
             $incomings_id = DB::table($this->table)->insertGetId($this->inputs);
             foreach ($detail_item_id as $key => $value) {
                 DB::table('incomings_detail')->insert([
@@ -100,6 +104,7 @@ class IncomingController extends MNPController
                     'incomings_id' => $incomings_id,
                     'item_id' => $value,
                     'qty' => $detail_item_qty[$key],
+                    'aisle_id' => $detail_item_aisle[$key],
                     'company_id' => Helper::getCompanyId(),
                 ]);
                 $this->updateStock($value, $detail_item_qty[$key]);

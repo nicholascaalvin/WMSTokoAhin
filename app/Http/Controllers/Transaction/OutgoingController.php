@@ -10,7 +10,6 @@ use App\Helpers\Helper;
 class OutgoingController extends MNPController
 {
     public function init(){
-
         $this->title = 'Outgoing';
         $this->table = 'outgoings';
 
@@ -23,6 +22,7 @@ class OutgoingController extends MNPController
         $this->forms[] = ['label' => 'Customer', 'col' => 'customer_id', 'type' => 'select2', 'select2_table' => 'customers', 'required' => true];
 
         $this->details[] = ['label' => 'Item Name', 'col' => 'detail_item_id', 'select2' => 'items', 'required' => true];
+        $this->details[] = ['label' => 'Aisle', 'col' => 'detail_item_aisle', 'select2' => 'aisles', 'required' => true];
         $this->details[] = ['label' => 'Quantity', 'col' => 'detail_item_qty', 'type' => 'number',  'required' => true];
 
         $page = explode('/', Helper::getCurrentUrl());
@@ -30,10 +30,11 @@ class OutgoingController extends MNPController
             $this->row = DB::table('outgoings as a')
                 ->join('outgoings_detail as b', 'a.id', 'b.outgoings_id')
                 ->join('items as c', 'b.item_id', 'c.id')
-                ->select('a.id', 'a.transaction_no', 'a.transaction_date', 'a.customer_id', 'c.name', 'b.qty', 'c.id', 'b.outgoings_id')
+                ->join('aisles as d', 'b.aisle_id', 'd.id')
+                ->select('a.id', 'a.transaction_no', 'a.transaction_date', 'a.customer_id', 'c.name', 'b.qty', 'c.id', 'b.outgoings_id', 'd.id as aisle_id', 'd.name as aisle_name')
                 ->where('a.company_id', Helper::getCompanyId())
                 ->where('b.outgoings_id', $page[3])
-                ->groupBy('a.id', 'a.transaction_no', 'a.transaction_date', 'a.customer_id', 'c.name', 'b.qty', 'c.id', 'b.outgoings_id')
+                ->groupBy('a.id', 'a.transaction_no', 'a.transaction_date', 'a.customer_id', 'c.name', 'b.qty', 'c.id', 'b.outgoings_id', 'd.id', 'd.name')
                 ->orderBy('b.id');
         }
 
@@ -55,25 +56,12 @@ class OutgoingController extends MNPController
                 }
             }
         }
-
-        $transaction_no = DB::table($this->table)->pluck('transaction_no');
-        foreach ($transaction_no as $key => $value) {
-            $transaction_no[$key] = substr($value, 8);
-        }
-        if(count($transaction_no) != 0){
-            $transaction_no = intval(max($transaction_no->toArray())) + 1;
-            $transaction_no = 'OG/' . date('ym') . '/' . $transaction_no;
-        }
-        else{
-            $transaction_no = 'OG/' . date('ym') . '/' . 1;
-        }
-
-        $this->inputs['transaction_no'] = $transaction_no;
         $this->inputs['created_at'] = $now;
         $this->inputs['company_id'] = Helper::getCompanyId();
 
         $detail_item_id = $request['item_id'];
         $detail_item_qty = $request['item_qty'];
+        $detail_item_aisle = $request['item_aisle'];
 
         $header_exist = DB::table($this->table)->where('id', $page[3])->where('company_id', Helper::getCompanyId())->first();
         if ($header_exist) {
@@ -88,6 +76,7 @@ class OutgoingController extends MNPController
                     'outgoings_id' => $page[3],
                     'item_id' => $value,
                     'qty' => $detail_item_qty[$key],
+                    'aisle_id' => $detail_item_aisle[$key],
                     'company_id' => Helper::getCompanyId(),
                 ]);
                 $this->updateStock($value, $detail_item_qty[$key]);
@@ -95,6 +84,19 @@ class OutgoingController extends MNPController
             return redirect('/'.$this->table)->with('success', 'Successfully edited the data');
         }
         else{
+            $transaction_no = DB::table($this->table)->pluck('transaction_no');
+            foreach ($transaction_no as $key => $value) {
+                $transaction_no[$key] = substr($value, 8);
+            }
+            if(count($transaction_no) != 0){
+                $transaction_no = intval(max($transaction_no->toArray())) + 1;
+                $transaction_no = 'OG/' . date('ym') . '/' . $transaction_no;
+            }
+            else{
+                $transaction_no = 'OG/' . date('ym') . '/' . 1;
+            }
+            $this->inputs['transaction_no'] = $transaction_no;
+
             $outgoings_id = DB::table($this->table)->insertGetId($this->inputs);
             foreach ($detail_item_id as $key => $value) {
                 DB::table('outgoings_detail')->insert([
@@ -102,6 +104,7 @@ class OutgoingController extends MNPController
                     'outgoings_id' => $outgoings_id,
                     'item_id' => $value,
                     'qty' => $detail_item_qty[$key],
+                    'aisle_id' => $detail_item_aisle[$key],
                     'company_id' => Helper::getCompanyId(),
                 ]);
                 $this->updateStock($value, $detail_item_qty[$key]);
@@ -128,7 +131,33 @@ class OutgoingController extends MNPController
 
     public function checkStockItem(Request $request){
         $item_id = $request->all()['item_id'];
-        $stock = DB::table('items')->where('id', $item_id)->where('company_id', Helper::getCompanyId())->pluck('stock')->first();
+        $item_aisle_id = $request->all()['item_aisle_id'];
+        $incoming = DB::table('incomings as a')
+            ->join('incomings_detail as b', 'a.id', 'b.incomings_id')
+            ->join('items as c', 'b.item_id', 'c.id')
+            ->join('aisles as d', 'b.aisle_id', 'd.id')
+            ->selectRaw('sum(b.qty) as stock, d.name as aisle')
+            ->where('c.id', $item_id)
+            ->where('d.id', $item_aisle_id)
+            ->where('a.company_id', Helper::getCompanyId())
+            ->groupBy('d.name')
+            ->first();
+        $outgoing = DB::table('outgoings as a')
+            ->join('outgoings_detail as b', 'a.id', 'b.outgoings_id')
+            ->join('items as c', 'b.item_id', 'c.id')
+            ->join('aisles as d', 'b.aisle_id', 'd.id')
+            ->selectRaw('sum(b.qty) as stock, d.name as aisle')
+            ->where('c.id', $item_id)
+            ->where('d.id', $item_aisle_id)
+            ->where('a.company_id', Helper::getCompanyId())
+            ->groupBy('d.name')
+            ->first();
+        if(!$outgoing){
+            $stock = $incoming->stock;
+        }
+        else{
+            $stock = ($incoming->stock) - ($outgoing->stock);
+        }
         return $stock;
     }
 
