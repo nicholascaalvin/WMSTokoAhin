@@ -75,16 +75,16 @@
                                             <input type="hidden" id="id" name="id" value="{{(@$item->{$td['col']})}}">
                                         @else
                                             @if ($key == 1)
-                                            <td class="{{$td['col']}} text-center"><a class="edit-btn" style="text-decoration: none; color: #00c3ff">{{(@$item->{$td['col']})}}</a></td>
+                                            <td class="{{$td['col']}}"><a class="edit-btn" style="text-decoration: none; color: #00c3ff">{{(@$item->{$td['col']})}}</a></td>
                                             @else
                                                 @if ($td['col'] == 'stock')
                                                     @if ((@$item->{$td['col']}) < 24)
-                                                        <td class="{{$td['col']}} text-center" style="color: red">{{(@$item->{$td['col']})}} <i class="bi bi-exclamation-triangle"></i> Low Stock</td>
+                                                        <td class="{{$td['col']}}" style="color: red">{{(@$item->{$td['col']})}} <i class="bi bi-exclamation-triangle"></i> Low Stock</td>
                                                     @else
-                                                        <td class="{{$td['col']}} text-center">{{(@$item->{$td['col']})}}</td>
+                                                        <td class="{{$td['col']}}">{{(@$item->{$td['col']})}}</td>
                                                     @endif
                                                 @else
-                                                    <td class="{{$td['col']}} text-center">{{(@$item->{$td['col']})}}</td>
+                                                    <td class="{{$td['col']}}">{{(@$item->{$td['col']})}}</td>
                                                 @endif
                                             @endif
                                         @endif
