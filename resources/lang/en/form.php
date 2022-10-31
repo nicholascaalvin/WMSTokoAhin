@@ -48,12 +48,23 @@
         'Customers' => 'Customers',
         'Vendors' => 'Vendors',
 
-        // Form Page
+        // Form Blade
         'Name' => 'Name',
         'Email' => 'Email',
         'Save' => 'Save',
+        'Item Brand' => 'Item Brand',
+        'Item UOM' => 'Item UOM',
+        'Item Life' => 'Item Life',
+        'Item Weight (gr)' => 'Item Weight (gr)',
+        'Item Origin' => 'Item Origin',
+        'Description' => 'Description',
+        'Please Select' => 'Please Select',
+        'Day' => 'Day',
+        'Week' => 'Week',
+        'Year' => 'Year',
+        'Quantity' => 'Quantity',
 
-        // Main Page
+        // Main Blade
         'Add New' => 'Add New',
         'Country Name' => 'Country Name',
         'Action' => 'Action',
@@ -66,6 +77,12 @@
         'Vendor Name' => 'Vendor Name',
         'Item Name' => 'Item Name',
         'Stock' => 'Stock',
+        'Transaction No' => 'Transaction No',
+        'Transaction Date' => 'Transaction Date',
+        'Search' => 'Search',
+
+        // Detail Blade (ada bebrp kepake di blade lain tp lupa yg mana)
+        'Edit' => 'Edit',
 
     ]
 

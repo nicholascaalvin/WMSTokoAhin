@@ -37,8 +37,8 @@
                 <div class=" d-flex justify-content-between align-items-center">
                     <div class="search d-flex align-items-center">
                         <form action="{{(new \App\Helpers\Helper)->getFullUrl()}}" method="get">
-                            <input type="text" placeholder="Search" class="form-input" name="q">
-                            <button type="submit" class="btn btn-primary" style="margin-left: 10px;">Search</button>
+                            <input type="text" placeholder="  {{__('form.Search')}}" class="form-input" name="q">
+                            <button type="submit" class="btn btn-primary" style="margin-left: 10px;">{{__('form.Search')}}</button>
                         </form>
                     </div>
                     <div class="right">

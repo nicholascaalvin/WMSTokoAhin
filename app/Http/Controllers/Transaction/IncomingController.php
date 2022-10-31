@@ -31,7 +31,7 @@ class IncomingController extends MNPController
                 ->join('incomings_detail as b', 'a.id', 'b.incomings_id')
                 ->join('items as c', 'b.item_id', 'c.id')
                 ->join('aisles as d', 'b.aisle_id', 'd.id')
-                ->select('a.id', 'a.transaction_no', 'a.transaction_date', 'a.vendor_id', 'c.name', 'b.qty', 'c.id', 'b.incomings_id', 'd.id as aisle_id', 'd.name as aisle')
+                ->select('a.id', 'a.transaction_no', 'a.transaction_date', 'a.vendor_id', 'c.name', 'b.qty', 'c.id', 'b.incomings_id', 'd.id as aisle_id', 'd.name as aisle_name')
                 ->where('a.company_id', Helper::getCompanyId())
                 ->where('b.incomings_id', $page[3])
                 ->groupBy('a.id', 'a.transaction_no', 'a.transaction_date', 'a.vendor_id', 'c.name', 'b.qty', 'c.id', 'b.incomings_id', 'd.id', 'd.name')

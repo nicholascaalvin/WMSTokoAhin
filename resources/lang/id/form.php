@@ -48,7 +48,7 @@
         'Customers' => 'Pelanggan',
         'Vendors' => 'Penjual',
 
-        // Form Blade
+        // Form Blade (ada bebrp kepake di blade lain tp lupa yg mana)
         'Name' => 'Nama',
         'Email' => 'Email',
         'Save' => 'Simpan',
@@ -64,7 +64,7 @@
         'Year' => 'Tahun',
         'Quantity' => 'Kuantitas',
 
-        // Main Blade
+        // Main Blade (ada bebrp kepake di blade lain tp lupa yg mana)
         'Add New' => 'Tambah Baru',
         'Country Name' => 'Nama Negara',
         'Action' => 'Aksi',
@@ -79,8 +79,9 @@
         'Stock' => 'Persediaan',
         'Transaction No' => 'Nomor Transaksi',
         'Transaction Date' => 'Tanggal Transaksi',
+        'Search' => 'Cari',
 
-        // Detail Blade
+        // Detail Blade (ada bebrp kepake di blade lain tp lupa yg mana)
         'Edit' => 'Edit',
 
 
