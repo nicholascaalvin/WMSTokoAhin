@@ -43,7 +43,7 @@
                     </div>
                     <div class="right">
                         <div class="d-flex justify-content-end" style="margin-bottom: 0.5em;">
-                            <a class="btn btn-info" href="{{$add}}"><i class="bi bi-plus-square-fill"></i> Add New</a>
+                            <a class="btn btn-info" href="{{$add}}"><i class="bi bi-plus-square-fill"></i> {{__('form.Add New')}}</a>
                         </div>
                     </div>
                 </div>
