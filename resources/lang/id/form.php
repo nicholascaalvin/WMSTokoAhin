@@ -28,8 +28,8 @@
 
         'Transaction' => 'Transaksi',
             //Transaction Dropdown
-            'Incoming' => 'Pemasukan',
-            'Outgoing' => 'Pengeluaran',
+            'Incoming' => 'Pemasukan', // + Main Page?
+            'Outgoing' => 'Pengeluaran', // + Main Page?
 
         'Report' => 'Laporan',
             //Report Dropdown
@@ -47,6 +47,18 @@
         'Aisles' => 'Rak', // lorong / rak?
         'Customers' => 'Pelanggan',
         'Vendors' => 'Penjual',
+
+        // Form Page
+        'Name' => 'Nama',
+        'Email' => 'Email',
+        'Save' => 'Simpan',
+
+        // Main Page
+        'Add New' => 'Tambah Baru',
+        'Country Name' => 'Nama Negara',
+        'Action' => 'Aksi',
+        'Details' => 'Detil',
+        'Delete' => 'Hapus',
 
 
     ]

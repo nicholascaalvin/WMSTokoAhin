@@ -48,6 +48,18 @@
         'Customers' => 'Customers',
         'Vendors' => 'Vendors',
 
+        // Form Page
+        'Name' => 'Name',
+        'Email' => 'Email',
+        'Save' => 'Save',
+
+        // Main Page
+        'Add New' => 'Add New',
+        'Country Name' => 'Country Name',
+        'Action' => 'Action',
+        'Details' => 'Details',
+        'Delete' => 'Delete',
+
     ]
 
 ?>

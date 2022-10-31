@@ -36,7 +36,7 @@
                 <div class="right">
                     <div class="d-flex justify-content-end" style="margin-bottom: 0.5em;">
 
-                        <a class="btn btn-info" href="{{$add}}"><i class="bi bi-plus-square-fill"></i> Add New</a>
+                        <a class="btn btn-info" href="{{$add}}"><i class="bi bi-plus-square-fill"></i> {{__('form.Add New')}}</a>
                     </div>
                     <div class="search d-flex align-items-center">
                         {{-- <form action="{{$searchRoute}}" method="get">
@@ -59,10 +59,10 @@
                             <th style="width: 1%;">NO.</th>
                             @foreach ($main as $th)
                                 @if (!isset($th['input']))
-                                    <th @isset($th['width'])style="width: {{$th['width']}}" @endisset  @isset($th['display']) style="display: none;" @endisset>{{$th['label']}}</th>
+                                    <th @isset($th['width'])style="width: {{$th['width']}}" @endisset  @isset($th['display']) style="display: none;" @endisset>{{__('form.'.$th['label'])}}</th>
                                 @endif
                             @endforeach
-                            <th style="width: 1%">Action</th>
+                            <th style="width: 1%">{{__('form.Action')}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -89,8 +89,8 @@
                                                 <i class="bi bi-three-dots-vertical"></i>
                                             </a>
                                             <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item detail-btn">Details</a></li>
-                                                <li><button class="dropdown-item delete-btn" type="submit">Delete</button></li>
+                                                <li><a class="dropdown-item detail-btn">{{__('form.Details')}}</a></li>
+                                                <li><button class="dropdown-item delete-btn" type="submit">{{__('form.Delete')}}</button></li>
                                             </ul>
                                         </div>
                                     </td>

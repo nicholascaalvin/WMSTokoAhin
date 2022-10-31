@@ -21,7 +21,7 @@
     <div class="card">
         <div class="card-header" style="border-bottom: none">
             <div class="header-content d-flex justify-content-between align-items-center">
-                <h1>@if($title != 'Profile')Add New @endif {{$title}}</h1>
+                <h1>@if($title != 'Profile')Add New @endif {{__('form.'.$title)}}</h1>
             </div>
         </div>
         <div class="card-body">
@@ -31,7 +31,7 @@
                     <div class="d-flex align-items-center" @isset($item['display']) style="display: none !important;"  @endisset>
                         <div class="label">
                             <label for="{{$item['col']}}" @isset($item['display']) style="display: none !important;" @endisset>
-                                {{$item['label']}}
+                                {{__('form.'.$item['label'])}}   
                                 @if(isset($item['required']))
                                     <span class='text-danger'>*</span>
                                 @endif
@@ -113,7 +113,7 @@
                         </tbody>
                     </table>
                 @endif
-                <button class="btn btn-success save" type="submit">Save</button>
+                <button class="btn btn-success save" type="submit">{{__('form.Save')}}</button>
             </form>
         </div>
     </div>
