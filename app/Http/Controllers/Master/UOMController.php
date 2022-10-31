@@ -10,7 +10,7 @@ class UOMController extends MNPController
         $this->title = 'Unit Of Measurements';
         $this->table = 'uoms';
 
-        $this->main[] = ['label' => 'id', 'col' => 'id', 'input' => true];
+        $this->main[] = ['label' => 'id', 'col' => 'id', 'input' => true, 'search' => 'skip'];
         $this->main[] = ['label' => 'UOM Name', 'col' => 'name'];
 
         $this->forms[] = ['label' => 'UOM Name', 'col' => 'name', 'required' => true];

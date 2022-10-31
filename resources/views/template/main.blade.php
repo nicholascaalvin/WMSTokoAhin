@@ -2,6 +2,7 @@
 <style type="text/css">
     .card{
         margin: 10px;
+        /* border: none; */
     }
     table thead th{
         text-align: center;
@@ -29,24 +30,21 @@
 @section('content')
     <div class="card">
         <div class="card-header" style="border-bottom: none">
-            <div class="header-content d-flex justify-content-between align-items-center">
-                <div class="left">
+            <div class="header-content">
+                <div class="">
                     <h1>{{__('form.'.$title)}}</h1>
                 </div>
-                <div class="right">
-                    <div class="d-flex justify-content-end" style="margin-bottom: 0.5em;">
-
-                        <a class="btn btn-info" href="{{$add}}"><i class="bi bi-plus-square-fill"></i> {{__('form.Add New')}}</a>
-                    </div>
+                <div class=" d-flex justify-content-between align-items-center">
                     <div class="search d-flex align-items-center">
-                        {{-- <form action="{{$searchRoute}}" method="get">
-                            @if (isset($searched))
-                                <input type="text" placeholder="Search" class="form-input" name="q" value={{$searched}}>
-                            @else
-                                <input type="text" placeholder="Search" class="form-input" name="q">
-                            @endif
+                        <form action="{{(new \App\Helpers\Helper)->getFullUrl()}}" method="get">
+                            <input type="text" placeholder="Search" class="form-input" name="q">
                             <button type="submit" class="btn btn-primary" style="margin-left: 10px;">Search</button>
-                        </form> --}}
+                        </form>
+                    </div>
+                    <div class="right">
+                        <div class="d-flex justify-content-end" style="margin-bottom: 0.5em;">
+                            <a class="btn btn-info" href="{{$add}}"><i class="bi bi-plus-square-fill"></i> Add New</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -77,15 +75,23 @@
                                             <input type="hidden" id="id" name="id" value="{{(@$item->{$td['col']})}}">
                                         @else
                                             @if ($key == 1)
-                                            <td class="{{$td['col']}}"><a class="edit-btn" style="text-decoration: none; color: #00c3ff">{{(@$item->{$td['col']})}}</a></td>
+                                            <td class="{{$td['col']}} text-center"><a class="edit-btn" style="text-decoration: none; color: #00c3ff">{{(@$item->{$td['col']})}}</a></td>
                                             @else
-                                            <td class="{{$td['col']}}">{{(@$item->{$td['col']})}}</td>
+                                                @if ($td['col'] == 'stock')
+                                                    @if ((@$item->{$td['col']}) < 24)
+                                                        <td class="{{$td['col']}} text-center" style="color: red">{{(@$item->{$td['col']})}} <i class="bi bi-exclamation-triangle"></i> Low Stock</td>
+                                                    @else
+                                                        <td class="{{$td['col']}} text-center">{{(@$item->{$td['col']})}}</td>
+                                                    @endif
+                                                @else
+                                                    <td class="{{$td['col']}} text-center">{{(@$item->{$td['col']})}}</td>
+                                                @endif
                                             @endif
                                         @endif
                                     @endforeach
                                     <td style="text-align: center">
                                         <div class="dropdown">
-                                            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 0;">
+                                            <a class="" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 0;">
                                                 <i class="bi bi-three-dots-vertical"></i>
                                             </a>
                                             <ul class="dropdown-menu">
@@ -109,12 +115,12 @@
     $('.edit-btn').on('click', function(){
         var row = this.parentNode.parentNode;
         var id = $(row).find('input#id').val();
-        window.location.assign('{{(new \App\Helpers\Helper)->getFullUrl()}}/edit/'+id);
+        window.location.assign('{{$table}}/edit/'+id);
     });
     $('.detail-btn').on('click', function(){
         var row = this.parentNode.parentNode.parentNode.parentNode.parentNode;
         var id = $(row).find('input#id').val();
-        window.location.assign('{{(new \App\Helpers\Helper)->getFullUrl()}}/details/'+id);
+        window.location.assign('{{$table}}/details/'+id);
     });
 </script>
 @endsection

@@ -16,11 +16,11 @@ class ItemController extends MNPController
         $this->title = 'Items';
         $this->table = 'items';
 
-        $this->main[] = ['label' => 'id', 'col' => 'id', 'input' => true];
+        $this->main[] = ['label' => 'id', 'col' => 'id', 'input' => true, 'search' => 'skip'];
         $this->main[] = ['label' => 'Item Name', 'col' => 'name'];
         $this->main[] = ['label' => 'Incoming', 'col' => 'incoming'];
         $this->main[] = ['label' => 'Outgoing', 'col' => 'outgoing'];
-        $this->main[] = ['label' => 'Stock', 'col' => 'stock'];
+        $this->main[] = ['label' => 'Stock', 'col' => 'stock', 'width' => '10%'];
 
         $this->forms[] = ['label' => 'Item Name', 'col' => 'name', 'required' => true];
         $this->forms[] = ['label' => 'Item Brand', 'col' => 'brand_id', 'type' => 'select2', 'select2_table' => 'brands'];

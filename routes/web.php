@@ -72,7 +72,6 @@ Route::middleware('auth')->group(function(){
     Route::get('/countries/edit/{id}', [CountryController::class, 'getDetail']);
     Route::post('/countries/edit/{id}/save', [CountryController::class, 'save']);
     Route::delete('/countries/delete', [CountryController::class, 'delete']);
-    // Route::get('/countries/search', [CountryController::class, 'searchCountries'])->name('search-countries');
 
     //Master UOM
     Route::get('/uoms', [UOMController::class, 'getIndex'])->name('uoms');
@@ -82,7 +81,6 @@ Route::middleware('auth')->group(function(){
     Route::get('/uoms/edit/{id}', [UOMController::class, 'getDetail']);
     Route::post('/uoms/edit/{id}/save', [UOMController::class, 'save']);
     Route::delete('/uoms/delete', [UOMController::class, 'delete']);
-    // Route::get('/uoms/search', [UOMController::class, 'searchUOM'])->name('search-uoms');
 
     //Master Brand
     Route::get('/brands', [BrandController::class, 'getIndex'])->name('brands');
@@ -92,7 +90,6 @@ Route::middleware('auth')->group(function(){
     Route::get('brands/edit/{id}', [BrandController::class, 'getDetail']);
     Route::post('brands/edit/{id}/save', [BrandController::class, 'save']);
     Route::delete('/brands/delete', [BrandController::class, 'delete']);
-    // route::get('/brands/search', [BrandController::class, 'searchBrands'])->name('search-brands');
 
     //Master Items
     Route::get('/items', [ItemController::class, 'getIndex'])->name('items');
@@ -102,7 +99,6 @@ Route::middleware('auth')->group(function(){
     Route::get('/items/edit/{id}', [ItemController::class, 'getDetail']);
     Route::post('/items/edit/{id}/save', [ItemController::class, 'save']);
     Route::delete('/items/delete', [ItemController::class, 'delete']);
-    // Route::get('/items/search', [ItemController::class, 'searchItems'])->name('search-items');
 
     Route::get('/items/update-all-stock', [ItemController::class, 'updateAllStock']);
 

@@ -24,6 +24,13 @@
         .card-header{
             background-color: white;
         }
+        .navbar{
+            background-color: #1746A2 !important;
+            color: white !important;
+        }
+        .navbar-brand{
+            color: white !important;
+        }
     </style>
     @yield('header')
 </head>
@@ -31,7 +38,80 @@
 
     @if ($title == 'Register' || $title == 'Login')
     @else
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+
+    {{-- <div class="sidebar">
+        <a class="navbar-brand" href="{{route('dashboard')}}">WMS</a>
+        <ul class="navbar-nav">
+            <div class="dropdown text-end">
+                <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                  {{strtoupper(session('locale') ?? config('app.locale'))}}
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                  <li><a class="dropdown-item" href="{{url('/dashboard/switch/en')}}">EN</a></li>
+                  <li><a class="dropdown-item" href="{{url('/dashboard/switch/id')}}">ID</a></li>
+                </ul>
+            </div>
+        </ul>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Master
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="{{route('countries')}}">{{__('form.Country')}}</a></li>
+                    <li><a class="dropdown-item" href="{{route('uoms')}}">{{__('form.Unit of Measurement')}}</a></li>
+                    <li><a class="dropdown-item" href="{{route('brands')}}">{{__('form.Brand')}}</a></li>
+                    <li><a class="dropdown-item" href="{{route('aisles')}}">{{__('form.Aisle')}}</a></li>
+                    <li><a class="dropdown-item" href="{{route('customers')}}">{{__('form.Customer')}}</a></li>
+                    <li><a class="dropdown-item" href="{{route('vendors')}}">{{__('form.Vendor')}}</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{{route('items')}}">{{__('form.Item')}}</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{__('form.Transaction')}}
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="{{route('incomings')}}">{{__('form.Incoming')}}</a></li>
+                    <li><a class="dropdown-item" href="{{route('outgoings')}}">{{__('form.Outgoing')}}</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{__('form.Report')}}
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#">{{__('form.History Transaction')}}</a></li>
+                    <li><a class="dropdown-item" href="#">{{__('form.Item Transaction')}}</a></li>
+                </ul>
+            </li>
+        </ul>
+        @if(auth()->user())
+            <ul class="navbar-nav profile">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: black">
+                        <i class="bi bi-person-circle fa-lg" style="margin-right: 0.5em; color: black"></i>
+                        {{auth()->user()->name}}
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{url('/profile/edit').'/'.auth()->user()->id}}">{{__('form.Profile')}}</a></li>
+                        <form action="{{route('logout')}}" method="POST">
+                            @csrf
+                            <li><button class="dropdown-item" href="" type="submit">{{__('form.Logout')}}</button></li>
+                        </form>
+                    </ul>
+                </li>
+            </ul>
+            @else
+            <form action="{{route('login_page')}}" method="GET">
+                <button class="btn btn-primary">{{__('form.Login')}}</button>
+            </form>
+        @endif
+    </div> --}}
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex">
         <div class="container-fluid">
           <a class="navbar-brand" href="{{route('dashboard')}}">WMS</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +120,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
                         Master
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -55,7 +135,7 @@
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
                         {{__('form.Transaction')}}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -64,7 +144,7 @@
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
                         {{__('form.Report')}}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -75,7 +155,7 @@
             </ul>
             <ul class="navbar-nav">
                 <div class="dropdown text-end">
-                    <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
                       {{strtoupper(session('locale') ?? config('app.locale'))}}
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -85,21 +165,19 @@
                 </div>
             </ul>
             @if(auth()->user())
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: black">
-                            {{-- <i class="bi bi-person-circle fa-lg" style="margin-right: 0.5em; color: black"></i> --}}
-                            {{auth()->user()->name}}
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{url('/profile/edit').'/'.auth()->user()->id}}">{{__('form.Profile')}}</a></li>
-                            <form action="{{route('logout')}}" method="POST">
-                                @csrf
-                                <li><button class="dropdown-item" href="" type="submit">{{__('form.Logout')}}</button></li>
-                            </form>
-                        </ul>
-                    </li>
-                </ul>
+                <div class="btn-group">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
+                        {{-- <i class="bi bi-person-circle fa-lg" style="margin-right: 0.5em; color: black"></i> --}}
+                        {{auth()->user()->name}}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="{{url('/profile/edit').'/'.auth()->user()->id}}">{{__('form.Profile')}}</a></li>
+                        <form action="{{route('logout')}}" method="POST">
+                            @csrf
+                            <li><button class="dropdown-item" href="" type="submit">{{__('form.Logout')}}</button></li>
+                        </form>
+                    </ul>
+                </div>
                 @else
                 <form action="{{route('login_page')}}" method="GET">
                     <button class="btn btn-primary">{{__('form.Login')}}</button>
@@ -107,7 +185,8 @@
             @endif
           </div>
         </div>
-      </nav>
+    </nav>
+
     @endif
 
     <div class="content">

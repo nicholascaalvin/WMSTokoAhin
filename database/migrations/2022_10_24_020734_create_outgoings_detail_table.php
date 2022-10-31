@@ -19,6 +19,7 @@ class CreateOutgoingsDetailTable extends Migration
             $table->foreignId('outgoings_id')->constrained('outgoings');
             $table->foreignId('item_id')->constrained('items');
             $table->integer('qty');
+            $table->foreignId('aisle_id')->constrained('aisles');
 
             $table->foreignId('company_id')->constrained('companies');
         });

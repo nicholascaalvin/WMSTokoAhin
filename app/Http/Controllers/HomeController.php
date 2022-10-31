@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
 
 class HomeController extends MNPController
 {
@@ -10,7 +11,7 @@ class HomeController extends MNPController
         $this->title = 'Dashboard';
     }
 
-    public function getIndex(){
+    public function getIndex(Request $request){
 
         if($locale = session('locale')){
             app()->setLocale($locale);

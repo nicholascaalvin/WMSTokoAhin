@@ -10,7 +10,7 @@ class CountryController extends MNPController
         $this->title = 'Countries';
         $this->table = 'countries';
 
-        $this->main[] = ['label' => 'id', 'col' => 'id', 'input' => true];
+        $this->main[] = ['label' => 'id', 'col' => 'id', 'input' => true, 'search' => 'skip'];
         $this->main[] = ['label' => 'Country Name', 'col' => 'name'];
 
         $this->forms[] = ['label' => 'Country Name', 'col' => 'name', 'required' => true];
