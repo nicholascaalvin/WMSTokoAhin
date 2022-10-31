@@ -4,6 +4,7 @@
 <style>
     body{
         margin: 10px;
+        background-color: darkgray;
     }
     .login-card{
         position: absolute;
@@ -23,7 +24,7 @@
 
 @section('content')
 <div class="dropdown text-end">
-    <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+    <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: white; border: none">
       {{strtoupper(session('locale') ?? config('app.locale'))}}
     </button>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -31,7 +32,7 @@
       <li><a class="dropdown-item" href="{{url('/register/switch/id')}}">ID</a></li>
     </ul>
 </div>
-<div class="card login-card" style="width: 26em;">
+<div class="card login-card" style="width: 26em; border-radius: 20px">
     <div class="card-body">
         <h5 class="card-title">Register</h5>
         <form method="POST" action="{{route('register_data')}}">

@@ -39,20 +39,36 @@ class MNPController extends Controller
             $this->data['row'] = $this->row->get();
         }
 
-        $query = $this->query();
-        $this->data['contents'] = $query->get();
-
         $url = Helper::getCurrentUrl();
         $this->data['url'] = $url;
-        if(count(explode('/', $this->data['url'])) == 2){
-            $this->data['add'] = $url.'/add';
-        }
+        $this->data['add'] = '/'.$this->table.'/add';
+
         $this->data['forms'] = $this->forms;
         // dd($this->data);
     }
 
-    public function getIndex(){
+    public function getIndex(Request $request){
         $this->load();
+        $query = $this->query();
+
+        $q = $request->all();
+        if(count($q) != 0){
+            $col = $this->main;
+            $q = $q['q'];
+            $query->where(function ($where) use ($col, $q){
+                foreach ($col as $key => $value) {
+                    if(!isset($value['col'])){
+                        continue;
+                    }
+                    $search = isset($value['search']) ? $value['search'] : $value['col'];
+                    if($search != 'skip'){
+                        $where->orWhere($search, 'like', '%'.$q.'%');
+                    }
+                }
+            });
+        }
+        // dd($query->toSql());
+        $this->data['contents'] = $query->get();
 
         if($locale = session('locale')){
             app()->setLocale($locale);
@@ -71,9 +87,13 @@ class MNPController extends Controller
 
     public function getDetail($id){
         $this->load();
-        $this->data['contents'] = $this->data['contents']->where('id', $id)->first();
+
         $url = explode('/', $this->data['url']);
         $this->data['page'] = $url[2];
+
+        $query = $this->query();
+        $this->data['contents'] = $query->get();
+        $this->data['contents'] = $this->data['contents']->where('id', $id)->first();
         // dd($this->data['row']);
 
         if($locale = session('locale')){

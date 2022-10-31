@@ -10,7 +10,7 @@ class AislesController extends MNPController
         $this->title = 'Aisles';
         $this->table = 'aisles';
 
-        $this->main[] = ['label' => 'id', 'col' => 'id', 'input' => true];
+        $this->main[] = ['label' => 'id', 'col' => 'id', 'input' => true, 'search' => 'skip'];
         $this->main[] = ['label' => 'Aisle Name', 'col' => 'name'];
 
         $this->forms[] = ['label' => 'Aisle Name', 'col' => 'name', 'required' => true];

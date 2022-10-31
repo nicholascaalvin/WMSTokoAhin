@@ -13,7 +13,7 @@ class OutgoingController extends MNPController
         $this->title = 'Outgoing';
         $this->table = 'outgoings';
 
-        $this->main[] = ['label' => 'id', 'col' => 'id', 'input' => true];
+        $this->main[] = ['label' => 'id', 'col' => 'id', 'input' => true, 'search' => 'skip'];
         $this->main[] = ['label' => 'Transaction No', 'col' => 'transaction_no'];
         $this->main[] = ['label' => 'Transaction Date', 'col' => 'transaction_date'];
 
