@@ -21,7 +21,7 @@
     <div class="card">
         <div class="card-header" style="border-bottom: none">
             <div class="header-content d-flex justify-content-between align-items-center">
-                <h1>@if($title != 'Profile')Add New @endif {{__('form.'.$title)}}</h1>
+                <h1>@if($title != 'Profile'){{__('form.Add New')}} @endif {{__('form.'.$title)}}</h1>
             </div>
         </div>
         <div class="card-body">
@@ -31,7 +31,7 @@
                     <div class="d-flex align-items-center" @isset($item['display']) style="display: none !important;"  @endisset>
                         <div class="label">
                             <label for="{{$item['col']}}" @isset($item['display']) style="display: none !important;" @endisset>
-                                {{__('form.'.$item['label'])}}   
+                                {{__('form.'.$item['label'])}}    
                                 @if(isset($item['required']))
                                     <span class='text-danger'>*</span>
                                 @endif
@@ -44,7 +44,7 @@
                                         $option = DB::table($item['select2_table'])->where('company_id', Helper::getCompanyId())->get()->toArray();
                                     ?>
                                     <select name="{{$item['col']}}" id="{{$item['col']}}" class="form-input select2">
-                                        <option value="0" disabled selected>** Please Select **</option>
+                                        <option value="0" disabled selected>** {{__('form.Please Select')}} **</option>
                                         @foreach ($option as $list)
                                             <option value="{{$list->id}}" {{old($item['col']) == $list->id ? 'selected' : ''}}>{{$list->name}}</option>
                                         @endforeach
@@ -56,9 +56,9 @@
                                 @elseif ($item['type'] == 'life')
                                     <input class="form-input" type="number" name="{{$item['col']}}" id="{{$item['col']}}" style="width: 70.5%">
                                     <select class="form-input" name="str{{$item['col']}}" id="str{{$item['col']}}" style="width: 28%">
-                                        <option value="Day">Day</option>
-                                        <option value="Week">Week</option>
-                                        <option value="Year">Year</option>
+                                        <option value="Day">{{__('form.Day')}}</option>
+                                        <option value="Week">{{__('form.Week')}}</option>
+                                        <option value="Year">{{__('form.Year')}}</option>
                                     </select>
                                 @else
                                     <input class="form-input" type="{{$item['type']}}" name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly disabled @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{old($item['col'])}}">
@@ -75,13 +75,9 @@
                         <thead>
                             <tr>
                                 @foreach ($details as $item)
-                                    @if($item['col'] == 'qty')
-                                        <th style="width: 10%">{{$item['label']}}</th>
-                                    @else
-                                        <th>{{$item['label']}}</th>
-                                    @endif
+                                    <th>{{__('form.'.$item['label'])}}</th>
                                 @endforeach
-                                <th class="text-center" style="width: 5%">Action</th>
+                                <th class="text-center" style="width: 5%">{{__('form.Action')}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -91,9 +87,9 @@
                                         @if (isset($item['select2']))
                                             <?php
                                                 $option = DB::table($item['select2'])->where('company_id', Helper::getCompanyId())->get()->toArray();
-                                            ?>
+                                            ?> 
                                             <select name="{{$item['col']}}" id="{{$item['col']}}" class="form-input select2">
-                                                <option value="0" disabled selected>** Please Select **</option>
+                                                <option value="0" disabled selected>** {{__('form.Please Select')}} **</option>
 
                                                 @foreach ($option as $list)
                                                     <option value="{{$list->id}}">{{$list->name}}</option>

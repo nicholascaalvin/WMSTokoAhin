@@ -48,17 +48,40 @@
         'Customers' => 'Pelanggan',
         'Vendors' => 'Penjual',
 
-        // Form Page
+        // Form Blade
         'Name' => 'Nama',
         'Email' => 'Email',
         'Save' => 'Simpan',
+        'Item Brand' => 'Merek Barang',
+        'Item UOM' => 'Satuan Pengukuran Barang',
+        'Item Life' => 'Umur Barang',
+        'Item Weight (gr)' => 'Berat Barang (gr)',
+        'Item Origin' => 'Asal Barang',
+        'Description' => 'Deskripsi',
+        'Please Select' => 'Pilihan',
+        'Day' => 'Hari',
+        'Week' => 'Minggu',
+        'Year' => 'Tahun',
+        'Quantity' => 'Kuantitas',
 
-        // Main Page
+        // Main Blade
         'Add New' => 'Tambah Baru',
         'Country Name' => 'Nama Negara',
         'Action' => 'Aksi',
-        'Details' => 'Detil',
+        'Details' => 'Detil', // + Details Blade
         'Delete' => 'Hapus',
+        'UOM Name' => 'Satuan Pengukuran',
+        'Brand Name' => 'Merek',
+        'Aisle Name' => 'Rak',
+        'Customer Name' => 'Nama Pelanggan',
+        'Vendor Name' => 'Nama Penjual',
+        'Item Name' => 'Nama Item',
+        'Stock' => 'Persediaan',
+        'Transaction No' => 'Nomor Transaksi',
+        'Transaction Date' => 'Tanggal Transaksi',
+
+        // Detail Blade
+        'Edit' => 'Edit',
 
 
     ]

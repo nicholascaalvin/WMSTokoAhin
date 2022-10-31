@@ -59,6 +59,13 @@
         'Action' => 'Action',
         'Details' => 'Details',
         'Delete' => 'Delete',
+        'UOM Name' => 'Unit Of Measurement',
+        'Brand Name' => 'Brand',
+        'Aisle Name' => 'Aisle',
+        'Customer Name' => 'Customer Name',
+        'Vendor Name' => 'Vendor Name',
+        'Item Name' => 'Item Name',
+        'Stock' => 'Stock',
 
     ]
 

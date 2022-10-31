@@ -21,7 +21,7 @@
     <div class="card">
         <div class="card-header" style="border-bottom: none">
             <div class="header-content d-flex justify-content-between align-items-center">
-                <h1>@if ($page == 'details'){{$title}} Details @else Edit {{$title}}@endif </h1>
+                <h1>@if ($page == 'details'){{__('form.'.$title)}} {{__('form.Details')}} @else {{__('form.Edit')}} {{__('form.'.$title)}}@endif </h1>
             </div>
         </div>
         <div class="card-body">
@@ -31,7 +31,7 @@
                     <div class="d-flex align-items-center" @isset($item['display']) style="display: none !important;"  @endisset>
                         <div class="label">
                             <label for="{{$item['col']}}" @isset($item['display']) style="display: none !important;" @endisset>
-                                {{$item['label']}}
+                                {{__('form.'.$item['label'])}}
                                 @if(@isset($item['required']))
                                     <span class='text-danger'>*</span>
                                 @endif
@@ -59,7 +59,7 @@
                                         }
                                     ?>
                                     <select name="{{$item['col']}}" id="{{$item['col']}}" class="form-input select2" @if ($page == 'details') disabled @endif>
-                                        <option value="0" selected disabled>** Please Select **</option>
+                                        <option value="0" selected disabled>** {{__('form.Please Select')}} **</option>
                                         @foreach ($option as $list)
                                             @if ($item['select2_table'] == 'uoms')
                                                 @if ($list->id == $uom->id)
@@ -102,9 +102,9 @@
                                     <input class="form-input" type="number" name="{{$item['col']}}" id="{{$item['col']}}" style="width: 70.5%" value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
                                     <select class="form-input" name="str{{$item['col']}}" id="str{{$item['col']}}" style="width: 28%" @if ($page == 'details') disabled @endif>
                                         @if ((@$contents->{'str'.$item['col']}) == 'Day')
-                                            <option value="Day" selected>Day</option>
-                                            <option value="Week">Week</option>
-                                            <option value="Year">Year</option>
+                                            <option value="Day" selected>{{__('form.Day')}}</option>
+                                            <option value="Week">{{__('form.Week')}}</option>
+                                            <option value="Year">{{__('form.Year')}}</option>
                                         @elseif ((@$contents->{'str'.$item['col']}) == 'Week')
                                             <option value="Day">Day</option>
                                             <option value="Week" selected>Week</option>
@@ -131,12 +131,12 @@
                             <tr>
                                 @foreach ($details as $item)
                                     @if($item['col'] == 'qty')
-                                        <th style="width: 10%">{{$item['label']}}</th>
+                                        <th style="width: 10%">{{__('form.'.$item['label'])}}</th>
                                     @else
                                         <th>{{$item['label']}}</th>
                                     @endif
                                 @endforeach
-                                <th class="text-center" style="width: 5%">Action</th>
+                                <th class="text-center" style="width: 5%">{{__('form.Action')}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -181,7 +181,7 @@
                         </tbody>
                     </table>
                 @endif
-                <button class="btn btn-success save" type="submit" @if ($page == 'details') style="display: none" @endif>Save</button>
+                <button class="btn btn-success save" type="submit" @if ($page == 'details') style="display: none" @endif>{{__('form.Save')}}</button>
             </form>
         </div>
     </div>
