@@ -31,9 +31,6 @@
         .navbar-brand{
             color: white !important;
         }
-        .nav-link{
-            color: white !important;
-        }
     </style>
     @yield('header')
 </head>
@@ -123,7 +120,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
                         Master
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -138,7 +135,7 @@
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
                         {{__('form.Transaction')}}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -147,7 +144,7 @@
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
                         {{__('form.Report')}}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -168,21 +165,19 @@
                 </div>
             </ul>
             @if(auth()->user())
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: black">
-                            {{-- <i class="bi bi-person-circle fa-lg" style="margin-right: 0.5em; color: black"></i> --}}
-                            {{auth()->user()->name}}
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{url('/profile/edit').'/'.auth()->user()->id}}">{{__('form.Profile')}}</a></li>
-                            <form action="{{route('logout')}}" method="POST">
-                                @csrf
-                                <li><button class="dropdown-item" href="" type="submit">{{__('form.Logout')}}</button></li>
-                            </form>
-                        </ul>
-                    </li>
-                </ul>
+                <div class="btn-group">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
+                        {{-- <i class="bi bi-person-circle fa-lg" style="margin-right: 0.5em; color: black"></i> --}}
+                        {{auth()->user()->name}}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="{{url('/profile/edit').'/'.auth()->user()->id}}">{{__('form.Profile')}}</a></li>
+                        <form action="{{route('logout')}}" method="POST">
+                            @csrf
+                            <li><button class="dropdown-item" href="" type="submit">{{__('form.Logout')}}</button></li>
+                        </form>
+                    </ul>
+                </div>
                 @else
                 <form action="{{route('login_page')}}" method="GET">
                     <button class="btn btn-primary">{{__('form.Login')}}</button>
