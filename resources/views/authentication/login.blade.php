@@ -59,9 +59,12 @@
               <input type="checkbox" class="form-check-input" id="exampleCheck1">
               <label class="form-check-label" for="exampleCheck1">Check me out</label>
             </div> --}}
-            <button type="submit" class="btn btn-primary" style="width: 5em">
-                {{__('form.Login')}}
-            </button>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary" style="width: 5em">
+                    {{__('form.Login')}}
+                </button>
+            </div>
+            
         </form>
     </div>
 </div>
