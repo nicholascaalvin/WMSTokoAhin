@@ -60,7 +60,7 @@
               <label class="form-check-label" for="exampleCheck1">Check me out</label>
             </div> --}}
             <div class="text-center">
-                <button type="submit" class="btn btn-primary" style="width: 5em">
+                <button type="submit" class="btn" style="width: 5em; background-color:#FF731D; color: #FFFFFF;">
                     {{__('form.Login')}}
                 </button>
             </div>
