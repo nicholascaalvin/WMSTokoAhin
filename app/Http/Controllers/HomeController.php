@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends MNPController
 {
@@ -18,6 +19,15 @@ class HomeController extends MNPController
         }
 
         return view('home', ['title' => 'Dashboard']);
+    }
+
+    public function getData(){
+        $items = DB::table('items as a')
+        ->join('brands as b', 'a.brand_id', 'b.id')
+        ->select('a.name as item_name', 'a.id', 'b.name as brand_name', 'a.stock as stock')
+        ->get();
+
+        return $items;
     }
 
     public function switch($locale){
