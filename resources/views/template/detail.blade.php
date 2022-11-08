@@ -226,6 +226,14 @@
                 }
             }
         });
+        var table = $('#<?php echo $table?>-detail');
+        if(table.length != 0){
+            var row = $(table).find('tr.details');
+            if(row.length < 1){
+                Swal.fire('Item cannot be empty!');
+                event.preventDefault();
+            }
+        }
     });
 
     $('#add').on('click', function(){

@@ -1,8 +1,12 @@
 @section('header')
 <style type="text/css">
+    body{
+        background-color: #fafafa;
+    }
     .card{
         margin: 10px;
-        /* border: none; */
+        border: none;
+        border-radius: 0.6em;
     }
     table thead th{
         text-align: center;
@@ -28,23 +32,23 @@
 @extends('layout')
 
 @section('content')
-    <div class="card">
+    <div class="card shadow mb-3 bg-body">
+        <div class="card-body" style="margin-left: 1em">
+            <h1>{{__('form.'.$title)}}</h1>
+        </div>
+    </div>
+    <div class="card shadow p-3 mb-3 bg-body">
         <div class="card-header" style="border-bottom: none">
             <div class="header-content">
-                <div class="">
-                    <h1>{{__('form.'.$title)}}</h1>
-                </div>
-                <div class=" d-flex justify-content-between align-items-center">
-                    <div class="search d-flex align-items-center">
-                        <form action="{{(new \App\Helpers\Helper)->getFullUrl()}}" method="get">
-                            <input type="text" placeholder="  {{__('form.Search')}}" class="form-input" name="q">
-                            <button type="submit" class="btn btn-primary" style="margin-left: 10px;">{{__('form.Search')}}</button>
-                        </form>
-                    </div>
-                    <div class="right">
-                        <div class="d-flex justify-content-end" style="margin-bottom: 0.5em;">
+                <div class="d-flex align-items-center">
+                    <div class="right" style="margin-right: 0.5em">
                             <a class="btn btn-info" href="{{$add}}"><i class="bi bi-plus-square-fill"></i> {{__('form.Add New')}}</a>
-                        </div>
+                    </div>
+                    <div class="search">
+                        <form action="{{(new \App\Helpers\Helper)->getFullUrl()}}" method="get" class="d-flex align-items-center">
+                            <input type="text" placeholder="  {{__('form.Search')}}" class="form-input" name="q">
+                            <button type="submit" class="btn btn-primary" style="margin-left: 0.5em;">{{__('form.Search')}}</button>
+                        </form>
                     </div>
                 </div>
             </div>

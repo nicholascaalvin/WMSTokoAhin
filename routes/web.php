@@ -62,6 +62,7 @@ Route::middleware('auth')->group(function(){
     //     return redirect(route('dashboard'));
     // });
     Route::get('/dashboard', [HomeController::class, 'getIndex'])->name('dashboard');
+    Route::post('/dashboard/data', [Homecontroller::class, 'getData']);
     Route::get('/dashboard/switch/{locale}', [HomeController::class, 'switch']);
 
     //Master Country
