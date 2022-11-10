@@ -18,7 +18,7 @@ class BrandSeeder extends Seeder
         foreach ($companies as $key => $value) {
             DB::table('brands')->insert([
                 [
-                    'name' => 'No Brand',
+                    'name' => '-',
                     'company_id' => $value->id,
                 ],
             ]);
