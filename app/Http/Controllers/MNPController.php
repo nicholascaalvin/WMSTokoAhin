@@ -107,6 +107,18 @@ class MNPController extends Controller
         return redirect()->back();
     }
 
+    public function before_save(&$request){
+    }
+
+    public function before_edit($id, &$request){
+    }
+
+    public function after_save($id){
+    }
+
+    public function after_edit($id){
+    }
+
     public function save(Request $request){
         $this->load();
         $this->inputs = [];
@@ -126,17 +138,21 @@ class MNPController extends Controller
         if($page[2] == 'edit'){
             $this->inputs['updated_at'] = $now;
             $id = $page[3];
+            $this->before_edit($id, $this->inputs);
             DB::table($this->table)->where('id', $id)->where('company_id', $this->inputs['company_id'])->update($this->inputs);
+            $this->after_edit($id);
             return redirect('/'.$this->table)->with('success', 'Successfully edited the data');
         }
         else{
             $this->inputs['created_at'] = $now;
+            $this->before_save($this->inputs);
             $exist = DB::table($this->table)->where('company_id', $this->inputs['company_id'])->whereRaw($like." like '%$col%'")->get();
             if(count($exist) > 0){
                 return redirect()->back()->with('error', 'Data existed!')->withInput();
             }
             else{
-                DB::table($this->table)->insert($this->inputs);
+                $id = DB::table($this->table)->insertGetId($this->inputs);
+                $this->after_save($id);
                 return redirect('/'.$this->table)->with('success', 'Successfully added new data');
             }
         }
