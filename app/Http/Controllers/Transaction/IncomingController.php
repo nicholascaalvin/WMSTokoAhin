@@ -37,6 +37,22 @@ class IncomingController extends MNPController
                 ->groupBy('a.id', 'a.transaction_no', 'a.transaction_date', 'a.vendor_id', 'c.name', 'b.qty', 'c.id', 'b.incomings_id', 'd.id', 'd.name')
                 ->orderBy('b.id');
         }
+
+        $this->js = "
+        $(document).ready(function(){
+            var url = window.location.href;
+            url = url.split('/');
+            if(url.length == 5){
+                $.ajax({
+                    url: '/incomings/check-transaction-no',
+                    type: 'GET',
+                    success: function(data){
+                        $('#transaction_no').val(data);
+                    },
+                });
+            }
+        });
+        ";
     }
 
     public function save(Request $request){
@@ -127,5 +143,20 @@ class IncomingController extends MNPController
         DB::table('items')->where('id', $item_id)->where('company_id', Helper::getCompanyId())->update([
             'incoming' => $current_qty,
         ]);
+    }
+
+    public function checkTransactionNo(){
+        $transaction_no = DB::table('incomings')->pluck('transaction_no');
+        foreach ($transaction_no as $key => $value) {
+            $transaction_no[$key] = substr($value, 8);
+        }
+        if(count($transaction_no) != 0){
+            $transaction_no = intval(max($transaction_no->toArray())) + 1;
+            $transaction_no = 'IC/' . date('ym') . '/' . $transaction_no;
+        }
+        else{
+            $transaction_no = 'IC/' . date('ym') . '/' . 1;
+        }
+        return $transaction_no;
     }
 }

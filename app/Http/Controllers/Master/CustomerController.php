@@ -21,6 +21,22 @@ class CustomerController extends MNPController
         $this->forms[] = ['label' => 'Customer Code', 'col' => 'code', 'readonly' => true];
         $this->forms[] = ['label' => 'Customer Name', 'col' => 'name', 'required' => true];
         $this->forms[] = ['label' => 'Customer Address', 'col' => 'address', 'required' => true];
+
+        $this->js = "
+        $(document).ready(function(){
+            var url = window.location.href;
+            url = url.split('/');
+            if(url.length == 5){
+                $.ajax({
+                    url: '/customers/check-transaction-no',
+                    type: 'GET',
+                    success: function(data){
+                        $('#code').val(data);
+                    },
+                });
+            }
+        });
+        ";
     }
 
     public function save(Request $request){
@@ -63,6 +79,21 @@ class CustomerController extends MNPController
             $id = DB::table($this->table)->insertGetId($this->inputs);
             return redirect('/'.$this->table)->with('success', 'Successfully added new data');
         }
+    }
+
+    public function checkTransactionNo(){
+        $max = DB::table('customers')->pluck('code');
+        foreach ($max as $key => $value) {
+            $max[$key] = substr($value, 1);
+        }
+        if(count($max) ==  0){
+            $code = 'C1';
+        }
+        else{
+            $idx = intval(max($max->toArray())) + 1;
+            $code = 'C' . $idx;
+        }
+        return $code;
     }
 
 }

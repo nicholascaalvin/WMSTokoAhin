@@ -20,6 +20,22 @@ class VendorController extends MNPController
 
         $this->forms[] = ['label' => 'Vendor Code', 'col' => 'code', 'readonly' => true];
         $this->forms[] = ['label' => 'Vendor Name', 'col' => 'name', 'required' => true];
+
+        $this->js = "
+        $(document).ready(function(){
+            var url = window.location.href;
+            url = url.split('/');
+            if(url.length == 5){
+                $.ajax({
+                    url: '/vendors/check-transaction-no',
+                    type: 'GET',
+                    success: function(data){
+                        $('#code').val(data);
+                    },
+                });
+            }
+        });
+        ";
     }
 
     public function save(Request $request){
@@ -62,6 +78,21 @@ class VendorController extends MNPController
             $id = DB::table($this->table)->insertGetId($this->inputs);
             return redirect('/'.$this->table)->with('success', 'Successfully added new data');
         }
+    }
+
+    public function checkTransactionNo(){
+        $max = DB::table('vendors')->pluck('code');
+        foreach ($max as $key => $value) {
+            $max[$key] = substr($value, 1);
+        }
+        if(count($max) ==  0){
+            $code = 'V1';
+        }
+        else{
+            $idx = intval(max($max->toArray())) + 1;
+            $code = 'V' . $idx;
+        }
+        return $code;
     }
 
 }

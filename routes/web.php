@@ -121,6 +121,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/customers/edit/{id}', [CustomerController::class, 'getDetail']);
     Route::post('/customers/edit/{id}/save', [CustomerController::class, 'save']);
     Route::delete('/customers/delete', [CustomerController::class, 'delete']);
+    Route::get('/customers/check-transaction-no', [CustomerController::class, 'checkTransactionNo']);
 
     //Master Vendor
     Route::get('/vendors', [VendorController::class, 'getIndex'])->name('vendors');
@@ -130,6 +131,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/vendors/edit/{id}', [VendorController::class, 'getDetail']);
     Route::post('/vendors/edit/{id}/save', [VendorController::class, 'save']);
     Route::delete('/vendors/delete', [VendorController::class, 'delete']);
+    Route::get('/vendors/check-transaction-no', [VendorController::class, 'checkTransactionNo']);
 
     //Transaction Incoming
     Route::get('/incomings', [IncomingController::class, 'getIndex'])->name('incomings');
@@ -139,6 +141,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/incomings/edit/{id}', [IncomingController::class, 'getDetail']);
     Route::post('/incomings/edit/{id}/save', [IncomingController::class, 'save']);
     Route::delete('/incomings/delete', [IncomingController::class, 'delete']);
+    Route::get('/incomings/check-transaction-no', [IncomingController::class, 'checkTransactionNo']);
 
     //Transaction Outgoing
     Route::get('/outgoings', [OutgoingController::class, 'getIndex'])->name('outgoings');
@@ -149,6 +152,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/outgoings/edit/{id}', [OutgoingController::class, 'getDetail']);
     Route::post('/outgoings/edit/{id}/save', [OutgoingController::class, 'save']);
     Route::delete('/outgoings/delete', [OutgoingController::class, 'delete']);
+    Route::get('/outgoings/check-transaction-no', [OutgoingController::class, 'checkTransactionNo']);
 
     // Profile
     Route::get('/profile/edit/{id}', [ProfileController::class, 'getDetail']);
