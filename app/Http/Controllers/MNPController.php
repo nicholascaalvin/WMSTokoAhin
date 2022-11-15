@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use App\Helpers\Helper;
 
-
 date_default_timezone_set("Asia/Jakarta");
 
 class MNPController extends Controller

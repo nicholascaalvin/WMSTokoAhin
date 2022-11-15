@@ -14,7 +14,7 @@ use App\Http\Controllers\Master\ItemController;
 use App\Http\Controllers\Master\AislesController;
 use App\Http\Controllers\Master\CustomerController;
 use App\Http\Controllers\Master\VendorController;
-use App\Http\Controllers\Transaction\ContrIncomingoller;
+use App\Http\Controllers\Transaction\IncomingController;
 use App\Http\Controllers\Transaction\OutgoingController;
 use App\Http\Controllers\Account\ProfileController;
 use App\Http\Controllers\Report\HistoryTransactionController;
@@ -161,6 +161,7 @@ Route::middleware('auth')->group(function(){
 
     // History Transaction
     Route::get('/historytransaction', [HistoryTransactionController::class, 'getHistoryTransaction'])->name('historytransaction');
+    Route::get('/historytransaction/search', [HistoryTransactionController::class, 'search']);
 
     // History Transaction
     Route::get('/itemtransaction', [ItemTransactionController::class, 'getItemTransaction'])->name('itemtransaction');
