@@ -148,8 +148,8 @@
                         {{__('form.Report')}}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">{{__('form.History Transaction')}}</a></li>
-                        <li><a class="dropdown-item" href="#">{{__('form.Item Transaction')}}</a></li>
+                        <li><a class="dropdown-item" href="{{route('historytransaction')}}">{{__('form.History Transaction')}}</a></li>
+                        <li><a class="dropdown-item" href="{{route('itemtransaction')}}">{{__('form.Item Transaction')}}</a></li>
                     </ul>
                 </li>
             </ul>

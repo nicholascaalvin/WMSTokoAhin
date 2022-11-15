@@ -14,10 +14,11 @@ use App\Http\Controllers\Master\ItemController;
 use App\Http\Controllers\Master\AislesController;
 use App\Http\Controllers\Master\CustomerController;
 use App\Http\Controllers\Master\VendorController;
-use App\Http\Controllers\Transaction\IncomingController;
+use App\Http\Controllers\Transaction\ContrIncomingoller;
 use App\Http\Controllers\Transaction\OutgoingController;
 use App\Http\Controllers\Account\ProfileController;
-
+use App\Http\Controllers\Report\HistoryTransactionController;
+use App\Http\Controllers\Report\ItemTransactionController;
 
 
 /*
@@ -157,5 +158,11 @@ Route::middleware('auth')->group(function(){
     // Profile
     Route::get('/profile/edit/{id}', [ProfileController::class, 'getDetail']);
     Route::post('/profile/edit/{id}/save', [ProfileController::class, 'save']);
+
+    // History Transaction
+    Route::get('/historytransaction', [HistoryTransactionController::class, 'getHistoryTransaction'])->name('historytransaction');
+
+    // History Transaction
+    Route::get('/itemtransaction', [ItemTransactionController::class, 'getItemTransaction'])->name('itemtransaction');
 
 });
