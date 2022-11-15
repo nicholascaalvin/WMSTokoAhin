@@ -163,7 +163,8 @@ Route::middleware('auth')->group(function(){
     Route::get('/historytransaction', [HistoryTransactionController::class, 'getHistoryTransaction'])->name('historytransaction');
     Route::get('/historytransaction/search', [HistoryTransactionController::class, 'search']);
 
-    // History Transaction
+    // Item Transaction
     Route::get('/itemtransaction', [ItemTransactionController::class, 'getItemTransaction'])->name('itemtransaction');
+    Route::get('/itemtransaction/search', [ItemTransactionController::class, 'search']);
 
 });
