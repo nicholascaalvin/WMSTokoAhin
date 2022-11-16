@@ -21,6 +21,10 @@ class CountrySeeder extends Seeder
                     'name' => 'Indonesia',
                     'company_id' => $value->id,
                 ],
+                [
+                    'name' => 'Singapore',
+                    'company_id' => $value->id,
+                ]
             ]);
         }
     }

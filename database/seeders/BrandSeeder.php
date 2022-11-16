@@ -21,6 +21,10 @@ class BrandSeeder extends Seeder
                     'name' => '-',
                     'company_id' => $value->id,
                 ],
+                [
+                    'name' => 'PewPew',
+                    'company_id' => $value->id,
+                ],
             ]);
         }
     }
