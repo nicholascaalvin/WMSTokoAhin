@@ -50,6 +50,9 @@ class IncomingController extends MNPController
                         $('#transaction_no').val(data);
                     },
                 });
+                var date = new Date();
+                var now = date.getFullYear()+' '+(date.getMonth()+1)+' '+date.getDate()+' '+date.getHours()+':'+date.getMinutes();;
+                $('#transaction_date').val(now);
             }
         });
         ";

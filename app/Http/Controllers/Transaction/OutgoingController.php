@@ -50,6 +50,9 @@ class OutgoingController extends MNPController
                         $('#transaction_no').val(data);
                     },
                 });
+                var date = new Date();
+                var now = date.getFullYear()+' '+(date.getMonth()+1)+' '+date.getDate()+' '+date.getHours()+':'+date.getMinutes();;
+                $('#transaction_date').val(now);
             }
         });
         ";
@@ -168,6 +171,9 @@ class OutgoingController extends MNPController
             ->where('a.company_id', Helper::getCompanyId())
             ->groupBy('d.name')
             ->first();
+        if(!$incoming){
+            return 'error';
+        }
         if(!$outgoing){
             $stock = $incoming->stock;
         }
