@@ -45,14 +45,14 @@
                 <tbody>
                 </tbody>
             </table>
-        </div>
-    </div>
-
-    <div class="card shadow p-3 mb-3 bg-body" style="width: 500px;">
-        <div class="card-body">
             <canvas id="myChart" width="400" height="400"></canvas>
         </div>
     </div>
+
+    {{-- <div class="card shadow p-3 mb-3 bg-body" style="width: 500px;">
+        <div class="card-body">
+        </div>
+    </div> --}}
 </div>
 @endsection
 

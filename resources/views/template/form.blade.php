@@ -31,7 +31,7 @@
                     <div class="d-flex align-items-center" @isset($item['display']) style="display: none !important;"  @endisset>
                         <div class="label">
                             <label for="{{$item['col']}}" @isset($item['display']) style="display: none !important;" @endisset>
-                                {{__('form.'.$item['label'])}}    
+                                {{__('form.'.$item['label'])}}
                                 @if(isset($item['required']))
                                     <span class='text-danger'>*</span>
                                 @endif
@@ -87,7 +87,7 @@
                                         @if (isset($item['select2']))
                                             <?php
                                                 $option = DB::table($item['select2'])->where('company_id', Helper::getCompanyId())->get()->toArray();
-                                            ?> 
+                                            ?>
                                             <select name="{{$item['col']}}" id="{{$item['col']}}" class="form-input select2">
                                                 <option value="0" disabled selected>** {{__('form.Please Select')}} **</option>
 
@@ -180,11 +180,16 @@
                         'item_aisle_id': item_aisle_id,
                     },
                     success: function(data){
-                        if(data - item_qty < 0){
-                            Swal.fire('Item exceeds stock!');
+                        if(!data.includes('error')){
+                            if(data - item_qty < 0){
+                                Swal.fire('Item exceeds stock!');
+                            }
+                            else{
+                                addRow(item_id, item_name, item_qty, item_aisle, item_aisle_id);
+                            }
                         }
                         else{
-                            addRow(item_id, item_name, item_qty, item_aisle, item_aisle_id);
+                            Swal.fire('No Stock at selected aisle');
                         }
                     },
                 });
@@ -218,12 +223,17 @@
                                 'item_aisle_id': item_aisle_id,
                             },
                             success: function(data){
-                                if(data - totalqty < 0){
-                                    Swal.fire('Item exceeds stock!');
+                                if(!data.includes('error')){
+                                    if(data - totalqty < 0){
+                                        Swal.fire('Item exceeds stock!');
+                                    }
+                                    else{
+                                        $(value).find('input.item_qty').val(parseInt(totalqty));
+                                        $(value).find('td.item_qty').text(parseInt(totalqty));
+                                    }
                                 }
                                 else{
-                                    $(value).find('input.item_qty').val(parseInt(totalqty));
-                                    $(value).find('td.item_qty').text(parseInt(totalqty));
+                                    Swal.fire('No Stock at selected aisle');
                                 }
                             },
                         });

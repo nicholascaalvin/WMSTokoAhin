@@ -38,6 +38,25 @@ class OutgoingController extends MNPController
                 ->orderBy('b.id');
         }
 
+        $this->js = "
+        $(document).ready(function(){
+            var url = window.location.href;
+            url = url.split('/');
+            if(url.length == 5){
+                $.ajax({
+                    url: '/outgoings/check-transaction-no',
+                    type: 'GET',
+                    success: function(data){
+                        $('#transaction_no').val(data);
+                    },
+                });
+                var date = new Date();
+                var now = date.getFullYear()+' '+(date.getMonth()+1)+' '+date.getDate()+' '+date.getHours()+':'+date.getMinutes();;
+                $('#transaction_date').val(now);
+            }
+        });
+        ";
+
     }
 
     public function save(Request $request){
@@ -152,6 +171,9 @@ class OutgoingController extends MNPController
             ->where('a.company_id', Helper::getCompanyId())
             ->groupBy('d.name')
             ->first();
+        if(!$incoming){
+            return 'error';
+        }
         if(!$outgoing){
             $stock = $incoming->stock;
         }
@@ -161,5 +183,18 @@ class OutgoingController extends MNPController
         return $stock;
     }
 
-
+    public function checkTransactionNo(){
+        $transaction_no = DB::table('outgoings')->pluck('transaction_no');
+        foreach ($transaction_no as $key => $value) {
+            $transaction_no[$key] = substr($value, 8);
+        }
+        if(count($transaction_no) != 0){
+            $transaction_no = intval(max($transaction_no->toArray())) + 1;
+            $transaction_no = 'OG/' . date('ym') . '/' . $transaction_no;
+        }
+        else{
+            $transaction_no = 'OG/' . date('ym') . '/' . 1;
+        }
+        return $transaction_no;
+    }
 }
