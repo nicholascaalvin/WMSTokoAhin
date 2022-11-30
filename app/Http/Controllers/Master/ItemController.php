@@ -39,46 +39,38 @@ class ItemController extends MNPController
         $this->load();
         $this->inputs = [];
         $page = explode('/', $this->data['url']);
-        //$request = $request->all();
+        $request1 = $request->all();
 
         //Storage::putFile('picture', $request['image_name']);
         //if($request['image_name'])
         //Storage::disk('public')->put('picture', $request['image_name']);
         //dd($request->all()->hasFile('name'));
-        //dd($request->hasFile('name'));
+        //dd($request->hasFile('image'));
 
         $input2 = $request->all();
-        if($request->hasFile('image_name'))
+        if($request->hasFile('image'))
         {
             $destination_path = 'public/picture';
-            $image = $request->file('image_name');
+            $image = $request->file('image');
             $image_name = $image->getClientOriginalName();
-            $path = $request->file('image_name')->storeAs($destination_path, $image_name);
-
-            $input2['image_name'] = $image_name;
+            $path = $request->file('image')->storeAs($destination_path, $image_name);
+            //dd($path);
+            $input2['image'] = $image_name;
         }
-
-        dd($input2['image_name']);
 
         $now = date('Y-m-d H:i:s');
         foreach ($this->forms as $key => $value) {
-            foreach ($request as $index => $dt) {
+            foreach ($request1 as $index => $dt) {
                 if($index == $value['col']){
                     $this->inputs[$value['col']] = $dt;
                 }
             }
         }
-        $this->inputs['strlife'] = $request['strlife'];
+        $this->inputs['strlife'] = $request1['strlife'];
         $this->inputs['company_id'] = Helper::getCompanyId();
 
-        $this->inputs['image_name'] = $request['image_name']->file->move(public_path('picture'), $request['image_name']);
-        /*
-        //Move Uploaded File to public folder
-        $destinationPath = 'images';
-        $myimage = $request->image->getClientOriginalName();
-        $request->image->move(public_path($destinationPath), $myimage);
-        */
-
+        $this->inputs['image_name'] = $input2['image'];
+        
         if($page[2] == 'edit'){
             $this->inputs['updated_at'] = $now;
             $id = $page[3];

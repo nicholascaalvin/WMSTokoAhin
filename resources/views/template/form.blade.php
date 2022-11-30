@@ -61,11 +61,7 @@
                                         <option value="Year">{{__('form.Year')}}</option>
                                     </select>
                                 @elseif($item['type'] == 'file')
-                                    <input name="{{$item['col']}}" type="file" class="form-control @error('{{$item[`col`]}}') 
-                                    is-invalid @enderror">
-                                    @error('{{$item["col"]}}')
-                                    <small id="dispPictHelp" class="form-text text-muted">{{$message}}</small>
-                                    @enderror
+                                    <input name="image" accept="image/*" type="file">
                                 @else
                                     <input class="form-input" type="{{$item['type']}}" name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly disabled @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{old($item['col'])}}">
                                 @endif
