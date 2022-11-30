@@ -47,6 +47,15 @@
             </table>
             <canvas id="myChart" width="400" height="400"></canvas>
         </div>
+        <div>
+            Test Image: <br>
+            @forEach($itemDB as $item)
+                @if($item->image_name !== null)
+                <img class="card-img-top" src="../storage/picture/{{$item->image_name}}" alt="Item Image">
+                @endif
+            @endforeach
+            
+        </div>
     </div>
 
     {{-- <div class="card shadow p-3 mb-3 bg-body" style="width: 500px;">

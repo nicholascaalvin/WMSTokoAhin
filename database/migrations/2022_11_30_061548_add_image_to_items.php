@@ -14,7 +14,7 @@ class AddImageToItems extends Migration
     public function up()
     {
         Schema::table('items', function (Blueprint $table) {
-            //
+            $table->string('image_name')->nullable(); 
         });
     }
 
@@ -25,6 +25,8 @@ class AddImageToItems extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('items');
+        Schema::table('items', function (Blueprint $table) {
+            $table->dropColumn('image_name');
+        });
     }
 }

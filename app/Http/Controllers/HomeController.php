@@ -18,7 +18,9 @@ class HomeController extends MNPController
             app()->setLocale($locale);
         }
 
-        return view('home', ['title' => 'Dashboard']);
+        $itemDB = DB::table("items")->get();
+        
+        return view('home', ['title' => 'Dashboard', 'itemDB'=>$itemDB]);
     }
 
     public function getData(){
