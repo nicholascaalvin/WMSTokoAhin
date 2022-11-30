@@ -111,9 +111,33 @@
             }]
         };
         const config = {
+            /*
             type: 'pie',
             data: data,
             options: {
+            },
+            */
+            type: 'pie',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May'],
+                datasets: [
+                {
+                    data: [50, 60, 70, 180, 190],
+                },
+                ],
+            },
+            options: {
+                plugins: {
+                datalabels: {
+                    display: true,
+                    align: 'bottom',
+                    backgroundColor: '#ccc',
+                    borderRadius: 3,
+                    font: {
+                    size: 18,
+                    },
+                },
+                },
             },
         };
         const myChart = new Chart(ctx, config);
