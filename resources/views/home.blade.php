@@ -111,12 +111,14 @@
             }]
         };
         const config = {
-            /*
+            
             type: 'pie',
             data: data,
             options: {
             },
-            */
+
+            /*
+            // Ini testing pke label inside chartnya
             type: 'pie',
             data: {
                 labels: ['January', 'February', 'March', 'April', 'May'],
@@ -128,17 +130,18 @@
             },
             options: {
                 plugins: {
-                datalabels: {
-                    display: true,
-                    align: 'bottom',
-                    backgroundColor: '#ccc',
-                    borderRadius: 3,
-                    font: {
-                    size: 18,
+                    datalabels: {
+                        display: true,
+                        align: 'bottom',
+                        backgroundColor: '#ccc',
+                        borderRadius: 3,
+                        font: {
+                            size: 18,
+                        },
                     },
                 },
-                },
             },
+            */
         };
         const myChart = new Chart(ctx, config);
     }
