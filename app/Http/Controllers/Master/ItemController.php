@@ -6,6 +6,7 @@ use App\Http\Controllers\MNPController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\Helper;
+use Illuminate\Support\Facades\Storage;
 
 date_default_timezone_set("Asia/Jakarta");
 
@@ -29,6 +30,7 @@ class ItemController extends MNPController
         $this->forms[] = ['label' => 'Item Weight (gr)', 'col' => 'weight', 'type' => 'number', 'required' => true];
         $this->forms[] = ['label' => 'Item Origin', 'col' => 'country_id', 'type' => 'select2', 'select2_table' => 'countries', 'required' => true];
         $this->forms[] = ['label' => 'Description', 'col' => 'description', 'type' => 'textarea'];
+        $this->forms[] = ['label' => 'Image', 'col' => 'image_name','type' => 'file'];
 
         $this->loadStock();
     }
@@ -37,7 +39,27 @@ class ItemController extends MNPController
         $this->load();
         $this->inputs = [];
         $page = explode('/', $this->data['url']);
-        $request = $request->all();
+        //$request = $request->all();
+
+        //Storage::putFile('picture', $request['image_name']);
+        //if($request['image_name'])
+        //Storage::disk('public')->put('picture', $request['image_name']);
+        //dd($request->all()->hasFile('name'));
+        //dd($request->hasFile('name'));
+
+        $input2 = $request->all();
+        if($request->hasFile('image_name'))
+        {
+            $destination_path = 'public/picture';
+            $image = $request->file('image_name');
+            $image_name = $image->getClientOriginalName();
+            $path = $request->file('image_name')->storeAs($destination_path, $image_name);
+
+            $input2['image_name'] = $image_name;
+        }
+
+        dd($input2['image_name']);
+
         $now = date('Y-m-d H:i:s');
         foreach ($this->forms as $key => $value) {
             foreach ($request as $index => $dt) {
@@ -48,6 +70,15 @@ class ItemController extends MNPController
         }
         $this->inputs['strlife'] = $request['strlife'];
         $this->inputs['company_id'] = Helper::getCompanyId();
+
+        $this->inputs['image_name'] = $request['image_name']->file->move(public_path('picture'), $request['image_name']);
+        /*
+        //Move Uploaded File to public folder
+        $destinationPath = 'images';
+        $myimage = $request->image->getClientOriginalName();
+        $request->image->move(public_path($destinationPath), $myimage);
+        */
+
         if($page[2] == 'edit'){
             $this->inputs['updated_at'] = $now;
             $id = $page[3];
@@ -67,6 +98,7 @@ class ItemController extends MNPController
                 return redirect('/'.$this->table)->with('success', 'Successfully added new data');
             }
         }
+        
     }
 
     public function loadStock(){
