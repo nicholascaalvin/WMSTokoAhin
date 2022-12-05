@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="card-body">
-            <form action="{{$url}}/save" method="post">
+            <form action="{{$url}}/save" method="post" enctype="multipart/form-data">
                 @csrf
                 @foreach ($forms as $item)
                     <div class="d-flex align-items-center" @isset($item['display']) style="display: none !important;"  @endisset>
@@ -60,6 +60,8 @@
                                         <option value="Week">{{__('form.Week')}}</option>
                                         <option value="Year">{{__('form.Year')}}</option>
                                     </select>
+                                @elseif($item['type'] == 'file')
+                                    <input name="image" accept="image/*" type="file">
                                 @else
                                     <input class="form-input" type="{{$item['type']}}" name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly disabled @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{old($item['col'])}}">
                                 @endif

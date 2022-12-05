@@ -18,7 +18,9 @@ class HomeController extends MNPController
             app()->setLocale($locale);
         }
 
-        return view('home', ['title' => 'Dashboard']);
+        $itemDB = DB::table("items")->get(); // ini awalnya buat test get img(ganti aja caranya klo mau)
+        
+        return view('home', ['title' => 'Dashboard', 'itemDB'=>$itemDB]);
     }
 
     public function getData(){
