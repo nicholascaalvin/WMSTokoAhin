@@ -65,6 +65,8 @@ Route::middleware('auth')->group(function(){
     Route::get('/dashboard', [HomeController::class, 'getIndex'])->name('dashboard');
     Route::post('/dashboard/data', [Homecontroller::class, 'getData']);
     Route::get('/dashboard/switch/{locale}', [HomeController::class, 'switch']);
+    Route::get('/dashboard/add-new-user', [HomeController::class, 'getAdd']);
+    Route::post('/dashboard/add-new-user/save', [HomeController::class, 'saveNewUser']);
 
     //Master Country
     Route::get('/countries', [CountryController::class, 'getIndex'])->name('countries');

@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
     {{-- flatpickr date  css--}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    {{-- datatables css --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
 
     <style>
         .bi-person-circle{
@@ -117,6 +119,7 @@
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
+          @if (Helper::getCompanyId() != 1)
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
@@ -165,7 +168,7 @@
                 </div>
             </ul>
             @if(auth()->user())
-                <div class="btn-group">
+                <div class="btn-group" style="text-align: right">
                     <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
                         {{-- <i class="bi bi-person-circle fa-lg" style="margin-right: 0.5em; color: black"></i> --}}
                         {{auth()->user()->name}}
@@ -178,12 +181,47 @@
                         </form>
                     </ul>
                 </div>
-                @else
+            @else
                 <form action="{{route('login_page')}}" method="GET">
                     <button class="btn btn-primary">{{__('form.Login')}}</button>
                 </form>
             @endif
           </div>
+          @endif
+          @if (Helper::getCompanyId() == 1)
+          <div class="d-flex text-end">
+            <ul class="navbar-nav">
+                <div class="dropdown text-end">
+                    <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
+                      {{strtoupper(session('locale') ?? config('app.locale'))}}
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                      <li><a class="dropdown-item" href="{{url('/dashboard/switch/en')}}">EN</a></li>
+                      <li><a class="dropdown-item" href="{{url('/dashboard/switch/id')}}">ID</a></li>
+                    </ul>
+                </div>
+            </ul>
+            @if(auth()->user())
+                <div class="btn-group" style="text-align: right">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
+                        {{-- <i class="bi bi-person-circle fa-lg" style="margin-right: 0.5em; color: black"></i> --}}
+                        {{auth()->user()->name}}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="{{url('/profile/edit').'/'.auth()->user()->id}}">{{__('form.Profile')}}</a></li>
+                        <form action="{{route('logout')}}" method="POST">
+                            @csrf
+                            <li><button class="dropdown-item" href="" type="submit">{{__('form.Logout')}}</button></li>
+                        </form>
+                    </ul>
+                </div>
+            @else
+                <form action="{{route('login_page')}}" method="GET">
+                    <button class="btn btn-primary">{{__('form.Login')}}</button>
+                </form>
+            @endif
+          </div>
+          @endif
         </div>
     </nav>
 
@@ -216,6 +254,8 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     {{-- flatpickr date js --}}
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    {{-- datatables js --}}
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
 
     <script type="text/javascript">
         @isset($js)

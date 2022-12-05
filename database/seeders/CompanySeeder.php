@@ -16,6 +16,9 @@ class CompanySeeder extends Seeder
     {
         DB::table('companies')->insert([
             [
+                'name' => 'SuperAdmin',
+            ],
+            [
                 'name' => 'Toko Ahin',
             ],
             [

@@ -60,6 +60,9 @@
                                         <option value="Week">{{__('form.Week')}}</option>
                                         <option value="Year">{{__('form.Year')}}</option>
                                     </select>
+                                @elseif ($item['type'] == 'newUser')
+                                    <input class="form-input" type="text" name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly disabled @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{old($item['col'])}}">
+
                                 @else
                                     <input class="form-input" type="{{$item['type']}}" name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly disabled @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{old($item['col'])}}">
                                 @endif
@@ -68,6 +71,28 @@
                             @endif
                         </div>
                     </div>
+                    @if (isset($item['type']))
+                        @if ($item['type'] == 'newUser')
+                        <div class="row justify-content-start">
+                            <div class="col-2">
+                            </div>
+                            <div class="col-2">
+                                <label for="" style="color: lightgray">Please start the name with 'Toko'</label>
+                            </div>
+                        </div>
+                        <div class="row justify-content-start">
+                            <div class="col-2">
+                            </div>
+                            <div class="col-2">
+                                <label for="" style="color: lightgray">The new data password will be 'admin'</label>
+                            </div>
+                        </div>
+                        {{-- <div class="d-flex">
+                            <label for="" style="color: lightgray">Please start the name with 'Toko'</label>
+                            <label for="" style="color: lightgray">The new data password will be 'admin'</label>
+                        </div> --}}
+                        @endif
+                    @endif
                     <br>
                 @endforeach
                 @if (count($details) > 0)
