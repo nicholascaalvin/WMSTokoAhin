@@ -91,7 +91,7 @@
                                             <td class="{{$td['col']}}"><a class="edit-btn" style="text-decoration: none; color: #00c3ff">{{(@$item->{$td['col']})}}</a></td>
                                             @else
                                                 @if ($td['col'] == 'stock')
-                                                    @if ((@$item->{$td['col']}) < 24)
+                                                    @if ((@$item->{$td['col']}) <= 24)
                                                         <td class="{{$td['col']}}" style="color: red">{{(@$item->{$td['col']})}} <i class="bi bi-exclamation-triangle"></i> Low Stock</td>
                                                     @else
                                                         <td class="{{$td['col']}}">{{(@$item->{$td['col']})}}</td>

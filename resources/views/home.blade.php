@@ -85,7 +85,7 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
         <div class="card-header" style="border-bottom: none">
             <h4>Recent Transaction</h4>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="padding-top: 0;">
             <table class="table cell-border table-bordered transaction-table"  style="border-top: 1px solid lightgray">
                 <thead>
                     <tr>
@@ -116,8 +116,6 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
     </div>
 
     <div class="d-flex">
-
-
         <div class="card shadow p-3 mb-3 bg-body" style="width: 30em;">
             <div class="card-header" style="border-bottom: none">
                 <h4>Stock Items</h4>
@@ -134,6 +132,13 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
                     <tbody>
                     </tbody>
                 </table>
+            </div>
+        </div>
+        <div class="card shadow p-3 mb-3 bg-body" style="width: 30em;">
+            <div class="card-header" style="border-bottom: none">
+                <h4>Total Items</h4>
+            </div>
+            <div class="card-body">
                 <canvas id="myChart" width="400" height="400"></canvas>
             </div>
         </div>
@@ -157,8 +162,9 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
 
         $('.transaction-table').DataTable({
             "lengthChange": false,
+            "pageLength": 5,
+            "pagingType": "simple_numbers"
         });
-        // $('.hidden').css('display', 'none');
         $.ajax({
             url: '{{(new \App\Helpers\Helper)->getMainUrl("/dashboard/data")}}',
             type: 'POST',
@@ -166,19 +172,8 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(data){
-                console.log(data.transactions);
                 var transactionRow = "";
                 var itemRow = "";
-
-                // $.each(data.transactions.data, function(index, value){
-                //     transactionRow += "<tr>";
-                //         transactionRow += "<td><a class='edit-btn transaction_detail' style='text-decoration: none; color: #00c3ff'>"+value.transaction_no+"</a></td>";
-                //         transactionRow += "<td style='display: none;' id='transaction_id'>"+value.header_id+"</td>";
-                //         transactionRow += "<td>"+value.item_name+"</td>";
-                //         transactionRow += "<td>"+value.qty+"</td>";
-                //     transactionRow += "</tr>";
-                // });
-
 
                 $.each(data.items, function(index, value){
                     itemRow += "<tr>";
@@ -189,30 +184,18 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
                     itemRow += "</tr>";
                 });
                 $('.transaction-table').find('tbody').append(transactionRow);
-                $('.next-page').on('click', function(){
-                    $.ajax({
-                        url: data.transactions.next_page_url,
-                        type: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        success: function(data){
-                            console.log(data);
-                            var transactionRow = "";
-                        }
-                    });
-                });
-                // $(".previous-page").attr("href", data.transactions.prev_page_url);
-                // $(".next-page").attr("href", data.transactions.next_page_url);
-
                 $('.total-items-table').find('tbody').append(itemRow);
                 $('.item_detail').on('click', function(){
                     var item_id = $(this.parentNode.parentNode).find('td#item_id').text();
                     window.location.assign('items/edit/'+item_id);
                 });
-                // setData(data.items);
+                setData(data.items);
             },
         });
+        // $.ajax({
+        //     url: '{{(new \App\Helpers\Helper)->getMainUrl("/dashboard")}}'
+        // });
+        // setData(data.items);
     });
 
     $('.addNewUser').on('click', function(){
@@ -221,21 +204,30 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
 
     function setData(d){
         const ctx = document.getElementById('myChart').getContext('2d');
-        var item_name = [];
-        var item_stock = [];
+        var avail = 0;
+        var low = 0;
+        var out = 0;
         d.forEach(element => {
-            item_name.push(element.item_name);
-            item_stock.push(element.stock);
+            if(element.stock == 0){
+                out++;
+            }
+            else if(element.stock <= 24){
+                low++;
+            }
+            else if(element.stock > 24){
+                avail++;
+            }
+            // console.log(element);
         });
         const data = {
-            labels: item_name,
+            labels: ['Available', 'Low Stock', 'Out of Stock'],
             datasets: [{
                 label: '',
-                data: item_stock,
+                data: [avail, low, out],
                 backgroundColor: [
-                'rgb(255, 99, 132)',
-                'rgb(54, 162, 235)',
-                'rgb(255, 205, 86)'
+                    '#25316D',
+                    '#5F6F94',
+                    '#97D2EC',
                 ],
                 hoverOffset: 4,
                 borderWidth: 0,

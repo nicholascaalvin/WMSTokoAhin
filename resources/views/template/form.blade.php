@@ -2,6 +2,8 @@
 <style type="text/css">
     .card{
         margin: 10px;
+        border: none;
+        border-radius: 0.6em;
     }
     label{
         width: 20em;
@@ -18,7 +20,7 @@
 @extends('layout')
 
 @section('content')
-    <div class="card">
+    <div class="card shadow p-3 mb-3 bg-body">
         <div class="card-header" style="border-bottom: none">
             <div class="header-content d-flex justify-content-between align-items-center">
                 <h1>@if($title != 'Profile'){{__('form.Add New')}} @endif {{__('form.'.$title)}}</h1>
