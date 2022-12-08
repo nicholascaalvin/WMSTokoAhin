@@ -37,10 +37,21 @@
         </div>
         <div class="mb-3">
             <label for="transaction_date" class="form-label">Transaction Date</label>
-            <input type="password" class="form-input date" id="transaction_date" name="transaction_date">
+            <?php
+                $firstDay = date('Y-m-01');
+                $today = date('Y-m-d');
+                if($firstDay == $today){
+                    $value = $today;
+                }
+                else{
+                    $value = $firstDay. ' to ' . $today;
+                }
+            ?>
+            <input type="password" class="form-input date" id="transaction_date" name="transaction_date" value="{{$value}}">
         </div>
 
         <button type="submit" class="btn btn-primary" id="searchHT">Search</button>
+        <button class="btn btn-success" id="exportHT">Export</button>
         {{-- </form> --}}
 
         {{-- <div class="">
@@ -92,6 +103,7 @@
                     <th scope="col">NO.</th>
                     <th scope="col">Transaction No.</th>
                     <th scope="col">Date</th>
+                    <th scope="col">Vendor / Customer</th>
                     <th scope="col">Type</th>
                     <th scope="col">Item Name</th>
                     <th scope="col">Aisle</th>
@@ -141,6 +153,9 @@
                             row += value.transaction_date;
                         row += "</td>";
                         row += "<td>";
+                            row += value.ppl;
+                        row += "</td>";
+                        row += "<td>";
                             row += value.type;
                         row += "</td>";
                         row += "<td>";
@@ -150,7 +165,12 @@
                             row += value.aisle_name;
                         row += "</td>";
                         row += "<td>";
-                            row += value.qty;
+                            if(value.type == "Incoming"){
+                                row += '<p style="color: green">'+value.qty+'</p>';
+                            }
+                            else{
+                                row += '<p style="color: red">'+value.qty+'</p>';
+                            }
                         row += "</td>";
                     row += "</tr>";
                     // console.log(value);
@@ -162,6 +182,12 @@
         // console.log(transaction_no);
         // console.log(transaction_date);
         event.preventDefault();
+    });
+
+    $('#exportHT').on('click', function(){
+        var transaction_no = $('#transaction_no').val();
+        var transaction_date = $('#transaction_date').val();
+        window.location.assign('historytransaction/export?transaction_no='+transaction_no+'&transaction_date='+transaction_date);
     });
     // $('.detail-btn').on('click', function(){
     //     var row = this.parentNode.parentNode.parentNode.parentNode.parentNode;

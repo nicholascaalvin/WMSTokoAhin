@@ -37,10 +37,21 @@
         </div>
         <div class="mb-3">
             <label for="transaction_date" class="form-label">Transaction Date</label>
-            <input type="password" class="form-input date" id="transaction_date" name="transaction_date">
+            <?php
+                $firstDay = date('Y-m-01');
+                $today = date('Y-m-d');
+                if($firstDay == $today){
+                    $value = $today;
+                }
+                else{
+                    $value = $firstDay. ' to ' . $today;
+                }
+            ?>
+            <input type="password" class="form-input date" id="transaction_date" name="transaction_date" value="{{$value}}">
         </div>
 
-        <button type="submit" class="btn btn-primary" id="searchHT">Search</button>
+        <button type="submit" class="btn btn-primary" id="searchIT">Search</button>
+        <button class="btn btn-success" id="exportIT">Export</button>
         {{-- </form> --}}
 
         {{-- <div class="">
@@ -118,7 +129,7 @@
         });
     });
 
-    $('#searchHT').on('click', function(){
+    $('#searchIT').on('click', function(){
         var item_name = $('#item_name').val();
         var transaction_date = $('#transaction_date').val();
         $.ajax({
@@ -128,7 +139,7 @@
                 'transaction_date': transaction_date,
             },
             success: function(data){
-                console.log(data);
+                // console.log(data);
                 var total=0;
                 var row = "";
                 $('.item-transaction-table').find('tbody').empty();
@@ -150,7 +161,12 @@
                             row += value.aisle_name;
                         row += "</td>";
                         row += "<td>";
-                            row += value.qty;
+                            if(value.type == "Incoming"){
+                                row += '<p style="color: green">'+value.qty+'</p>';
+                            }
+                            else{
+                                row += '<p style="color: red">'+value.qty+'</p>';
+                            }
                         row += "</td>";
                     //     row += "<td>";
                     //         row += value.qty;
@@ -182,6 +198,13 @@
         // console.log(transaction_date);
         event.preventDefault();
     });
+
+    $('#exportIT').on('click', function(){
+        var item_name = $('#item_name').val();
+        var transaction_date = $('#transaction_date').val();
+        window.location.assign('itemtransaction/export?item_name='+item_name+'&transaction_date='+transaction_date);
+    });
+
     // $('.detail-btn').on('click', function(){
     //     var row = this.parentNode.parentNode.parentNode.parentNode.parentNode;
     //     var id = $(row).find('input#id').val();
