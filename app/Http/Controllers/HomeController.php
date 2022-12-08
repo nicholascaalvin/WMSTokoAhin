@@ -46,7 +46,12 @@ class HomeController extends MNPController
         $transaction = $outgoings->union($incomings);
         $transaction->orderBy(DB::raw('IFNULL(updated_at, created_at)'));
 
-        return view('home', ['title' => 'Dashboard', 'transactions' => $transaction->paginate(5)]);
+        $items = DB::table('items as a')
+        ->join('brands as b', 'a.brand_id', 'b.id')
+        ->select('a.name as item_name', 'a.id', 'b.name as brand_name', 'a.stock as stock')
+        ->get();
+
+        return view('home', ['title' => 'Dashboard', 'transactions' => $transaction->take(5)->get(), 'items' => $items]);
     }
 
     public function getData(){
@@ -79,7 +84,7 @@ class HomeController extends MNPController
 
         $data = [
             'items' => $items,
-            'transactions' => $transaction->orderBy(DB::raw('IFNULL(updated_at, created_at)'))->paginate(1)
+            'transactions' => $transaction->orderBy(DB::raw('IFNULL(updated_at, created_at)'))->get()
         ];
 
         return $data;

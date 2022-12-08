@@ -128,7 +128,7 @@
     $(document).ready(function(){
         $('.table').DataTable({
             "lengthChange": false,
-            "pageLength": 20,
+            "pageLength": 10,
             "pagingType": "simple_numbers"
             // "ordering": false,
         });

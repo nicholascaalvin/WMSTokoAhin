@@ -31,7 +31,7 @@
 
 <div class="card shadow p-3 mb-3 bg-body">
     <div class="card-header" style="border-bottom: none">
-        <h1>Dashboard</h1>
+        <h1 style="margin-bottom: 0">Dashboard</h1>
     </div>
 </div>
 
@@ -85,7 +85,7 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
         <div class="card-header" style="border-bottom: none">
             <h4>Recent Transaction</h4>
         </div>
-        <div class="card-body" style="padding-top: 0;">
+        <div class="card-body" style="padding-top: 0; padding-bottom: 0">
             <table class="table cell-border table-bordered transaction-table"  style="border-top: 1px solid lightgray">
                 <thead>
                     <tr>
@@ -116,37 +116,60 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
     </div>
 
     <div class="d-flex">
-        <div class="card shadow p-3 mb-3 bg-body" style="width: 30em;">
+        <div class="card shadow p-3 mb-3 bg-body" style="width: 25%">
             <div class="card-header" style="border-bottom: none">
                 <h4>Stock Items</h4>
             </div>
-            <div class="card-body">
-                <table class="table table-bordered total-items-table">
+            <div class="card-body" style="padding-bottom: 0">
+                <table class="table cell-border table-bordered total-items-table" style="border-top: 1px solid lightgray">
                     <thead>
                         <tr>
                             <th class="text-center" style="width: 5%">No.</th>
                             <th class="text-center">Item Name</th>
+                            <th class="text-center" style="display: none">Item Id</th>
                             <th class="text-center">Item Quantity</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($items as $key => $item)
+                            <tr>
+                                <td>{{$key+1}}</td>
+                                <td><a class='edit-btn item_detail' style='text-decoration: none; color: #00c3ff'>{{$item->item_name}}</a></td>
+                                <td style='display: none;' id='item_id'>{{$item->id}}</td>
+                                <td>{{$item->stock}}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
-        <div class="card shadow p-3 mb-3 bg-body" style="width: 30em;">
-            <div class="card-header" style="border-bottom: none">
-                <h4>Total Items</h4>
+        <div class="card shadow p-3 mb-3 bg-body" style="width: 25%">
+            <div class="card-header" style="border-bottom: none; padding-bottom: 0">
+                <h4 style="margin-bottom: 0">Total Items</h4>
             </div>
             <div class="card-body">
-                <canvas id="myChart" width="400" height="400"></canvas>
+                <canvas id="totalItemsChart"></canvas>
             </div>
         </div>
 
-        {{-- <div class="card shadow p-3 mb-3 bg-body" style="width: 500px;">
-            <div class="card-body">
-            </div>
-        </div> --}}
+        <div class="card shadow p-3 mb-3 bg-body" style="width: 50%">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                  <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Incomings</button>
+                  <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Outgoings</button>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent" style="margin-top: 1em">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+                    <h4>Incomings</h4>
+                    <canvas id="IncomingsChart"></canvas>
+                </div>
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+                    <h4>Outgoings</h4>
+                    <canvas id="OutgoingsChart"></canvas>
+                </div>
+              </div>
+        </div>
     </div>
 @endif
 
@@ -158,13 +181,17 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
 
     $(document).ready(function(){
 
-        //superadmin
+        $('.table-transaction').DataTable({
+            "paging": false,
+        });
 
-        $('.transaction-table').DataTable({
+        $('.total-items-table').DataTable({
             "lengthChange": false,
             "pageLength": 5,
             "pagingType": "simple_numbers"
         });
+        $('#DataTables_Table_1_filter').css('margin-bottom', '1em');
+
         $.ajax({
             url: '{{(new \App\Helpers\Helper)->getMainUrl("/dashboard/data")}}',
             type: 'POST',
@@ -172,38 +199,24 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(data){
-                var transactionRow = "";
-                var itemRow = "";
-
-                $.each(data.items, function(index, value){
-                    itemRow += "<tr>";
-                        itemRow += "<td class='text-center'>"+(index + 1)+"</td>";
-                        itemRow += "<td><a class='edit-btn item_detail' style='text-decoration: none; color: #00c3ff'>"+value.item_name+"</a></td>";
-                        itemRow += "<td style='display: none;' id='item_id'>"+value.id+"</td>";
-                        itemRow += "<td>"+value.stock+"</td>";
-                    itemRow += "</tr>";
-                });
-                $('.transaction-table').find('tbody').append(transactionRow);
-                $('.total-items-table').find('tbody').append(itemRow);
-                $('.item_detail').on('click', function(){
-                    var item_id = $(this.parentNode.parentNode).find('td#item_id').text();
-                    window.location.assign('items/edit/'+item_id);
-                });
-                setData(data.items);
+                setTotalItemsChart(data.items);
+                setIncomingsChart(data.transactions);
+                setOutgoingsChart(data.transactions);
             },
         });
-        // $.ajax({
-        //     url: '{{(new \App\Helpers\Helper)->getMainUrl("/dashboard")}}'
-        // });
-        // setData(data.items);
+    });
+
+    $('.item_detail').on('click', function(){
+        var item_id = $(this.parentNode.parentNode).find('td#item_id').text();
+        window.location.assign('items/edit/'+item_id);
     });
 
     $('.addNewUser').on('click', function(){
         window.location.assign('dashboard/add-new-user');
     });
 
-    function setData(d){
-        const ctx = document.getElementById('myChart').getContext('2d');
+    function setTotalItemsChart(d){
+        const ctx = document.getElementById('totalItemsChart').getContext('2d');
         var avail = 0;
         var low = 0;
         var out = 0;
@@ -217,7 +230,6 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
             else if(element.stock > 24){
                 avail++;
             }
-            // console.log(element);
         });
         const data = {
             labels: ['Available', 'Low Stock', 'Out of Stock'],
@@ -237,10 +249,80 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
             type: 'pie',
             data: data,
             options: {
+                responsive: true,
             },
         };
-        const myChart = new Chart(ctx, config);
+        const totalItemsChart = new Chart(ctx, config);
     }
+
+    function setIncomingsChart(d){
+        const ctx = document.getElementById('IncomingsChart').getContext('2d');
+        const data = {
+        labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+        datasets: [{
+            label: 'Incomings Transaction',
+            data: [65, 59, 80, 81, 56, 55, 40],
+            backgroundColor: [
+                '#495C83',
+                '#7A86B6',
+                '#A8A4CE',
+                '#C8B6E2',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(201, 203, 207, 0.2)'
+            ],
+            borderWidth: 0
+        }]
+        };
+        const config = {
+            type: 'bar',
+            data: data,
+            options: {
+                responsive: true,
+                scales: {
+                y: {
+                    beginAtZero: true
+                }
+                }
+            },
+        };
+        const totalItemsChart = new Chart(ctx, config);
+    }
+
+    function setOutgoingsChart(d){
+        const ctx = document.getElementById('OutgoingsChart').getContext('2d');
+        const data = {
+        labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+        datasets: [{
+            label: 'Outgoings Transaction',
+            data: [65, 59, 80, 81, 56, 55, 40],
+            backgroundColor: [
+                '#495C83',
+                '#7A86B6',
+                '#A8A4CE',
+                '#C8B6E2',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(201, 203, 207, 0.2)'
+            ],
+            borderWidth: 0
+        }]
+        };
+        const config = {
+            type: 'bar',
+            data: data,
+            options: {
+                responsive: true,
+                scales: {
+                y: {
+                    beginAtZero: true
+                }
+                }
+            },
+        };
+        const totalItemsChart = new Chart(ctx, config);
+    }
+
     </script>
 
 @endsection
