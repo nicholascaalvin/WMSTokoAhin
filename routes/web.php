@@ -65,6 +65,8 @@ Route::middleware('auth')->group(function(){
     Route::get('/dashboard', [HomeController::class, 'getIndex'])->name('dashboard');
     Route::post('/dashboard/data', [Homecontroller::class, 'getData']);
     Route::get('/dashboard/switch/{locale}', [HomeController::class, 'switch']);
+    Route::get('/dashboard/add-new-user', [HomeController::class, 'getAdd']);
+    Route::post('/dashboard/add-new-user/save', [HomeController::class, 'saveNewUser']);
 
     //Master Country
     Route::get('/countries', [CountryController::class, 'getIndex'])->name('countries');
@@ -162,9 +164,12 @@ Route::middleware('auth')->group(function(){
     // History Transaction
     Route::get('/historytransaction', [HistoryTransactionController::class, 'getHistoryTransaction'])->name('historytransaction');
     Route::get('/historytransaction/search', [HistoryTransactionController::class, 'search']);
+    Route::get('/historytransaction/export/{type}', [HistoryTransactionController::class, 'export']);
 
     // Item Transaction
     Route::get('/itemtransaction', [ItemTransactionController::class, 'getItemTransaction'])->name('itemtransaction');
     Route::get('/itemtransaction/search', [ItemTransactionController::class, 'search']);
+    Route::get('/itemtransaction/export/{type}', [ItemTransactionController::class, 'export']);
+    // Route::get('/itemtransaction/exportPDF', [ItemTransactionController::class, 'exportPDF']);
 
 });

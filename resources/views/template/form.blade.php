@@ -2,6 +2,8 @@
 <style type="text/css">
     .card{
         margin: 10px;
+        border: none;
+        border-radius: 0.6em;
     }
     label{
         width: 20em;
@@ -18,7 +20,7 @@
 @extends('layout')
 
 @section('content')
-    <div class="card">
+    <div class="card shadow p-3 mb-3 bg-body">
         <div class="card-header" style="border-bottom: none">
             <div class="header-content d-flex justify-content-between align-items-center">
                 <h1>@if($title != 'Profile'){{__('form.Add New')}} @endif {{__('form.'.$title)}}</h1>
@@ -60,6 +62,9 @@
                                         <option value="Week">{{__('form.Week')}}</option>
                                         <option value="Year">{{__('form.Year')}}</option>
                                     </select>
+                                @elseif ($item['type'] == 'newUser')
+                                    <input class="form-input" type="text" name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly disabled @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{old($item['col'])}}">
+
                                 @elseif($item['type'] == 'file')
                                     <input name="image" accept="image/*" type="file">
                                 @else
@@ -70,6 +75,28 @@
                             @endif
                         </div>
                     </div>
+                    @if (isset($item['type']))
+                        @if ($item['type'] == 'newUser')
+                        <div class="row justify-content-start">
+                            <div class="col-2">
+                            </div>
+                            <div class="col-2">
+                                <label for="" style="color: lightgray">Please start the name with 'Toko'</label>
+                            </div>
+                        </div>
+                        <div class="row justify-content-start">
+                            <div class="col-2">
+                            </div>
+                            <div class="col-2">
+                                <label for="" style="color: lightgray">The new data password will be 'admin'</label>
+                            </div>
+                        </div>
+                        {{-- <div class="d-flex">
+                            <label for="" style="color: lightgray">Please start the name with 'Toko'</label>
+                            <label for="" style="color: lightgray">The new data password will be 'admin'</label>
+                        </div> --}}
+                        @endif
+                    @endif
                     <br>
                 @endforeach
                 @if (count($details) > 0)

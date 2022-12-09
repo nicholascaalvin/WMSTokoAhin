@@ -2,6 +2,8 @@
 <style type="text/css">
     .card{
         margin: 10px;
+        border: none;
+        border-radius: 0.6em;
     }
     label{
         width: 20em;
@@ -12,13 +14,19 @@
         border: 1px solid lightgray;
         height: 2.2em;
     }
+    .image{
+        position: absolute;
+        left: 40%;
+        top: 25%;
+        width: 40em;
+    }
 </style>
 @endsection
 
 @extends('layout')
 
 @section('content')
-    <div class="card">
+    <div class="card shadow p-3 mb-3 bg-body">
         <div class="card-header" style="border-bottom: none">
             <div class="header-content d-flex justify-content-between align-items-center">
                 <h1>@if ($page == 'details'){{__('form.'.$title)}} {{__('form.Details')}} @else {{__('form.Edit')}} {{__('form.'.$title)}}@endif </h1>
@@ -29,14 +37,25 @@
                 @csrf
                 @foreach ($forms as $item)
                     <div class="d-flex align-items-center" @isset($item['display']) style="display: none !important;"  @endisset>
-                        <div class="label">
-                            <label for="{{$item['col']}}" @isset($item['display']) style="display: none !important;" @endisset>
-                                {{__('form.'.$item['label'])}}
-                                @if(@isset($item['required']))
-                                    <span class='text-danger'>*</span>
-                                @endif
-                            </label>
-                        </div>
+                        @if (isset($item['filetype']))
+                            <div class="label" style="position: absolute; left: 40%; top: 17%;">
+                                <label for="{{$item['col']}}" @isset($item['display']) style="display: none !important;" @endisset>
+                                    {{__('form.'.$item['label'])}}
+                                    @if(@isset($item['required']))
+                                        <span class='text-danger'>*</span>
+                                    @endif
+                                </label>
+                            </div>
+                        @else
+                            <div class="label">
+                                <label for="{{$item['col']}}" @isset($item['display']) style="display: none !important;" @endisset>
+                                    {{__('form.'.$item['label'])}}
+                                    @if(@isset($item['required']))
+                                        <span class='text-danger'>*</span>
+                                    @endif
+                                </label>
+                            </div>
+                        @endif
                         <div class="inputs" style="width: 20em">
                             @if (isset($item['type']))
                                 @if ($item['type'] == 'select2')
@@ -123,7 +142,11 @@
                                         @endif
                                     </select>
                                 @else
-                                    <input class="form-input" @if (isset($item['type'])) type="{{$item['type']}}"@else type="text"@endif name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly disabled @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
+                                    @if (isset($item['filetype']))
+                                        <input class="form-input" style="position: absolute; left: 50%; top: 16.5%" @if (isset($item['type'])) type="{{$item['type']}}"@else type="text"@endif name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly disabled @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
+                                    @else
+                                        <input class="form-input" @if (isset($item['type'])) type="{{$item['type']}}"@else type="text"@endif name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly disabled @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
+                                    @endif
                                 @endif
                             @else
                                 <input class="form-input" type="text" name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly disabled @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
@@ -190,9 +213,17 @@
                         </tbody>
                     </table>
                 @endif
-                <button class="btn btn-success save" type="submit" @if ($page == 'details') style="display: none" @endif>{{__('form.Save')}}</button>
+                <button class="btn btn-success save" type="submit" @if ($page == 'details') disabled @endif>{{__('form.Save')}}</button>
             </form>
         </div>
+
+        @if ($title == 'Items')
+        <div class="image">
+            @if(@$contents->image_name !== null)
+                <img class="card-img-top" src="/storage/picture/{{@$contents->image_name}}" alt="Item Image">
+            @endif
+        </div>
+        @endif
     </div>
 @endsection
 

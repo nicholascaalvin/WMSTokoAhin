@@ -20,10 +20,18 @@ class UserSeeder extends Seeder
         $companies = DB::table('companies')->get();
         $nama_toko = array();
         foreach ($companies as $key => $value) {
-            $string = explode(' ', $value->name);
-            array_push($nama_toko, $string[1]);
+            if($key != 0){
+                $string = explode(' ', $value->name);
+                array_push($nama_toko, $string[1]);
+            }
         }
-        $index = 1;
+        DB::table('users')->insert([
+            'name' => 'SuperAdmin',
+            'email' => 'admin@admin.com',
+            'password' => Hash::make('admin'),
+            'company_id' => 1,
+        ]);
+        $index = 2;
         for ($i=0; $i < count($nama_toko); $i++) {
             DB::table('users')->insert([
                 'name' => 'Admin ' . $nama_toko[$i],

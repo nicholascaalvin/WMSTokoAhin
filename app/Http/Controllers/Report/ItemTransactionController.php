@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Report;
 
+use App\Exports\ItemTransactionExport;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\Helper;
+use Maatwebsite\Excel\Facades\Excel;
+use Dompdf\Dompdf;
 
 class ItemTransactionController extends Controller
 {
@@ -49,6 +53,57 @@ class ItemTransactionController extends Controller
         }
         $query = $items_outgoing->union($items_incoming);
         return $query->orderBy("transaction_date")->get();
-    
+
+    }
+
+    public function export($type, Request $request){
+        $request = $request->all();
+
+        if($request['transaction_date'] != null){
+        $request['transaction_date'] = explode(' to ', $request['transaction_date']);
+        if (count($request['transaction_date']) == 1) {
+            $start_date = $request['transaction_date'][0].' 00:00:00';
+            $end_date = $request['transaction_date'][0].' 23:59:59';
+        }else {
+            $start_date = $request['transaction_date'][0].' 00:00:00';
+            $end_date = $request['transaction_date'][1].' 23:59:59';
+        }
+        }
+
+        $items_incoming = DB::table('items as a')
+        ->Join("incomings_detail as b", 'a.id', 'b.item_id')
+        ->Join("incomings as c", "c.id", "b.incomings_id")
+        ->Join("aisles as d", "d.id", "b.aisle_id")
+        ->select("a.name", "c.transaction_date", DB::raw('"Incoming" as type'), "d.name as aisle_name", "b.qty")
+        ->where ('a.company_id', Helper::getCompanyId())
+        ->orderBy('c.transaction_date');
+
+        $items_outgoing = DB::table('items as a')
+        ->Join("outgoings_detail as b", 'a.id', 'b.item_id')
+        ->Join("outgoings as c", "c.id", "b.outgoings_id")
+        ->Join("aisles as d", "d.id", "b.aisle_id")
+        ->select("a.name", "c.transaction_date", DB::raw('"Outgoing" as type'), "d.name as aisle_name", "b.qty")
+        ->where ('a.company_id', Helper::getCompanyId())
+        ->orderBy('c.transaction_date');
+
+        if($request['item_name'] != null){
+            $items_incoming->where('a.name', 'LIKE', '%'.$request['item_name'].'%');
+            $items_outgoing->where('a.name', 'LIKE', '%'.$request['item_name'].'%');
+        }
+        $query = $items_outgoing->union($items_incoming);
+        $query->orderBy('transaction_date', 'ASC');
+        if($type == 'excel'){
+            return Excel::download(new ItemTransactionExport($query), 'Item_Transaction'.now()->timestamp.'.csv', \Maatwebsite\Excel\Excel::CSV);
+        }
+        else if($type == 'PDF'){
+            $view = view('report.itemtransaction_export', compact('query'))->render();
+            $filename = 'Item_Transaction'.now()->timestamp;
+
+            $dompdf = new Dompdf();
+            $dompdf->loadHtml($view);
+            $dompdf->setPaper('A4', 'landscape');
+            $dompdf->render();
+            return $dompdf->stream($filename.'.pdf');
+        }
     }
 }
