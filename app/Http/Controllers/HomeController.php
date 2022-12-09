@@ -52,10 +52,7 @@ class HomeController extends MNPController
         ->where('a.company_id', Helper::getCompanyId())
         ->get();
 
-        $itemDB = DB::table("items")->get(); // ini awalnya buat test get img(ganti aja caranya klo mau)
-        return view('home', ['title' => 'Dashboard', 'transactions' => $transaction->take(5)->get(), 'items' => $items, 'itemDB' => $itemDB]);
-
-        // return view('home', ['title' => 'Dashboard', 'itemDB'=>$itemDB]);
+        return view('home', ['title' => 'Dashboard', 'transactions' => $transaction->take(5)->get(), 'items' => $items]);
     }
 
     public function getData(){
@@ -69,27 +66,24 @@ class HomeController extends MNPController
         ->join('incomings_detail as b', 'a.id', 'b.incomings_id')
         ->join('items as c', 'b.item_id', 'c.id')
         ->join('aisles as d', 'b.aisle_id', 'd.id')
-        ->select('a.id as header_id', 'b.id as detail_id', 'a.transaction_no', 'a.transaction_date', 'b.item_id', 'b.qty', 'c.name as item_name', DB::raw('"Incoming" as type'), 'd.name as aisle_name', 'a.created_at', 'b.updated_at')
-        ->where('a.company_id', Helper::getCompanyId())
-        ->orderBy('a.id');
+        ->select(DB::raw('MONTH(a.transaction_date) as transaction_date'),DB::raw("sum(b.qty) as qty"))
+        ->groupBy(DB::raw('MONTH(a.transaction_date)'))
+        ->where(DB::raw('YEAR(a.transaction_date)'), '=', date('Y'))
+        ->where('a.company_id', Helper::getCompanyId());
 
         $outgoings = DB::table('outgoings as a')
         ->join('outgoings_detail as b', 'a.id', 'b.outgoings_id')
         ->join('items as c', 'b.item_id', 'c.id')
         ->join('aisles as d', 'b.aisle_id', 'd.id')
-        ->select('a.id as header_id', 'b.id as detail_id', 'a.transaction_no', 'a.transaction_date', 'b.item_id', 'b.qty', 'c.name as item_name', DB::raw('"Outgoing" as type'), 'd.name as aisle_name', 'a.created_at', 'b.updated_at')
-        ->where('a.company_id', Helper::getCompanyId())
-        ->orderBy('a.id');
-
-
-        $incomings->whereBetween('a.transaction_date', [date("Y-m-d").' 00:00:00', date("Y-m-d").' 23:59:59']);
-        $outgoings->whereBetween('a.transaction_date', [date("Y-m-d").' 00:00:00', date("Y-m-d").' 23:59:59']);
-
-        $transaction = $outgoings->union($incomings);
+        ->select(DB::raw('MONTH(a.transaction_date) as transaction_date'), DB::raw("sum(b.qty) as qty"))
+        ->groupBy(DB::raw('MONTH(a.transaction_date)'))
+        ->where(DB::raw('YEAR(a.transaction_date)'), '=', date('Y'))
+        ->where('a.company_id', Helper::getCompanyId());
 
         $data = [
             'items' => $items,
-            'transactions' => $transaction->orderBy(DB::raw('IFNULL(updated_at, created_at)'))->get()
+            'incomings' => $incomings->get(),
+            'outgoings' => $outgoings->get(),
         ];
 
         return $data;

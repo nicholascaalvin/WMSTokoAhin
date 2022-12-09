@@ -201,8 +201,8 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
             },
             success: function(data){
                 setTotalItemsChart(data.items);
-                setIncomingsChart(data.transactions);
-                setOutgoingsChart(data.transactions);
+                setIncomingsChart(data.incomings);
+                setOutgoingsChart(data.outgoings);
             },
         });
     });
@@ -296,12 +296,19 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
     }
 
     function setIncomingsChart(d){
+        var data1 = [];
+        for (let index = 0; index < 12; index++) {
+            data1.push(0);
+        }
+        d.forEach(element => {
+            data1[element.transaction_date-1] = element.qty;
+        });
         const ctx = document.getElementById('IncomingsChart').getContext('2d');
         const data = {
         labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         datasets: [{
             label: 'Incomings Transaction',
-            data: [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
+            data: data1,
             backgroundColor: [
                 '#495C83', //jan
                 '#6E85B7', //feb
@@ -335,12 +342,19 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
     }
 
     function setOutgoingsChart(d){
+        var data1 = [];
+        for (let index = 0; index < 12; index++) {
+            data1.push(0);
+        }
+        d.forEach(element => {
+            data1[element.transaction_date-1] = element.qty;
+        });
         const ctx = document.getElementById('OutgoingsChart').getContext('2d');
         const data = {
         labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         datasets: [{
             label: 'Outgoings Transaction',
-            data: [65, 59, 80, 81, 56, 55, 40, 100, 200, 10, 20, 160],
+            data: data1,
             backgroundColor: [
                 '#495C83', //jan
                 '#6E85B7', //feb
