@@ -30,7 +30,7 @@ class ItemController extends MNPController
         $this->forms[] = ['label' => 'Item Weight (gr)', 'col' => 'weight', 'type' => 'number', 'required' => true];
         $this->forms[] = ['label' => 'Item Origin', 'col' => 'country_id', 'type' => 'select2', 'select2_table' => 'countries', 'required' => true];
         $this->forms[] = ['label' => 'Description', 'col' => 'description', 'type' => 'textarea'];
-        $this->forms[] = ['label' => 'Image', 'col' => 'image_name','type' => 'file'];
+        $this->forms[] = ['label' => 'Image', 'col' => 'image_name','type' => 'file', 'filetype' => 'image'];
 
         $this->loadStock();
     }
@@ -70,7 +70,7 @@ class ItemController extends MNPController
         $this->inputs['company_id'] = Helper::getCompanyId();
 
         $this->inputs['image_name'] = $input2['image'];
-        
+
         if($page[2] == 'edit'){
             $this->inputs['updated_at'] = $now;
             $id = $page[3];
@@ -90,7 +90,7 @@ class ItemController extends MNPController
                 return redirect('/'.$this->table)->with('success', 'Successfully added new data');
             }
         }
-        
+
     }
 
     public function loadStock(){
