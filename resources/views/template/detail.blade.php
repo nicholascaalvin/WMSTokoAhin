@@ -18,7 +18,6 @@
         position: absolute;
         left: 40%;
         top: 25%;
-        width: 40em;
     }
 </style>
 @endsection
@@ -220,7 +219,7 @@
         @if ($title == 'Items')
         <div class="image">
             @if(@$contents->image_name !== null)
-                <img class="card-img-top" src="/storage/picture/{{@$contents->image_name}}" alt="Item Image">
+                <img class="card-img-top" src="/storage/picture/{{@$contents->image_name}}" alt="Item Image" style="width: 25em; height: 25em">
             @endif
         </div>
         @endif
@@ -234,8 +233,6 @@
             theme: 'bootstrap-5',
         });
         $(".datetime").flatpickr({
-            // altInput: true,
-            // altFormat: "F j, Y H:i",
             dateFormat: "Y-m-d H:i",
             enableTime: true,
             time_24hr: true
