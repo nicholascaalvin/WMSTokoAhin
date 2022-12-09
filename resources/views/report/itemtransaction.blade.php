@@ -51,51 +51,8 @@
         </div>
 
         <button type="submit" class="btn btn-primary" id="searchIT">Search</button>
-        <button class="btn btn-success" id="exportIT">Export</button>
-        {{-- </form> --}}
-
-        {{-- <div class="">
-            <table class="table table-borderless">
-            <tbody>
-                <tr>
-                <td>
-                    <form action="{{(new \App\Helpers\Helper)->getFullUrl()}}" method="get" class="d-flex align-items-center">
-                        <button id="searchHT" type="submit" class="btn btn-primary">Search</button>
-                    </form>
-                </td>
-                </tr>
-                <tr>
-                <td>
-                    <form action="{{(new \App\Helpers\Helper)->getFullUrl()}}" method="get" class="d-flex align-items-center">
-                        <div class="mb-3">
-                            <label for="transaction_date" class="form-label">Transaction Date</label>
-                            <input type="email" class="form-input date" id="transaction_date">
-                        </div>
-                        <button id="searchHT" type="submit" class="btn btn-primary">Search</button>
-                    </form>
-                </td>
-                </tr>
-            </tbody>
-            </table>
-        </div> --}}
-
-        {{-- <div class="dropdown ">
-            <select class="form-select form-input" aria-label="Default select example">
-                <option selected>Month</option>
-                <option value="1">January</option>
-                <option value="2">February</option>
-                <option value="3">March</option>
-                <option value="4">April</option>
-                <option value="5">May</option>
-                <option value="6">June</option>
-                <option value="7">July</option>
-                <option value="8">August</option>
-                <option value="9">September</option>
-                <option value="10">October</option>
-                <option value="11">November</option>
-                <option value="12">December</option>
-            </select>
-        </div> --}}
+        <button class="btn btn-success" id="exportIT">Export Excel</button>
+        <button class="btn btn-danger" id="exportITPDF">Export PDF</button>
         <div>
             <table class="table item-transaction-table">
                 <thead>
@@ -202,12 +159,23 @@
     $('#exportIT').on('click', function(){
         var item_name = $('#item_name').val();
         var transaction_date = $('#transaction_date').val();
-        window.location.assign('itemtransaction/export?item_name='+item_name+'&transaction_date='+transaction_date);
+        if($('.item-transaction-table').find('tbody tr').length != 0){
+            window.location.assign('itemtransaction/export/excel?item_name='+item_name+'&transaction_date='+transaction_date);
+        }
+        else{
+            Swal.fire('No data to export');
+        }
     });
 
-    // $('.detail-btn').on('click', function(){
-    //     var row = this.parentNode.parentNode.parentNode.parentNode.parentNode;
-    //     var id = $(row).find('input#id').val();
-    // });
+    $('#exportITPDF').on('click', function(){
+        var item_name = $('#item_name').val();
+        var transaction_date = $('#transaction_date').val();
+        if($('.item-transaction-table').find('tbody tr').length != 0){
+            window.location.assign('itemtransaction/export/PDF?item_name='+item_name+'&transaction_date='+transaction_date);
+        }
+        else{
+            Swal.fire('No data to export');
+        }
+    });
 </script>
 @endsection

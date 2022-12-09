@@ -111,11 +111,38 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
                     @endforeach
                 </tbody>
             </table>
-            {{-- {{ $transactions->links() }} --}}
         </div>
     </div>
 
     <div class="d-flex">
+        <div class="card shadow p-3 mb-3 bg-body" style="width: 50%">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                  <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Incomings</button>
+                  <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Outgoings</button>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent" style="margin-top: 1em">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+                    <h4>Incomings</h4>
+                    <canvas id="IncomingsChart"></canvas>
+                </div>
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+                    <h4>Outgoings</h4>
+                    <canvas id="OutgoingsChart"></canvas>
+                </div>
+              </div>
+        </div>
+
+        <div class="card shadow p-3 mb-3 bg-body" style="width: 25%">
+            <div class="card-header" style="border-bottom: none; padding-bottom: 0">
+                <h4 style="margin-bottom: 0">Total Items</h4>
+            </div>
+            <div class="card-body">
+                <canvas id="totalItemsChart"></canvas>
+            </div>
+        </div>
+
         <div class="card shadow p-3 mb-3 bg-body" style="width: 25%">
             <div class="card-header" style="border-bottom: none">
                 <h4>Stock Items</h4>
@@ -142,33 +169,6 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div class="card shadow p-3 mb-3 bg-body" style="width: 25%">
-            <div class="card-header" style="border-bottom: none; padding-bottom: 0">
-                <h4 style="margin-bottom: 0">Total Items</h4>
-            </div>
-            <div class="card-body">
-                <canvas id="totalItemsChart"></canvas>
-            </div>
-        </div>
-
-        <div class="card shadow p-3 mb-3 bg-body" style="width: 50%">
-            <nav>
-                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                  <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Incomings</button>
-                  <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Outgoings</button>
-                </div>
-            </nav>
-            <div class="tab-content" id="nav-tabContent" style="margin-top: 1em">
-                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
-                    <h4>Incomings</h4>
-                    <canvas id="IncomingsChart"></canvas>
-                </div>
-                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
-                    <h4>Outgoings</h4>
-                    <canvas id="OutgoingsChart"></canvas>
-                </div>
-              </div>
         </div>
     </div>
 @endif
@@ -261,15 +261,20 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
         labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         datasets: [{
             label: 'Incomings Transaction',
-            data: [65, 59, 80, 81, 56, 55, 40],
+            data: [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
             backgroundColor: [
-                '#495C83',
-                '#7A86B6',
-                '#A8A4CE',
-                '#C8B6E2',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(201, 203, 207, 0.2)'
+                '#495C83', //jan
+                '#6E85B7', //feb
+                '#7A86B6', //mar
+                '#A8A4CE', //apr
+                '#B689C0', //may
+                '#C8B6E2', //jun
+                '#BAABDA', //nov
+                '#B2C8DF', //aug
+                '#C4D7E0', //sep
+                '#9CB4CC', //okt
+                '#C9CBFF', //jul
+                '#D6E5FA', //dec
             ],
             borderWidth: 0
         }]
@@ -295,15 +300,20 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
         labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         datasets: [{
             label: 'Outgoings Transaction',
-            data: [65, 59, 80, 81, 56, 55, 40],
+            data: [65, 59, 80, 81, 56, 55, 40, 100, 200, 10, 20, 160],
             backgroundColor: [
-                '#495C83',
-                '#7A86B6',
-                '#A8A4CE',
-                '#C8B6E2',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(201, 203, 207, 0.2)'
+                '#495C83', //jan
+                '#6E85B7', //feb
+                '#7A86B6', //mar
+                '#A8A4CE', //apr
+                '#B689C0', //may
+                '#C8B6E2', //jun
+                '#BAABDA', //nov
+                '#B2C8DF', //aug
+                '#C4D7E0', //sep
+                '#9CB4CC', //okt
+                '#C9CBFF', //jul
+                '#D6E5FA', //dec
             ],
             borderWidth: 0
         }]

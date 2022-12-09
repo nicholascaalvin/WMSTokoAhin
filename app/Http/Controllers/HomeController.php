@@ -49,6 +49,7 @@ class HomeController extends MNPController
         $items = DB::table('items as a')
         ->join('brands as b', 'a.brand_id', 'b.id')
         ->select('a.name as item_name', 'a.id', 'b.name as brand_name', 'a.stock as stock')
+        ->where('a.company_id', Helper::getCompanyId())
         ->get();
 
         return view('home', ['title' => 'Dashboard', 'transactions' => $transaction->take(5)->get(), 'items' => $items]);
@@ -58,6 +59,7 @@ class HomeController extends MNPController
         $items = DB::table('items as a')
         ->join('brands as b', 'a.brand_id', 'b.id')
         ->select('a.name as item_name', 'a.id', 'b.name as brand_name', 'a.stock as stock')
+        ->where('a.company_id', Helper::getCompanyId())
         ->get();
 
         $incomings = DB::table('incomings as a')

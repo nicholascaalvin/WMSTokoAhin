@@ -51,7 +51,8 @@
         </div>
 
         <button type="submit" class="btn btn-primary" id="searchHT">Search</button>
-        <button class="btn btn-success" id="exportHT">Export</button>
+        <button class="btn btn-success" id="exportHT">Export Excel</button>
+        <button class="btn btn-danger" id="exportHTPDF">Export PDF</button>
         {{-- </form> --}}
 
         {{-- <div class="">
@@ -187,7 +188,22 @@
     $('#exportHT').on('click', function(){
         var transaction_no = $('#transaction_no').val();
         var transaction_date = $('#transaction_date').val();
-        window.location.assign('historytransaction/export?transaction_no='+transaction_no+'&transaction_date='+transaction_date);
+        if($('.history-transaction-table').find('tbody tr').length != 0){
+            window.location.assign('historytransaction/export/excel?transaction_no='+transaction_no+'&transaction_date='+transaction_date);
+        }
+        else{
+            Swal.fire('No data to export');
+        }
+    });
+    $('#exportHTPDF').on('click', function(){
+        var transaction_no = $('#transaction_no').val();
+        var transaction_date = $('#transaction_date').val();
+        if($('.history-transaction-table').find('tbody tr').length != 0){
+            window.location.assign('historytransaction/export/PDF?transaction_no='+transaction_no+'&transaction_date='+transaction_date);
+        }
+        else{
+            Swal.fire('No data to export');
+        }
     });
     // $('.detail-btn').on('click', function(){
     //     var row = this.parentNode.parentNode.parentNode.parentNode.parentNode;

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\Helper;
 use Maatwebsite\Excel\Facades\Excel;
+use Dompdf\Dompdf;
 
 class ItemTransactionController extends Controller
 {
@@ -55,7 +56,7 @@ class ItemTransactionController extends Controller
 
     }
 
-    public function export(Request $request){
+    public function export($type, Request $request){
         $request = $request->all();
 
         if($request['transaction_date'] != null){
@@ -90,8 +91,19 @@ class ItemTransactionController extends Controller
             $items_outgoing->where('a.name', 'LIKE', '%'.$request['item_name'].'%');
         }
         $query = $items_outgoing->union($items_incoming);
-
         $query->orderBy('transaction_date', 'ASC');
-        return Excel::download(new ItemTransactionExport($query), 'Item_Transaction'.now()->timestamp.'.csv', \Maatwebsite\Excel\Excel::CSV);
+        if($type == 'excel'){
+            return Excel::download(new ItemTransactionExport($query), 'Item_Transaction'.now()->timestamp.'.csv', \Maatwebsite\Excel\Excel::CSV);
+        }
+        else if($type == 'PDF'){
+            $view = view('report.itemtransaction_export', compact('query'))->render();
+            $filename = 'Item_Transaction'.now()->timestamp;
+
+            $dompdf = new Dompdf();
+            $dompdf->loadHtml($view);
+            $dompdf->setPaper('A4', 'landscape');
+            $dompdf->render();
+            return $dompdf->stream($filename.'.pdf');
+        }
     }
 }

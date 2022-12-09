@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\Helper;
 use Maatwebsite\Excel\Facades\Excel;
+use Dompdf\Dompdf;
 
 class HistoryTransactionController extends Controller
 {
@@ -61,7 +62,7 @@ class HistoryTransactionController extends Controller
         return $query->orderBy('transaction_date', 'ASC')->get();
     }
 
-    public function export(Request $request){
+    public function export($type, Request $request){
         $request = $request->all();
 
         if($request['transaction_date'] != null){
@@ -104,6 +105,18 @@ class HistoryTransactionController extends Controller
 
         $query = $outgoings->union($incomings);
         $query->orderBy('transaction_date', 'ASC');
-        return Excel::download(new HistoryTransactionExport($query), 'History_Transaction'.now()->timestamp.'.csv', \Maatwebsite\Excel\Excel::CSV);
+        if($type == 'excel'){
+            return Excel::download(new HistoryTransactionExport($query), 'History_Transaction'.now()->timestamp.'.csv', \Maatwebsite\Excel\Excel::CSV);
+        }
+        else if($type == 'PDF'){
+            $view = view('report.historytransaction_export', compact('query'))->render();
+            $filename = 'History_Transaction'.now()->timestamp;
+
+            $dompdf = new Dompdf();
+            $dompdf->loadHtml($view);
+            $dompdf->setPaper('A4', 'landscape');
+            $dompdf->render();
+            return $dompdf->stream($filename.'.pdf');
+        }
     }
 }
