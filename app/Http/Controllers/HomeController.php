@@ -52,7 +52,10 @@ class HomeController extends MNPController
         ->where('a.company_id', Helper::getCompanyId())
         ->get();
 
-        return view('home', ['title' => 'Dashboard', 'transactions' => $transaction->take(5)->get(), 'items' => $items]);
+        $itemDB = DB::table("items")->get(); // ini awalnya buat test get img(ganti aja caranya klo mau)
+        return view('home', ['title' => 'Dashboard', 'transactions' => $transaction->take(5)->get(), 'items' => $items, 'itemDB' => $itemDB]);
+
+        // return view('home', ['title' => 'Dashboard', 'itemDB'=>$itemDB]);
     }
 
     public function getData(){
