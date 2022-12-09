@@ -99,8 +99,8 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
                     @foreach ($transactions as $key => $value)
                         <tr>
                             <td>{{$key+1}}</td>
-                            <td><a class='edit-btn transaction_detail' style='text-decoration: none; color: #00c3ff'>{{$value->transaction_no}}</a></td>
-                            {{-- <td style='display: none;' id='header_id'>{{$value->header_id}}</td> --}}
+                            <td id="transaction_no"><a class='edit-btn transaction_detail' style='text-decoration: none; color: #00c3ff'>{{$value->transaction_no}}</a></td>
+                            <td style='display: none;' id='header_id'>{{$value->header_id}}</td>
                             <td>{{$value->item_name}}</td>
                             @if ($value->type == 'Incoming')
                             <td style="color: green">{{$value->qty}}</td>
@@ -205,6 +205,18 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
                 setOutgoingsChart(data.transactions);
             },
         });
+    });
+
+    $('.transaction_detail').on('click', function(){
+        var transaction_no = $(this.parentNode.parentNode).find('td#transaction_no').text();
+        var header_id = $(this.parentNode.parentNode).find('td#header_id').text();
+        var type = transaction_no.split('/');
+        if(type[0] == 'IC'){
+            window.location.assign('incomings/edit/'+header_id);
+        }
+        else{
+            window.location.assign('outgoings/edit/'+header_id);
+        }
     });
 
     $('.item_detail').on('click', function(){

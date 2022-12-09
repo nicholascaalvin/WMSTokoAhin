@@ -40,8 +40,8 @@ class HomeController extends MNPController
         ->orderBy('a.id');
 
 
-        $incomings->whereBetween('a.transaction_date', [date("Y-m-d").' 00:00:00', date("Y-m-d").' 23:59:59']);
-        $outgoings->whereBetween('a.transaction_date', [date("Y-m-d").' 00:00:00', date("Y-m-d").' 23:59:59']);
+        // $incomings->whereBetween('a.transaction_date', [date("Y-m-d").' 00:00:00', date("Y-m-d").' 23:59:59']);
+        // $outgoings->whereBetween('a.transaction_date', [date("Y-m-d").' 00:00:00', date("Y-m-d").' 23:59:59']);
 
         $transaction = $outgoings->union($incomings);
         $transaction->orderBy(DB::raw('IFNULL(updated_at, created_at)'));
