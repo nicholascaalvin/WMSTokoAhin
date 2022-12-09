@@ -112,15 +112,7 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
                 </tbody>
             </table>
         </div>
-        <div>
-            Test Image: <br>
-            @forEach($itemDB as $item)
-                @if($item->image_name !== null)
-                <img class="card-img-top" src="../storage/picture/{{$item->image_name}}" alt="Item Image">
-                @endif
-            @endforeach
-            
-        </div>
+        
     </div>
 
     <div class="d-flex">
