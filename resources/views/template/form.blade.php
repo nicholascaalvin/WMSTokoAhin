@@ -62,9 +62,6 @@
                                         <option value="Week">{{__('form.Week')}}</option>
                                         <option value="Year">{{__('form.Year')}}</option>
                                     </select>
-                                @elseif ($item['type'] == 'newUser')
-                                    <input class="form-input" type="text" name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly disabled @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{old($item['col'])}}">
-
                                 @elseif($item['type'] == 'file')
                                     <input name="image" accept="image/*" type="file">
                                 @else

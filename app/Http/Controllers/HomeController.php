@@ -155,8 +155,20 @@ class HomeController extends MNPController
     }
 
     public function deleteUser($id){
-        DB::table('companies')->where('id', $id)->delete();
-        return;
+        $user = DB::table('users')->where('id', $id)->first();
+        DB::table('aisles')->where('company_id', $user->company_id)->delete();
+        DB::table('brands')->where('company_id', $user->company_id)->delete();
+        DB::table('categories')->where('company_id', $user->company_id)->delete();
+        DB::table('countries')->where('company_id', $user->company_id)->delete();
+        DB::table('customers')->where('company_id', $user->company_id)->delete();
+        DB::table('incomings')->where('company_id', $user->company_id)->delete();
+        DB::table('items')->where('company_id', $user->company_id)->delete();
+        DB::table('outgoings')->where('company_id', $user->company_id)->delete();
+        DB::table('uoms')->where('company_id', $user->company_id)->delete();
+        DB::table('vendors')->where('company_id', $user->company_id)->delete();
+        DB::table('users')->where('company_id', $user->company_id)->delete();
+        DB::table('companies')->where('id', $user->company_id)->delete();
+        return redirect()->back();
     }
 
 }

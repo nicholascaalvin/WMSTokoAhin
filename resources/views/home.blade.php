@@ -183,7 +183,7 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
 
     $(document).ready(function(){
 
-        if({{Helper::getCompanyId() == 1}}){
+        if({{Helper::getCompanyId()}} == 1){
             $('.detail-btn').on('click', function(){
                 var userid = $(this.parentNode.parentNode.parentNode.parentNode.parentNode).find('td.user-id').text();
                 window.location.assign('/dashboard/details/'+userid);
