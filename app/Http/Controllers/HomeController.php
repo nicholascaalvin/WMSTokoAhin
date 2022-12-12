@@ -14,7 +14,18 @@ class HomeController extends MNPController
     public function init(){
         $this->title = 'Dashboard';
 
-        $this->forms[] = ['label' => 'Company Name', 'type' => 'newUser', 'col' => 'name', 'required' => true];
+        if(Helper::getCompanyId() == 1){
+            // $this->table = 'Companies';
+            $this->forms[] = ['label' => 'Company Name', 'type' => 'newUser', 'col' => 'name', 'required' => true];
+        }
+
+    }
+
+    public function query(){
+        if(Helper::getCompanyId() == 1){
+            $query = DB::table('companies');
+            return $query;
+        }
     }
 
     public function getIndex(Request $request){
@@ -141,6 +152,11 @@ class HomeController extends MNPController
             ],
         ]);
         return redirect('/dashboard');
+    }
+
+    public function deleteUser($id){
+        DB::table('companies')->where('id', $id)->delete();
+        return;
     }
 
 }
