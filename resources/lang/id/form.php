@@ -63,6 +63,7 @@
         'Week' => 'Minggu',
         'Year' => 'Tahun',
         'Quantity' => 'Kuantitas',
+        'Image' => 'Gambar',
 
         // Main Blade (ada bebrp kepake di blade lain tp lupa yg mana)
         'Add New' => 'Tambah Baru',

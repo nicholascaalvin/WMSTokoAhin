@@ -63,6 +63,7 @@
         'Week' => 'Week',
         'Year' => 'Year',
         'Quantity' => 'Quantity',
+        'Image' => 'Image',
 
         // Main Blade
         'Add New' => 'Add New',
