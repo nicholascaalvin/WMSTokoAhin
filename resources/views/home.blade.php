@@ -37,7 +37,7 @@
 
 @if (Helper::getCompanyId() == 1)
 <?php
-$users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companies.id')->select('companies.name as companyName', 'users.name as name', 'users.email as email')->where('users.id', '!=', 1)->get();
+$users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companies.id')->select('users.id', 'companies.name as companyName', 'users.name as name', 'users.email as email')->where('users.id', '!=', 1)->get();
 ?>
 <div class="card shadow p-3 mb-3 bg-body">
     <div class="card-header" style="border-bottom: none">
@@ -53,6 +53,7 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
                 <tr>
                     <th>Company</th>
                     <th>Name</th>
+                    <th style="display: none">ID</th>
                     <th>Email</th>
                     <th style="width: 1%">Action</th>
                 </tr>
@@ -62,6 +63,7 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
                 <tr>
                     <td>{{$item->companyName}}</td>
                     <td>{{$item->name}}</td>
+                    <td style="display: none" class="user-id">{{$item->id}}</td>
                     <td>{{$item->email}}</td>
                     <td style="text-align: center">
                         <div class="dropdown">
@@ -181,6 +183,18 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
 <script type="text/javascript">
 
     $(document).ready(function(){
+
+        if({{Helper::getCompanyId()}} == 1){
+            $('.detail-btn').on('click', function(){
+                var userid = $(this.parentNode.parentNode.parentNode.parentNode.parentNode).find('td.user-id').text();
+                window.location.assign('/dashboard/details/'+userid);
+            });
+
+            $('.delete-btn').on('click', function(){
+                var userid = $(this.parentNode.parentNode.parentNode.parentNode.parentNode).find('td.user-id').text();
+                window.location.assign('/dashboard/delete/'+userid);
+            });
+        }
 
         $('.table-transaction').DataTable({
             "paging": false,
