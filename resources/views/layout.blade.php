@@ -33,6 +33,17 @@
         .navbar-brand{
             color: white !important;
         }
+        @media only screen and (max-width: 700px) {
+            .language{
+                text-align: start !important;
+            }
+            .profile{
+                margin-left: -12px;
+            }
+            .dropdown-menu.show{
+                position: static;
+            }
+        }
     </style>
     @yield('header')
 </head>
@@ -156,8 +167,8 @@
                     </ul>
                 </li>
             </ul>
-            <ul class="navbar-nav">
-                <div class="dropdown text-end">
+            <ul class="navbar-nav language text-end">
+                <div class="dropdown">
                     <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
                       {{strtoupper(session('locale') ?? config('app.locale'))}}
                     </button>
@@ -168,7 +179,7 @@
                 </div>
             </ul>
             @if(auth()->user())
-                <div class="btn-group" style="text-align: right">
+                <div class="btn-group profile">
                     <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
                         {{-- <i class="bi bi-person-circle fa-lg" style="margin-right: 0.5em; color: black"></i> --}}
                         {{auth()->user()->name}}
@@ -261,6 +272,10 @@
         @isset($js)
             {!! $js !!}
         @endisset
+
+        if($(window).width() < 700){
+            $('.language').removeClass('text-end');
+        }
     </script>
     @yield('footer')
 </body>

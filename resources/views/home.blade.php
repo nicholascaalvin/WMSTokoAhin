@@ -24,6 +24,38 @@
     .dropdown a:active{
         color: black;
     }
+    .mid-content{
+        display: flex;
+    }
+    .transactions-card{
+        width: 50%;
+    }
+    .items-card{
+        width: 25%;
+    }
+    .stock-card{
+        width: 25%;
+    }
+    @media only screen and (max-width: 700px) {
+        .mid-content{
+            display: block;
+        }
+        .table-transaction th{
+            font-size: 13px;
+        }
+        .table-transaction td{
+            font-size: 10px;
+        }
+        .transactions-card{
+            width: 95%;
+        }
+        .items-card{
+            width: 95%;
+        }
+        .stock-card{
+            width: 95%;
+        }
+    }
 </style>
 @endsection
 
@@ -88,7 +120,7 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
             <h4>Recent Transaction</h4>
         </div>
         <div class="card-body" style="padding-top: 0; padding-bottom: 0">
-            <table class="table cell-border table-bordered transaction-table"  style="border-top: 1px solid lightgray">
+            <table class="table table-responsive table-bordered table-transaction"  style="border-top: 1px solid lightgray">
                 <thead>
                     <tr>
                         <th class="text-center" style="width: 2%">NO.</th>
@@ -118,8 +150,8 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
         </div>
     </div>
 
-    <div class="d-flex">
-        <div class="card shadow p-3 mb-3 bg-body" style="width: 50%">
+    <div class="mid-content">
+        <div class="card shadow p-3 mb-3 bg-body transactions-card">
             <nav>
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
                   <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Incomings</button>
@@ -138,7 +170,7 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
               </div>
         </div>
 
-        <div class="card shadow p-3 mb-3 bg-body" style="width: 25%">
+        <div class="card shadow p-3 mb-3 bg-body items-card">
             <div class="card-header" style="border-bottom: none; padding-bottom: 0">
                 <h4 style="margin-bottom: 0">Total Items</h4>
             </div>
@@ -147,7 +179,7 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
             </div>
         </div>
 
-        <div class="card shadow p-3 mb-3 bg-body" style="width: 25%">
+        <div class="card shadow p-3 mb-3 bg-body stock-card">
             <div class="card-header" style="border-bottom: none">
                 <h4>Stock Items</h4>
             </div>
@@ -198,9 +230,9 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
             });
         }
 
-        $('.table-transaction').DataTable({
-            "paging": false,
-        });
+        // $('.table-transaction').DataTable({
+        //     "paging": false,
+        // });
 
         $('.total-items-table').DataTable({
             "lengthChange": false,

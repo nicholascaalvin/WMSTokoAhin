@@ -30,7 +30,7 @@
             <form action="{{$url}}/save" method="post" enctype="multipart/form-data">
                 @csrf
                 @foreach ($forms as $item)
-                    <div class="d-flex align-items-center" @isset($item['display']) style="display: none !important;"  @endisset>
+                    <div class="d-flex align-items-center forms" @isset($item['display']) style="display: none !important;"  @endisset>
                         <div class="label">
                             <label for="{{$item['col']}}" @isset($item['display']) style="display: none !important;" @endisset>
                                 {{__('form.'.$item['label'])}}
@@ -281,6 +281,10 @@
             '</tr>';
         }
         $(table).append(newRow);
+    }
+
+    if($(window).width() < 700){
+        $('.forms').removeClass('d-flex');
     }
 
 </script>

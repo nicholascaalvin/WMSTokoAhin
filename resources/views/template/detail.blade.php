@@ -19,6 +19,16 @@
         left: 40%;
         top: 25%;
     }
+    .image-label{
+        position: absolute;
+        top: 17%;
+        left: 40%;
+    }
+    .image-form{
+        position: absolute;
+        left: 50%;
+        top: 16.5%;
+    }
 </style>
 @endsection
 
@@ -35,9 +45,9 @@
             <form action="{{$url}}/save" method="post">
                 @csrf
                 @foreach ($forms as $item)
-                    <div class="d-flex align-items-center" @isset($item['display']) style="display: none !important;"  @endisset>
+                    <div class="d-flex align-items-center forms" @isset($item['display']) style="display: none !important;"  @endisset>
                         @if (isset($item['filetype']))
-                            <div class="label" style="position: absolute; left: 40%; top: 17%;">
+                            <div class="label image-label">
                                 <label for="{{$item['col']}}" @isset($item['display']) style="display: none !important;" @endisset>
                                     {{__('form.'.$item['label'])}}
                                     @if(@isset($item['required']))
@@ -142,7 +152,7 @@
                                     </select>
                                 @elseif($item['type'] == 'file')
                                     @if (isset($item['filetype']))
-                                        <input class="form-input" style="position: absolute; left: 50%; top: 16.5%" @if (isset($item['type'])) type="{{$item['type']}}"@else type="text"@endif name="{{$item['col']}}" id="{{$item['col']}}" readonly disabled @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
+                                        <input class="form-input image-form" @if (isset($item['type'])) type="{{$item['type']}}"@else type="text"@endif name="{{$item['col']}}" id="{{$item['col']}}" readonly disabled @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
                                     @endif
                                 @else
                                     <input class="form-input" @if (isset($item['type'])) type="{{$item['type']}}"@else type="text"@endif name="{{$item['col']}}" id="{{$item['col']}}" readonly disabled @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
@@ -357,11 +367,16 @@
         $(table).append(newRow);
     }
 
-    // var url = window.location.href;
-    // url = url.split('/');
-    // if(url[4] == 'edit'){
-    //     Swal.fire('panggil ajax untuk cek detail');
-    // }
+    if($(window).width() < 700){
+        $('.forms').removeClass('d-flex');
+        $('.image-label').css('position', 'static');
+        $('.image-form').css('position', 'static');
+        $('.image').css('position', 'static');
+        $('.image').css('display', 'flex');
+        $('.image').css('justify-content', 'center');
+        $('.card-img-top').css('width', '20em');
+        $('.card-img-top').css('height', '20em');
+    }
 
 </script>
 @endsection
