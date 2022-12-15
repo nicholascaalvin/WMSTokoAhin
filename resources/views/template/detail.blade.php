@@ -152,7 +152,11 @@
                                     </select>
                                 @elseif($item['type'] == 'file')
                                     @if (isset($item['filetype']))
-                                        <input class="form-input image-form" @if (isset($item['type'])) type="{{$item['type']}}"@else type="text"@endif name="{{$item['col']}}" id="{{$item['col']}}" @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
+                                        @if ($item['filetype'] == 'image')
+                                            <input class="form-input image-form" @if (isset($item['type'])) type="{{$item['type']}}"@else type="text" @endif name="{{$item['col']}}" id="{{$item['col']}}" @isset($data) @endisset @if ($page == 'details') disabled @endif accept="image/*">
+                                        @else
+                                            <input class="form-input" @if (isset($item['type'])) type="{{$item['type']}}"@else type="text"@endif name="{{$item['col']}}" id="{{$item['col']}}" @isset($data) @endisset @if ($page == 'details') disabled @endif>
+                                        @endif
                                     @endif
                                 @else
                                     <input class="form-input" @if (isset($item['type'])) type="{{$item['type']}}"@else type="text"@endif name="{{$item['col']}}" id="{{$item['col']}}" @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
