@@ -14,9 +14,13 @@ class HomeController extends MNPController
     public function init(){
         $this->title = 'Dashboard';
 
+
         if(Helper::getCompanyId() == 1){
-            // $this->table = 'Companies';
+            $this->table = 'Users';
             $this->forms[] = ['label' => 'Company Name', 'type' => 'newUser', 'col' => 'name', 'required' => true];
+        }
+        else{
+            $this->loadStock();
         }
 
     }
@@ -169,6 +173,16 @@ class HomeController extends MNPController
         DB::table('users')->where('company_id', $user->company_id)->delete();
         DB::table('companies')->where('id', $user->company_id)->delete();
         return redirect()->back();
+    }
+
+    public function loadStock(){
+        $data = DB::table($this->table)->where('company_id', Helper::getCompanyId())->get();
+        foreach ($data as $key => $value) {
+            $stock = $value->incoming - $value->outgoing;
+            DB::table($this->table)->where('id', $value->id)->where('company_id', Helper::getCompanyId())->update([
+                'stock' => $stock,
+            ]);
+        }
     }
 
 }

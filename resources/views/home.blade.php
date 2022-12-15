@@ -71,7 +71,7 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
                                 <i class="bi bi-three-dots-vertical"></i>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item detail-btn">{{__('form.Details')}}</a></li>
+                                {{-- <li><a class="dropdown-item detail-btn">{{__('form.Details')}}</a></li> --}}
                                 <li><button class="dropdown-item delete-btn" type="submit">{{__('form.Delete')}}</button></li>
                             </ul>
                         </div>
@@ -184,10 +184,10 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
     $(document).ready(function(){
 
         if({{Helper::getCompanyId()}} == 1){
-            $('.detail-btn').on('click', function(){
-                var userid = $(this.parentNode.parentNode.parentNode.parentNode.parentNode).find('td.user-id').text();
-                window.location.assign('/dashboard/details/'+userid);
-            });
+            // $('.detail-btn').on('click', function(){
+            //     var userid = $(this.parentNode.parentNode.parentNode.parentNode.parentNode).find('td.user-id').text();
+            //     window.location.assign('/dashboard/details/'+userid);
+            // });
 
             $('.delete-btn').on('click', function(){
                 var userid = $(this.parentNode.parentNode.parentNode.parentNode.parentNode).find('td.user-id').text();

@@ -140,12 +140,12 @@
                                             <option value="Year" selected>Year</option>
                                         @endif
                                     </select>
-                                @else
+                                @elseif($item['type'] == 'file')
                                     @if (isset($item['filetype']))
                                         <input class="form-input" style="position: absolute; left: 50%; top: 16.5%" @if (isset($item['type'])) type="{{$item['type']}}"@else type="text"@endif name="{{$item['col']}}" id="{{$item['col']}}" readonly disabled @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
-                                    @else
-                                        <input class="form-input" @if (isset($item['type'])) type="{{$item['type']}}"@else type="text"@endif name="{{$item['col']}}" id="{{$item['col']}}" readonly disabled @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
                                     @endif
+                                @else
+                                    <input class="form-input" @if (isset($item['type'])) type="{{$item['type']}}"@else type="text"@endif name="{{$item['col']}}" id="{{$item['col']}}" readonly disabled @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
                                 @endif
                             @else
                                 <input class="form-input" type="text" name="{{$item['col']}}" id="{{$item['col']}}" readonly disabled @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{(@$contents->{$item['col']})}}" @if ($page == 'details') disabled @endif>
@@ -219,7 +219,7 @@
         @if ($title == 'Items')
         <div class="image">
             @if(@$contents->image_name !== null)
-                <img class="card-img-top" src="/storage/picture/{{@$contents->image_name}}" alt="Item Image" style="width: 25em; height: 25em">
+                <img class="card-img-top" src="{{@$contents->image_name}}" alt="Item Image" style="width: 25em; height: 25em">
             @endif
         </div>
         @endif
