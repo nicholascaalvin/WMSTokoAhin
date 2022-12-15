@@ -30,10 +30,13 @@
         margin-bottom: 1em;
     }
 
-    @media only screen and (max-width: 600px) {
-        /* body {
-            background-color: lightblue;
-        } */
+    @media only screen and (max-width: 700px) {
+        .table th{
+            font-size: 13px;
+        }
+        .table td{
+            font-size: 10px;
+        }
     }
 </style>
 @endsection
