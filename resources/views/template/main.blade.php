@@ -96,6 +96,8 @@
                                                     @else
                                                         <td class="{{$td['col']}}">{{(@$item->{$td['col']})}}</td>
                                                     @endif
+                                                @elseif($td['col'] == 'life')
+                                                    <td class="{{$td['col']}} text-end">{{(@$item->{$td['col']})}} {{(@$item->{$td['ext']})}}</td>
                                                 @else
                                                     <td class="{{$td['col']}}">{{(@$item->{$td['col']})}}</td>
                                                 @endif

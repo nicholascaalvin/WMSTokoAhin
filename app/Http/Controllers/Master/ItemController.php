@@ -19,6 +19,7 @@ class ItemController extends MNPController
 
         $this->main[] = ['label' => 'id', 'col' => 'id', 'input' => true, 'search' => 'skip'];
         $this->main[] = ['label' => 'Item Name', 'col' => 'name'];
+        $this->main[] = ['label' => 'Item Life', 'col' => 'life', 'ext' => 'strlife'];
         $this->main[] = ['label' => 'Incoming', 'col' => 'incoming'];
         $this->main[] = ['label' => 'Outgoing', 'col' => 'outgoing'];
         $this->main[] = ['label' => 'Stock', 'col' => 'stock', 'width' => '10%'];

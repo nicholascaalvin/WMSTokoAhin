@@ -93,6 +93,7 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
                     <tr>
                         <th class="text-center" style="width: 2%">NO.</th>
                         <th class="text-center">Transaction No.</th>
+                        <th class="text-center">Transaction Date</th>
                         <th class="text-center">Item Name</th>
                         <th class="text-center">Item Quantity</th>
                     </tr>
@@ -102,6 +103,7 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
                         <tr>
                             <td>{{$key+1}}</td>
                             <td id="transaction_no"><a class='edit-btn transaction_detail' style='text-decoration: none; color: #00c3ff'>{{$value->transaction_no}}</a></td>
+                            <td id="transaction_date">{{$value->transaction_date}}</td>
                             <td style='display: none;' id='header_id'>{{$value->header_id}}</td>
                             <td>{{$value->item_name}}</td>
                             @if ($value->type == 'Incoming')
