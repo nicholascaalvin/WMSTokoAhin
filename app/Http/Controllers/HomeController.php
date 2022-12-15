@@ -34,6 +34,8 @@ class HomeController extends MNPController
             app()->setLocale($locale);
         }
 
+        $this->loadStock();
+
         $year = date('Y');
 
         $incomings = DB::table('incomings as a')
@@ -42,7 +44,7 @@ class HomeController extends MNPController
         ->join('aisles as d', 'b.aisle_id', 'd.id')
         ->select('a.id as header_id', 'b.id as detail_id', 'a.transaction_no', 'a.transaction_date', 'b.item_id', 'b.qty', 'c.name as item_name', DB::raw('"Incoming" as type'), 'd.name as aisle_name', 'a.created_at', 'b.updated_at')
         ->where('a.company_id', Helper::getCompanyId())
-        ->whereYear('a.transaction_date', $year)
+        // ->whereYear('a.transaction_date', $year)
         ->orderBy('a.transaction_date', 'DESC');
 
         $outgoings = DB::table('outgoings as a')
@@ -51,7 +53,7 @@ class HomeController extends MNPController
         ->join('aisles as d', 'b.aisle_id', 'd.id')
         ->select('a.id as header_id', 'b.id as detail_id', 'a.transaction_no', 'a.transaction_date', 'b.item_id', 'b.qty', 'c.name as item_name', DB::raw('"Outgoing" as type'), 'd.name as aisle_name', 'a.created_at', 'b.updated_at')
         ->where('a.company_id', Helper::getCompanyId())
-        ->whereYear('a.transaction_date', $year)
+        // ->whereYear('a.transaction_date', $year)
         ->orderBy('a.transaction_date', 'DESC');
 
         $transaction = $outgoings->union($incomings);
@@ -64,12 +66,13 @@ class HomeController extends MNPController
         ->where('a.company_id', Helper::getCompanyId())
         ->get();
 
-        $this->loadStock();
-
         return view('home', ['title' => 'Dashboard', 'transactions' => $transaction->take(5)->get(), 'items' => $items]);
     }
 
     public function getData(){
+
+        $this->loadStock();
+
         $items = DB::table('items as a')
         ->join('brands as b', 'a.brand_id', 'b.id')
         ->select('a.name as item_name', 'a.id', 'b.name as brand_name', 'a.stock as stock')
