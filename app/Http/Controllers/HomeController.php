@@ -34,12 +34,15 @@ class HomeController extends MNPController
             app()->setLocale($locale);
         }
 
+        $year = date('Y');
+
         $incomings = DB::table('incomings as a')
         ->join('incomings_detail as b', 'a.id', 'b.incomings_id')
         ->join('items as c', 'b.item_id', 'c.id')
         ->join('aisles as d', 'b.aisle_id', 'd.id')
         ->select('a.id as header_id', 'b.id as detail_id', 'a.transaction_no', 'a.transaction_date', 'b.item_id', 'b.qty', 'c.name as item_name', DB::raw('"Incoming" as type'), 'd.name as aisle_name', 'a.created_at', 'b.updated_at')
         ->where('a.company_id', Helper::getCompanyId())
+        ->whereYear('a.transaction_date', $year)
         ->orderBy('a.transaction_date', 'DESC');
 
         $outgoings = DB::table('outgoings as a')
@@ -48,14 +51,12 @@ class HomeController extends MNPController
         ->join('aisles as d', 'b.aisle_id', 'd.id')
         ->select('a.id as header_id', 'b.id as detail_id', 'a.transaction_no', 'a.transaction_date', 'b.item_id', 'b.qty', 'c.name as item_name', DB::raw('"Outgoing" as type'), 'd.name as aisle_name', 'a.created_at', 'b.updated_at')
         ->where('a.company_id', Helper::getCompanyId())
+        ->whereYear('a.transaction_date', $year)
         ->orderBy('a.transaction_date', 'DESC');
-
-
-        // $incomings->whereBetween('a.transaction_date', [date("Y-m-d").' 00:00:00', date("Y-m-d").' 23:59:59']);
-        // $outgoings->whereBetween('a.transaction_date', [date("Y-m-d").' 00:00:00', date("Y-m-d").' 23:59:59']);
 
         $transaction = $outgoings->union($incomings);
         $transaction->orderBy(DB::raw('IFNULL(updated_at, created_at)'), 'DESC');
+        // dd($transaction->get());
 
         $items = DB::table('items as a')
         ->join('brands as b', 'a.brand_id', 'b.id')

@@ -182,6 +182,7 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
 @section('footer')
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 <script type="text/javascript">
+    var year = new Date().getFullYear();
 
     $(document).ready(function(){
 
@@ -295,7 +296,7 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
         const data = {
         labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         datasets: [{
-            label: 'Incomings Transaction',
+            label: year +' Incomings Transaction',
             data: data1,
             backgroundColor: [
                 '#495C83', //jan
@@ -341,7 +342,7 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
         const data = {
         labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         datasets: [{
-            label: 'Outgoings Transaction',
+            label: year + ' Outgoings Transaction',
             data: data1,
             backgroundColor: [
                 '#495C83', //jan
