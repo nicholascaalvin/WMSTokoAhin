@@ -67,7 +67,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/dashboard/switch/{locale}', [HomeController::class, 'switch']);
     Route::get('/dashboard/add-new-user', [HomeController::class, 'getAdd']);
     Route::post('/dashboard/add-new-user/save', [HomeController::class, 'saveNewUser']);
-    Route::get('/dashboard/details/{id}', [HomeController::class, 'getDetail']);
+    // Route::get('/dashboard/details/{id}', [HomeController::class, 'getDetail']);
     Route::get('/dashboard/delete/{id}', [HomeController::class, 'deleteUser']);
 
     //Master Country

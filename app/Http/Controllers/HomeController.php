@@ -15,7 +15,7 @@ class HomeController extends MNPController
         $this->title = 'Dashboard';
 
         if(Helper::getCompanyId() == 1){
-            // $this->table = 'Companies';
+            $this->table = 'Users';
             $this->forms[] = ['label' => 'Company Name', 'type' => 'newUser', 'col' => 'name', 'required' => true];
         }
 
@@ -40,7 +40,7 @@ class HomeController extends MNPController
         ->join('aisles as d', 'b.aisle_id', 'd.id')
         ->select('a.id as header_id', 'b.id as detail_id', 'a.transaction_no', 'a.transaction_date', 'b.item_id', 'b.qty', 'c.name as item_name', DB::raw('"Incoming" as type'), 'd.name as aisle_name', 'a.created_at', 'b.updated_at')
         ->where('a.company_id', Helper::getCompanyId())
-        ->orderBy('a.id');
+        ->orderBy('a.transaction_date', 'DESC');
 
         $outgoings = DB::table('outgoings as a')
         ->join('outgoings_detail as b', 'a.id', 'b.outgoings_id')
@@ -48,20 +48,22 @@ class HomeController extends MNPController
         ->join('aisles as d', 'b.aisle_id', 'd.id')
         ->select('a.id as header_id', 'b.id as detail_id', 'a.transaction_no', 'a.transaction_date', 'b.item_id', 'b.qty', 'c.name as item_name', DB::raw('"Outgoing" as type'), 'd.name as aisle_name', 'a.created_at', 'b.updated_at')
         ->where('a.company_id', Helper::getCompanyId())
-        ->orderBy('a.id');
+        ->orderBy('a.transaction_date', 'DESC');
 
 
         // $incomings->whereBetween('a.transaction_date', [date("Y-m-d").' 00:00:00', date("Y-m-d").' 23:59:59']);
         // $outgoings->whereBetween('a.transaction_date', [date("Y-m-d").' 00:00:00', date("Y-m-d").' 23:59:59']);
 
         $transaction = $outgoings->union($incomings);
-        $transaction->orderBy(DB::raw('IFNULL(updated_at, created_at)'));
+        $transaction->orderBy(DB::raw('IFNULL(updated_at, created_at)'), 'DESC');
 
         $items = DB::table('items as a')
         ->join('brands as b', 'a.brand_id', 'b.id')
         ->select('a.name as item_name', 'a.id', 'b.name as brand_name', 'a.stock as stock')
         ->where('a.company_id', Helper::getCompanyId())
         ->get();
+
+        $this->loadStock();
 
         return view('home', ['title' => 'Dashboard', 'transactions' => $transaction->take(5)->get(), 'items' => $items]);
     }
@@ -169,6 +171,16 @@ class HomeController extends MNPController
         DB::table('users')->where('company_id', $user->company_id)->delete();
         DB::table('companies')->where('id', $user->company_id)->delete();
         return redirect()->back();
+    }
+
+    public function loadStock(){
+        $data = DB::table('items')->where('company_id', Helper::getCompanyId())->get();
+        foreach ($data as $key => $value) {
+            $stock = $value->incoming - $value->outgoing;
+            DB::table('items')->where('id', $value->id)->where('company_id', Helper::getCompanyId())->update([
+                'stock' => $stock,
+            ]);
+        }
     }
 
 }

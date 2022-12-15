@@ -19,6 +19,7 @@ class ItemController extends MNPController
 
         $this->main[] = ['label' => 'id', 'col' => 'id', 'input' => true, 'search' => 'skip'];
         $this->main[] = ['label' => 'Item Name', 'col' => 'name'];
+        $this->main[] = ['label' => 'Item Life', 'col' => 'life', 'ext' => 'strlife'];
         $this->main[] = ['label' => 'Incoming', 'col' => 'incoming'];
         $this->main[] = ['label' => 'Outgoing', 'col' => 'outgoing'];
         $this->main[] = ['label' => 'Stock', 'col' => 'stock', 'width' => '10%'];
@@ -39,37 +40,29 @@ class ItemController extends MNPController
         $this->load();
         $this->inputs = [];
         $page = explode('/', $this->data['url']);
-        $request1 = $request->all();
-
-        //Storage::putFile('picture', $request['image_name']);
-        //if($request['image_name'])
-        //Storage::disk('public')->put('picture', $request['image_name']);
-        //dd($request->all()->hasFile('name'));
-        //dd($request->hasFile('image'));
-
-        $input2 = $request->all();
-        if($request->hasFile('image'))
+        if($request->hasFile('image_name'))
         {
             $destination_path = 'public/picture';
-            $image = $request->file('image');
+            $image = $request->file('image_name');
             $image_name = $image->getClientOriginalName();
-            $path = $request->file('image')->storeAs($destination_path, $image_name);
-            //dd($path);
-            $input2['image'] = $image_name;
+            $request->file('image_name')->storeAs($destination_path, $image_name);
+            $path = '/storage/picture/'.$image_name;
+            $this->inputs['image_name'] = $path;
         }
+        $request = $request->all();
 
         $now = date('Y-m-d H:i:s');
         foreach ($this->forms as $key => $value) {
-            foreach ($request1 as $index => $dt) {
+            foreach ($request as $index => $dt) {
                 if($index == $value['col']){
-                    $this->inputs[$value['col']] = $dt;
+                    if($index != 'image_name'){
+                        $this->inputs[$value['col']] = $dt;
+                    }
                 }
             }
         }
-        $this->inputs['strlife'] = $request1['strlife'];
+        $this->inputs['strlife'] = $request['strlife'];
         $this->inputs['company_id'] = Helper::getCompanyId();
-
-        $this->inputs['image_name'] = $input2['image'];
 
         if($page[2] == 'edit'){
             $this->inputs['updated_at'] = $now;

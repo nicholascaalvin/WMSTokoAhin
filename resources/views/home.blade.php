@@ -71,7 +71,7 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
                                 <i class="bi bi-three-dots-vertical"></i>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item detail-btn">{{__('form.Details')}}</a></li>
+                                {{-- <li><a class="dropdown-item detail-btn">{{__('form.Details')}}</a></li> --}}
                                 <li><button class="dropdown-item delete-btn" type="submit">{{__('form.Delete')}}</button></li>
                             </ul>
                         </div>
@@ -93,6 +93,7 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
                     <tr>
                         <th class="text-center" style="width: 2%">NO.</th>
                         <th class="text-center">Transaction No.</th>
+                        <th class="text-center">Transaction Date</th>
                         <th class="text-center">Item Name</th>
                         <th class="text-center">Item Quantity</th>
                     </tr>
@@ -102,6 +103,7 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
                         <tr>
                             <td>{{$key+1}}</td>
                             <td id="transaction_no"><a class='edit-btn transaction_detail' style='text-decoration: none; color: #00c3ff'>{{$value->transaction_no}}</a></td>
+                            <td id="transaction_date">{{$value->transaction_date}}</td>
                             <td style='display: none;' id='header_id'>{{$value->header_id}}</td>
                             <td>{{$value->item_name}}</td>
                             @if ($value->type == 'Incoming')
@@ -185,10 +187,10 @@ $users = DB::table('users')->leftJoin('companies', 'users.company_id', 'companie
     $(document).ready(function(){
 
         if({{Helper::getCompanyId()}} == 1){
-            $('.detail-btn').on('click', function(){
-                var userid = $(this.parentNode.parentNode.parentNode.parentNode.parentNode).find('td.user-id').text();
-                window.location.assign('/dashboard/details/'+userid);
-            });
+            // $('.detail-btn').on('click', function(){
+            //     var userid = $(this.parentNode.parentNode.parentNode.parentNode.parentNode).find('td.user-id').text();
+            //     window.location.assign('/dashboard/details/'+userid);
+            // });
 
             $('.delete-btn').on('click', function(){
                 var userid = $(this.parentNode.parentNode.parentNode.parentNode.parentNode).find('td.user-id').text();

@@ -5,7 +5,7 @@
         border: none;
         border-radius: 0.6em;
     }
-    label{
+    .label{
         width: 20em;
     }
     .form-input{
@@ -63,7 +63,7 @@
                                         <option value="Year">{{__('form.Year')}}</option>
                                     </select>
                                 @elseif($item['type'] == 'file')
-                                    <input name="image" accept="image/*" type="file">
+                                    <input name="{{$item['col']}}" accept="image/*" type="{{$item['type']}}">
                                 @else
                                     <input class="form-input" type="{{$item['type']}}" name="{{$item['col']}}" id="{{$item['col']}}" @if (isset($item['readonly']))readonly disabled @endif @isset($data) placeholder="{{(@$data->{$item['name']})}}" @endisset value="{{old($item['col'])}}">
                                 @endif
@@ -74,15 +74,15 @@
                     </div>
                     @if (isset($item['type']))
                         @if ($item['type'] == 'newUser')
-                        <div class="row justify-content-start">
-                            <div class="col-2">
+                        <div class="d-flex align-items-center">
+                            <div class="" style="width: 20em">
                             </div>
-                            <div class="col-2">
-                                <label for="" style="color: lightgray">Please start the name with 'Toko'</label>
+                            <div class="col-4">
+                                <label for="" style="color: lightgray">Please start the name with 'Toko' and then space</label>
                             </div>
                         </div>
-                        <div class="row justify-content-start">
-                            <div class="col-2">
+                        <div class="d-flex align-items-center">
+                            <div class="" style="width: 20em">
                             </div>
                             <div class="col-2">
                                 <label for="" style="color: lightgray">The new data password will be 'admin'</label>
@@ -191,7 +191,7 @@
         var item_aisle_id = $(row).find('#detail_item_aisle').find(":selected").val();
 
         if(item_id == null || item_id == '0') Swal.fire('You must select an item');
-        else if(item_aisle == null) Swal.fire('You must select aisle');
+        else if(item_aisle_id == '0') Swal.fire('You must select aisle');
         else if(item_qty < 1) Swal.fire('Item quantity must be bigger than 0');
         else{
             if('<?php echo $table?>' != 'outgoings'){
