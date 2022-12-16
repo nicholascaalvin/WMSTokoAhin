@@ -11,7 +11,6 @@ date_default_timezone_set("Asia/Jakarta");
 
 class MNPController extends Controller
 {
-    // public $title;
     public $table = '';
     public $title = '';
     public $main = [];
