@@ -226,7 +226,7 @@
                         </tbody>
                     </table>
                 @endif
-                <button class="btn btn-success save" type="submit" @if ($page == 'details') disabled @endif>{{__('form.Save')}}</button>
+                <button class="btn btn-success save" type="submit" @if ($page == 'details') style="display: none" @endif>{{__('form.Save')}}</button>
             </form>
         </div>
 
